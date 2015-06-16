@@ -515,6 +515,14 @@ namespace Crystalbyte.Paranoia {
             try {
                 var name = _mailbox.Name;
                 var getMaxUid = GetMaxUidAsync();
+                var getMessageIds = Task.Run(() => {
+                    using (var context = new DatabaseContext()) {
+                        return context.Set<MailMessage>()
+                                .Where(x => x.MailboxId == _mailbox.Id)
+                                .Select(x => new { x.Id, x.Uid })
+                                .ToDictionaryAsync(x => x.Uid);
+                    }
+                });
 
                 var getSeenUids = SearchAsync(name, "1:* SEEN");
                 var getUnseenUids = SearchAsync(name, "1:* NOT SEEN");
@@ -525,20 +533,25 @@ namespace Crystalbyte.Paranoia {
                 var seenUids = await getSeenUids;
 
                 var uids = new HashSet<long>(unseenUids.Concat(seenUids).Distinct());
-                if (uids.Count != 0) {
-                    await DeleteStoredButObsoleteMessagesAsync(uids);
+                var storedIds = await getMessageIds;
+                var obsoleteIds = storedIds.Where(x => !uids.Contains(x.Key)).ToArray();
+
+                if (obsoleteIds.Length > 0) {
+                    await DeleteMessagesAsync(obsoleteIds.Select(x => x.Value.Id).ToArray());
                 }
 
                 if (messages.Length > 0) {
-                    await StoreMessagesAsync(messages, seenUids);
-                    var countNotSeen = CountMessagesAsync();
-                    var contexts =
-                        messages.Select(
-                            x => new MailMessageContext(this, x))
-                            .ToArray();
-                    App.Context.NotifyMessagesReceived(contexts);
-                    await countNotSeen;
+                    await StoreMessagesAsync(messages);
                 }
+
+                var countNotSeen = CountMessagesAsync();
+                var contexts = messages
+                    .Select(x => new MailMessageContext(this, x))
+                    .ToArray();
+
+                App.Context.NotifyMessagesReceived(contexts);
+                await countNotSeen;
+
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             } finally {
@@ -561,7 +574,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task StoreMessagesAsync(ICollection<MailMessage> messages, ICollection<long> seenUids) {
+        private async Task StoreMessagesAsync(ICollection<MailMessage> messages) {
             Logger.Enter();
 
             // Set the foreign key manually.
@@ -610,8 +623,6 @@ namespace Crystalbyte.Paranoia {
                             }
                         }
                     }
-
-                    await StoreMessageFlagsAsync(seenUids);
                 });
             } finally {
                 Logger.Exit();
@@ -708,42 +719,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task<Dictionary<Int64, MailMessage>> StoreMessageFlagsAsync(ICollection<long> seenUids) {
-            Logger.Enter();
-
-            Application.Current.AssertBackgroundThread();
-
-            try {
-                using (var context = new DatabaseContext()) {
-                    var messages = await context.MailMessages
-                        .Where(x => x.MailboxId == Id).ToArrayAsync();
-
-                    foreach (var message in messages) {
-                        var isSeen = seenUids.Contains(message.Uid);
-                        if (message.Flags
-                            .Any(x => x.Value == MailMessageFlags.Seen) == isSeen) {
-                            continue;
-                        }
-
-                        if (isSeen) {
-                            message.Flags.Add(new MailMessageFlag {
-                                Value = MailMessageFlags.Seen
-                            });
-                        } else {
-                            message.Flags.RemoveAll(
-                                x => x.Value == MailMessageFlags.Seen);
-                        }
-                    }
-
-                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
-                    return messages.ToDictionary(model => model.Id);
-                }
-            } finally {
-                Logger.Exit();
-            }
-        }
-
-        private async Task<bool> DeleteStoredButObsoleteMessagesAsync(ICollection<long> uids) {
+        private async Task DeleteMessagesAsync(ICollection<Int64> ids) {
             Logger.Enter();
 
             Application.Current.AssertUIThread();
@@ -751,37 +727,23 @@ namespace Crystalbyte.Paranoia {
             var t1 = Environment.TickCount & Int32.MaxValue;
 
             try {
-                var ids = await Task.Run(async () => {
+                await Task.Run(async () => {
                     using (var context = new DatabaseContext()) {
                         await context.OpenAsync();
                         await context.EnableForeignKeysAsync();
 
-                        var messages = await context.Set<MailMessage>()
-                            .Where(x => x.MailboxId == Id)
-                            .Include(x => x.Addresses)
-                            .Include(x => x.Attachments)
-                            .Include(x => x.Flags)
-                            .ToArrayAsync();
-
-                        var deletedMessages = messages
-                            .Where(x => !uids.Contains(x.Uid))
-                            .ToArray();
-
-                        if (deletedMessages.Length == 0) {
-                            return new MailMessage[0];
+                        foreach (var id in ids) {
+                            var model = new MailMessage { Id = id };
+                            context.Set<MailMessage>().Attach(model);
+                            context.Set<MailMessage>().Remove(model);
                         }
-
-                        context.Set<MailMessage>().RemoveRange(deletedMessages);
-                        return deletedMessages;
                     }
                 });
 
                 var t2 = Environment.TickCount & Int32.MaxValue;
 
                 Logger.Debug("Deleted {0} messages from mailbox {1} in {2} seconds.",
-                    ids.Length, Name, (t2 - t1) / 1000.0f);
-
-                return ids.Length > 0;
+                    ids.Count, Name, (t2 - t1) / 1000.0f);
             } finally {
                 Logger.Exit();
             }
@@ -1009,7 +971,7 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => IsLoadingMessages);
             }
         }
-    
+
         /// <summary>
         ///     Moves messages from the trash mailbox back to the inbox.
         /// </summary>
