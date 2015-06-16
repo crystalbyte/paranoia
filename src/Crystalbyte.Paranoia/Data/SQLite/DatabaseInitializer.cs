@@ -25,12 +25,10 @@
 #region Using Directives
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Windows;
 using Crystalbyte.Paranoia.Properties;
 
