@@ -13,7 +13,7 @@
                       Height="768"
                       AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                      BorderThickness="1"
+                      BorderThickness="0"
                       KeyboardNavigation.TabNavigation="Local"
                       UseLayoutRounding="True"
                       WindowStartupLocation="CenterScreen"
@@ -178,7 +178,7 @@
                                 <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                 <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
                                 <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                                <Setter Property="BorderBrush" Value="Transparent" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBorderBrushKey}}" />
                                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -229,14 +229,6 @@
                                                FontSize="17.5"
                                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                                Text="{Binding Title}" />
-                                    <TextBlock x:Name="CounterBlock"
-                                               Margin="0,3,12,3"
-                                               VerticalAlignment="Center"
-                                               FontSize="17.5"
-                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                                               Text="{Binding Counter}"
-                                               Visibility="{Binding Counter,
-                                                                    Converter={StaticResource QuantityToVisibilityConverter}}" />
                                 </StackPanel>
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsSelected}" Value="True">

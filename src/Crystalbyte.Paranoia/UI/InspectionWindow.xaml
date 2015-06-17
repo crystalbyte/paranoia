@@ -16,7 +16,7 @@
                       Height="480"
                       AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                      BorderThickness="1"
+                      BorderThickness="0"
                       ShowActivated="True"
                       UseLayoutRounding="True"
                       WindowStartupLocation="CenterOwner"

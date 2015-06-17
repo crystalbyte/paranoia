@@ -24,7 +24,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="#121212" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}">Gray</SolidColorBrush>
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.AppFontFamilyKey}">Segoe UI</FontFamily>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}">White</SolidColorBrush>
+
 
     <!--  Window Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="White" />
@@ -38,6 +38,10 @@
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.InputFontFamilyKey}">Calibri</FontFamily>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.InputFontSizeKey}">13</system:Double>
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SpamNoticeBackgroundBrushKey}" Color="#F8F8F9" />
+
+    <!--  Navigation Scope  -->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}">White</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBorderBrushKey}">Gray</SolidColorBrush>
 
     <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}" Color="#DDDDDD" />  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}" Color="Transparent" />

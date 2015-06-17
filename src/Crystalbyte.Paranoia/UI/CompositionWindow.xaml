@@ -15,7 +15,7 @@
                                       Mode=OneWay}"
                       AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                      BorderThickness="1"
+                      BorderThickness="0"
                       KeyboardNavigation.ControlTabNavigation="Contained"
                       KeyboardNavigation.DirectionalNavigation="None"
                       UseLayoutRounding="True"

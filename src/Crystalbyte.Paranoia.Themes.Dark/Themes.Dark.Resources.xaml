@@ -22,7 +22,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}">Gray</SolidColorBrush>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}">#2E2E30</SolidColorBrush>
+
 
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.AppFontFamilyKey}">Segoe UI</FontFamily>
 
@@ -34,6 +34,10 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedBackgroundBrushKey}" Color="#44000000" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
+
+    <!--  Navigation Scope  -->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}">#2E2E30</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBorderBrushKey}">#44000000</SolidColorBrush>
 
     <!--  Control Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SpamNoticeBackgroundBrushKey}" Color="#26262A" />
