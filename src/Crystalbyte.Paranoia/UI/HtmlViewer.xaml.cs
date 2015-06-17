@@ -151,7 +151,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
             try {
-                Logger.Error("NAV: " + Source);
                 if (!string.IsNullOrEmpty(Source)) {
                     Navigate(new Uri(Source));
                 }

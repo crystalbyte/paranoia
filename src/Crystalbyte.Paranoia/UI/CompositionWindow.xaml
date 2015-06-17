@@ -176,16 +176,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0"
-                Margin="0,0,0,4"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
-                BorderThickness="0,0,0,1">
-            <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}">
+        <Border Grid.Row="0" Margin="0,0,0,4">
+            <Grid>
                 <StackPanel Height="36"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Orientation="Horizontal"
-                            d:DataContext="{d:DesignInstance Page}">
+                            Orientation="Horizontal">
                     <Image Width="20"
                            Margin="10,0"
                            DockPanel.Dock="Left"
@@ -448,7 +444,8 @@
                 <ListView Grid.Row="2"
                           Grid.Column="0"
                           Grid.ColumnSpan="4"
-                          BorderThickness="0,0,0,1"
+                          Background="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}"
+                          BorderThickness="0,1,0,0"
                           IsTabStop="False"
                           ItemTemplate="{StaticResource FileThumbnailTemplate}"
                           ItemsSource="{Binding Attachments}"
@@ -473,8 +470,8 @@
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                             <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClick" />
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}}" />
                             <Setter Property="BorderBrush" Value="Transparent" />
+                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}" />
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemsPanel>

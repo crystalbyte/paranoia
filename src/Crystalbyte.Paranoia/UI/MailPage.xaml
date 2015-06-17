@@ -349,7 +349,8 @@
                       Grid.Column="1"
                       Width="8"
                       HorizontalAlignment="Center"
-                      IsTabStop="False" />
+                      IsTabStop="False"
+                      ShowsPreview="True" />
         <DockPanel Grid.Row="0"
                    Grid.Column="2"
                    LastChildFill="True">
