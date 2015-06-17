@@ -49,7 +49,7 @@
         <Border Grid.Row="0"
                 Grid.ColumnSpan="2"
                 BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}">
-            <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}">
+            <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}">
                 <StackPanel Height="36"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"

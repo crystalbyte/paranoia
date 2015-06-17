@@ -10,7 +10,7 @@
         <Setter Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="FramePadding" Value="4" />
+        <Setter Property="FramePadding" Value="10" />
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
         <Setter Property="Background" Value="{x:Static SystemColors.WindowBrush}" />
@@ -36,7 +36,9 @@
                                 BorderThickness="{TemplateBinding ActualBorderThickness}"
                                 Padding="{TemplateBinding Padding}">
                             <Border.Effect>
-                                <DropShadowEffect ShadowDepth="0" Color="Black" />
+                                <DropShadowEffect BlurRadius="10"
+                                                  ShadowDepth="0"
+                                                  Color="Black" />
                             </Border.Effect>
                             <Grid>
                                 <Grid.RowDefinitions>

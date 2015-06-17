@@ -128,9 +128,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0"
-                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
-                BorderThickness="0,0,0,1"
+                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                 UseLayoutRounding="True">
             <DockPanel Panel.ZIndex="1100"
                        LastChildFill="False"
@@ -178,8 +176,9 @@
                             <Style TargetType="ListViewItem">
                                 <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                                 <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}" />
-                                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                                <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+                                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                                <Setter Property="BorderBrush" Value="Transparent" />
                                 <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -191,7 +190,7 @@
                                             <Border x:Name="Border"
                                                     Background="{TemplateBinding Background}"
                                                     BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="0,0,0,2">
+                                                    BorderThickness="0">
                                                 <ContentPresenter Margin="{TemplateBinding Padding}"
                                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -203,6 +202,13 @@
                                                 <Trigger Property="IsSelected" Value="False">
                                                     <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
                                                 </Trigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsMouseOver" Value="True" />
+                                                        <Condition Property="IsSelected" Value="False" />
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
+                                                </MultiTrigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </Setter.Value>
@@ -221,7 +227,7 @@
                                                Margin="12,3"
                                                VerticalAlignment="Center"
                                                FontSize="17.5"
-                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                                Text="{Binding Title}" />
                                     <TextBlock x:Name="CounterBlock"
                                                Margin="0,3,12,3"
@@ -236,13 +242,6 @@
                                     <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                         <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                                     </DataTrigger>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True" />
-                                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="False" />
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
-                                    </MultiDataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
                         </ListView.ItemTemplate>

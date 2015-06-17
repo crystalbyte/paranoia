@@ -28,14 +28,14 @@
 
     <!--  Window Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="#2E2E30" />
-    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}" Color="#3E3E42" />  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}" Color="#4E4E52" />
-
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}" Color="#26262A" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="White" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}" Color="#11FFFFFF" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}" Color="WhiteSmoke" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}" Color="#22000000" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedBackgroundBrushKey}" Color="#44000000" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
+
+    <!--  Control Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SpamNoticeBackgroundBrushKey}" Color="#26262A" />
 
     <!--  Input Scope  -->
