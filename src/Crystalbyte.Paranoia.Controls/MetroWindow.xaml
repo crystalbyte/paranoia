@@ -47,10 +47,9 @@
                                     <!--  Status bar  -->
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <ContentPresenter Grid.Row="0"
-                                                  Grid.RowSpan="2"
-                                                  Panel.ZIndex="400" />
-
+                                <AdornerDecorator Grid.Row="0" Grid.RowSpan="2">
+                                    <ContentPresenter Panel.ZIndex="400" />
+                                </AdornerDecorator>
                                 <ResizeGrip x:Name="ResizeGrip"
                                             Grid.Row="1"
                                             HorizontalAlignment="Right"
