@@ -5,6 +5,7 @@
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+                      xmlns:system="clr-namespace:System;assembly=mscorlib"
                       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
                       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                       x:Name="Window"
@@ -20,9 +21,9 @@
                       d:DataContext="{d:DesignInstance paranoia:AppContext}"
                       mc:Ignorable="d">
     <controls:MetroWindow.Resources>
+        <system:Double x:Key="NavigationPaneHeight">30</system:Double>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="FlyoutSlideInStoryboard">
-
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FlyoutOverlay"
                                            Storyboard.TargetProperty="(UIElement.Opacity)"
                                            Timeline.DesiredFrameRate="24">
@@ -33,7 +34,6 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Flyout"
                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
                                            Timeline.DesiredFrameRate="24">
@@ -67,7 +67,6 @@
         </Storyboard>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="FlyoutSlideOutStoryboard">
-
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FlyoutOverlay"
                                            Storyboard.TargetProperty="(UIElement.Opacity)"
                                            Timeline.DesiredFrameRate="24">
@@ -78,7 +77,6 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Flyout"
                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
                                            Timeline.DesiredFrameRate="24">
@@ -110,6 +108,22 @@
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <Style x:Key="AppMenuButtonStyle" TargetType="Button">
+            <Setter Property="Panel.ZIndex" Value="100000000" />
+            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="Transparent">
+                            <!--  <Polygon Fill="#26262A" Points="0,0 80,0 40,48 0,42" />  -->
+                            <Rectangle Width="80"
+                                       Height="30"
+                                       Fill="#26262A" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </controls:MetroWindow.Resources>
     <controls:MetroWindow.CommandBindings>
         <CommandBinding Command="ui:MessageCommands.Compose" Executed="OnCompose" />
@@ -121,127 +135,29 @@
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="HeaderRow"
-                           Height="Auto"
-                           MinHeight="42" />
+            <RowDefinition x:Name="HeaderRow" Height="42" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0"
-                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                UseLayoutRounding="True">
-            <DockPanel Panel.ZIndex="1100"
-                       LastChildFill="False"
-                       SnapsToDevicePixels="True">
-                <Button Width="Auto"
-                        Height="Auto"
-                        Margin="0"
-                        VerticalAlignment="Stretch"
-                        Command="ui:AppCommands.Settings"
-                        DockPanel.Dock="Left"
-                        Padding="0"
-                        Style="{StaticResource WindowButtonStyle}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Width="20"
-                               Margin="16,0"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               DockPanel.Dock="Left"
-                               RenderOptions.BitmapScalingMode="HighQuality"
-                               Source="/Assets/logo.window.png" />
-                        <TextBlock Margin="0,0,12,0"
-                                   VerticalAlignment="Center"
-                                   DockPanel.Dock="Left"
-                                   FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
-                                   FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
-                                   Text="{Binding Title,
-                                                  RelativeSource={RelativeSource FindAncestor,
-                                                                                 AncestorType=ui:MainWindow}}"
-                                   Visibility="Collapsed" />
-                    </StackPanel>
-                </Button>
-                <Border DockPanel.Dock="Left">
-                    <ListView Margin="4,0"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Bottom"
-                              Background="Transparent"
-                              BorderThickness="0"
-                              ItemsSource="{Binding NavigationOptions}"
-                              KeyboardNavigation.ControlTabNavigation="None"
-                              KeyboardNavigation.DirectionalNavigation="Contained"
-                              Padding="0"
-                              SelectionChanged="OnMainMenuSelectionChanged">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                                <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
-                                <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBorderBrushKey}}" />
-                                <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                <Setter Property="VerticalContentAlignment" Value="Center" />
-                                <Setter Property="Padding" Value="0" />
-                                <Setter Property="SnapsToDevicePixels" Value="True" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListViewItem">
-                                            <Border x:Name="Border"
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="0">
-                                                <ContentPresenter Margin="{TemplateBinding Padding}"
-                                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}}" />
-                                                </Trigger>
-                                                <Trigger Property="IsSelected" Value="False">
-                                                    <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
-                                                </Trigger>
-                                                <MultiTrigger>
-                                                    <MultiTrigger.Conditions>
-                                                        <Condition Property="IsMouseOver" Value="True" />
-                                                        <Condition Property="IsSelected" Value="False" />
-                                                    </MultiTrigger.Conditions>
-                                                    <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
-                                                </MultiTrigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemTemplate>
-                            <DataTemplate DataType="paranoia:NavigationContext">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock x:Name="Text"
-                                               Margin="12,3"
-                                               VerticalAlignment="Center"
-                                               FontSize="17.5"
-                                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
-                                               Text="{Binding Title}" />
-                                </StackPanel>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                        <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Border>
-            </DockPanel>
-        </Border>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Rectangle Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                   RenderOptions.EdgeMode="Aliased" />
+        <Button Grid.Row="0"
+                Grid.Column="0"
+                Margin="0,0,3,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"
+                Command="ui:AppCommands.Settings"
+                Style="{StaticResource AppMenuButtonStyle}" />
         <Grid Grid.Row="0"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
               HorizontalAlignment="Right"
               VerticalAlignment="Top"
               Panel.ZIndex="100000">
@@ -278,6 +194,8 @@
         <Grid x:Name="FlyoutOverlay"
               Grid.Row="0"
               Grid.RowSpan="3"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
               Panel.ZIndex="1000"
               RenderTransformOrigin="0.5,0.5"
               Visibility="Collapsed">
@@ -382,6 +300,8 @@
         <Grid x:Name="ModalOverlay"
               Grid.Row="0"
               Grid.RowSpan="3"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
               Visibility="{Binding IsPopupVisible,
                                    Converter={StaticResource BooleanToVisibilityConverter}}"
               ZIndex="100000">
@@ -426,8 +346,90 @@
                        Opacity="{StaticResource FlyoutOverlayOpacityKey}"
                        RenderOptions.EdgeMode="Aliased" />
         </Grid>
+        <ListView x:Name="NavigationMenu"
+                  Grid.Row="0"
+                  Grid.Column="1"
+                  Height="{StaticResource NavigationPaneHeight}"
+                  Margin="0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Bottom"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  ItemsSource="{Binding NavigationOptions}"
+                  KeyboardNavigation.ControlTabNavigation="None"
+                  KeyboardNavigation.DirectionalNavigation="Contained"
+                  Padding="0"
+                  SelectionChanged="OnMainMenuSelectionChanged">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+                    <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBorderBrushKey}}" />
+                    <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="SnapsToDevicePixels" Value="True" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border x:Name="Border"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="0">
+                                    <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}}" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
+                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsMouseOver" Value="True" />
+                                            <Condition Property="IsSelected" Value="False" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
+                                    </MultiTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="paranoia:NavigationContext">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="Text"
+                                   Margin="12,3"
+                                   VerticalAlignment="Center"
+                                   FontSize="17.5"
+                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                                   Text="{Binding Title}" />
+                    </StackPanel>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                            <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <Frame x:Name="MainFrame"
                Grid.Row="1"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
                NavigationUIVisibility="Hidden"
                RenderTransformOrigin="0.5,0.5"
                Source="/UI/MailPage.xaml" />

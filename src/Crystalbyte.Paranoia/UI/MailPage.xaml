@@ -57,11 +57,11 @@
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width=".24*" />
+            <ColumnDefinition Width="280" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width=".3*" />
+            <ColumnDefinition Width="380" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width=".46*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <DockPanel LastChildFill="True">
@@ -702,7 +702,6 @@
                                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                            Text="{Binding Date,
                                                           Converter={StaticResource DateFormatter}}" />
-
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSeen}" Value="True">
