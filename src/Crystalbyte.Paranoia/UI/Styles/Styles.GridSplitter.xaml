@@ -4,6 +4,7 @@
 
     <Style TargetType="GridSplitter">
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.HorizontalSplitterForegroundBrushKey}}" />
+        <Setter Property="ShowsPreview" Value="true" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Style.Triggers>
             <Trigger Property="VerticalAlignment" Value="Stretch">

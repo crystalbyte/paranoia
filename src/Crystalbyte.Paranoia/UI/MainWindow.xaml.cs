@@ -70,6 +70,11 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnSettings(object sender, ExecutedRoutedEventArgs e) {
             try {
+                if (IsFlyoutVisible) {
+                    CloseFlyout();
+                    return;
+                }
+
                 var url = typeof(AppSettingsFlyoutPage).ToPageUri();
                 FlyoutFrame.Navigate(url);
                 ShowFlyout();

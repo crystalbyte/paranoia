@@ -33,6 +33,7 @@ namespace Crystalbyte.Paranoia.Themes {
         public static string AppForegroundBrushKey = "AppForegroundBrushKey";
         public static string AppSecondaryForegroundBrushKey = "AppSecondaryForegroundBrushKey";
         public static string AppAccentForegroundBrushKey = "AppAccentForegroundBrushKey";
+        public static string AppMenuBackgroundBrushKey = "AppMenuBackgroundBrushKey";
 
         public static string AppSmallFontSizeKey = "AppSmallFontSizeKey";
         public static string AppMediumFontSizeKey = "AppMediumFontSizeKey";

@@ -23,8 +23,9 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="#121212" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}">Gray</SolidColorBrush>
-    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.AppFontFamilyKey}">Segoe UI</FontFamily>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppMenuBackgroundBrushKey}">DarkGray</SolidColorBrush>
 
+    <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.AppFontFamilyKey}">Segoe UI</FontFamily>
 
     <!--  Window Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="White" />

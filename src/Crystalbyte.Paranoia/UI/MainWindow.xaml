@@ -109,16 +109,18 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Style x:Key="AppMenuButtonStyle" TargetType="Button">
-            <Setter Property="Panel.ZIndex" Value="100000000" />
+            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMenuBackgroundBrushKey}}" />
             <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid Background="Transparent">
-                            <!--  <Polygon Fill="#26262A" Points="0,0 80,0 40,48 0,42" />  -->
-                            <Rectangle Width="80"
-                                       Height="30"
-                                       Fill="#26262A" />
+                            <Polygon Fill="{TemplateBinding Background}" Points="0,0 80,0 55,48 0,42" />
+                            <!--
+                                <Rectangle Width="80"
+                                Height="30"
+                                Fill="{TemplateBinding Background}" />
+                            -->
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -149,10 +151,12 @@
                    Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                    RenderOptions.EdgeMode="Aliased" />
         <Button Grid.Row="0"
+                Grid.RowSpan="2"
                 Grid.Column="0"
                 Margin="0,0,3,0"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Bottom"
+                VerticalAlignment="Top"
+                Panel.ZIndex="100001"
                 Command="ui:AppCommands.Settings"
                 Style="{StaticResource AppMenuButtonStyle}" />
         <Grid Grid.Row="0"
