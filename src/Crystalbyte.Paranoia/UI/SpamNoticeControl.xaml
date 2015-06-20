@@ -8,7 +8,7 @@
              xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
              xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
              Background="{DynamicResource {x:Static themes:ThemeResourceKeys.SpamNoticeBackgroundBrushKey}}"
-             BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
+             BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
              BorderThickness="0"
              IsTabStop="False"
              SnapsToDevicePixels="True"

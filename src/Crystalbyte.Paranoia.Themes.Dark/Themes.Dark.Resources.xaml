@@ -22,7 +22,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppWarningBrushKey}" Color="Orange" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}">Gray</SolidColorBrush>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppMenuBackgroundBrushKey}">Black</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppMenuBackgroundBrushKey}">#4E4E52</SolidColorBrush>
 
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.AppFontFamilyKey}">Segoe UI</FontFamily>
 
@@ -30,6 +30,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="#2E2E30" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}" Color="#4E4E52" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderSecondaryForegroundBrushKey}" Color="LightGray" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}" Color="#22000000" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedBackgroundBrushKey}" Color="#44000000" />
@@ -48,8 +49,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}" Color="WhiteSmoke" />
 
     <!--  Splitter Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.HorizontalSplitterForegroundBrushKey}" Color="#47474C" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="#37373C" />
 
     <!--  Button Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />

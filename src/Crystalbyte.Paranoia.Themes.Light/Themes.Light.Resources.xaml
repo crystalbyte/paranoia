@@ -43,10 +43,7 @@
     <!--  Navigation Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}">White</SolidColorBrush>
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBorderBrushKey}">Gray</SolidColorBrush>
-
-    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}" Color="#DDDDDD" />  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.HorizontalSplitterForegroundBrushKey}" Color="#DDDDDD" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="#DDDDDD" />
 
     <!--  Button Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />

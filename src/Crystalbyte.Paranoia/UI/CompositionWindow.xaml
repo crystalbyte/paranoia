@@ -78,7 +78,7 @@
             </DataTemplate.Triggers>
         </DataTemplate>
         <DataTemplate x:Key="StringTokenTemplate" DataType="system:String">
-            <Grid>
+            <Grid Height="20">
                 <Rectangle HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
                            Fill="#222" />
@@ -91,9 +91,7 @@
                         <Image Width="16"
                                VerticalAlignment="Center"
                                RenderOptions.BitmapScalingMode="Linear"
-                               Source="{Binding IsAsync=True,
-                                                Converter={StaticResource GravatarImageConverter},
-                                                ConverterParameter=32}" />
+                               Source="/Assets/contact_default.jpg" />
                     </Border>
                     <TextBlock Margin="2,0,2,0"
                                Background="Transparent"
@@ -104,7 +102,9 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="ContactTokenTemplate" DataType="paranoia:MailContactContext">
-            <Grid MaxWidth="180" SnapsToDevicePixels="True">
+            <Grid Height="20"
+                  MaxWidth="180"
+                  SnapsToDevicePixels="True">
                 <Rectangle HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
                            Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
@@ -119,36 +119,7 @@
                            Source="{Binding Address,
                                             IsAsync=True,
                                             Converter={StaticResource GravatarImageConverter},
-                                            ConverterParameter=32}"
-                           Stretch="UniformToFill" />
-                    <TextBlock Margin="2,0"
-                               VerticalAlignment="Center"
-                               FontSize="{Binding FontSize,
-                                                  RelativeSource={RelativeSource AncestorType=controls:SuggestionBox}}"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}"
-                               Text="{Binding NameOrAddress}"
-                               TextTrimming="CharacterEllipsis"
-                               TextWrapping="NoWrap" />
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="LargeContactTokenTemplate" DataType="paranoia:MailContactContext">
-            <Grid MaxWidth="220" SnapsToDevicePixels="True">
-                <Rectangle HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch"
-                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                <StackPanel Height="20"
-                            Margin="0,0,3,0"
-                            Orientation="Horizontal">
-                    <Image Width="20"
-                           Height="20"
-                           Margin="0,0,4,0"
-                           VerticalAlignment="Stretch"
-                           RenderOptions.BitmapScalingMode="Linear"
-                           Source="{Binding Address,
-                                            IsAsync=True,
-                                            Converter={StaticResource GravatarImageConverter},
-                                            ConverterParameter=32}"
+                                            ConverterParameter=24}"
                            Stretch="UniformToFill" />
                     <TextBlock Margin="2,0"
                                VerticalAlignment="Center"
@@ -368,10 +339,10 @@
                                         FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                         ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                         ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                        Padding="6"
+                                        Padding="3"
                                         SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                         StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                                        TokenTemplate="{StaticResource LargeContactTokenTemplate}"
+                                        TokenTemplate="{StaticResource ContactTokenTemplate}"
                                         Watermark="{x:Static properties:Resources.To}"
                                         WatermarkTemplate="{StaticResource LargeWatermarkTemplate}">
                     <controls:SuggestionBox.ItemContainerStyle>

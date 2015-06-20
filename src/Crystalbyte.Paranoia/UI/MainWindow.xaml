@@ -116,11 +116,11 @@
                     <ControlTemplate TargetType="Button">
                         <Grid Background="Transparent">
                             <Polygon Fill="{TemplateBinding Background}" Points="0,0 80,0 55,48 0,42" />
-                            <!--
-                                <Rectangle Width="80"
-                                Height="30"
-                                Fill="{TemplateBinding Background}" />
-                            -->
+                            <Image Width="24"
+                                   Margin="20,0,0,4"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Source="/Assets/logo.window.png" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

@@ -48,7 +48,7 @@
         </Grid.RowDefinitions>
         <Border Grid.Row="0"
                 Grid.ColumnSpan="2"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}">
+                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}">
             <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}">
                 <StackPanel Height="36"
                             HorizontalAlignment="Left"
@@ -69,9 +69,13 @@
                                               Converter={StaticResource NullOrEmptyFormatter},
                                               ConverterParameter=...}"
                                WindowChrome.IsHitTestVisibleInChrome="False" />
-                    <TextBlock Margin="1,-1,0,0" VerticalAlignment="Center">
-                        <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
-                        <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
+                    <TextBlock Margin="2,0"
+                               VerticalAlignment="Center"
+                               FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderSecondaryForegroundBrushKey}}">
+                        <Run Text=" - " />
+                        <Run Text="{x:Static properties:Resources.ApplicationLongName}" />
                     </TextBlock>
                 </StackPanel>
             </Grid>
@@ -108,107 +112,110 @@
                                                                         AncestorType=ui:InspectionWindow}}" />
             <Button Grid.Column="4" Style="{DynamicResource CloseButtonStyle}" />
         </Grid>
-        <DockPanel Grid.Row="1"
-                   Margin="6"
-                   LastChildFill="True">
-            <StackPanel HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        DockPanel.Dock="Right"
-                        Orientation="Horizontal">
-                <controls:MetroButton x:Name="ToMetroButton"
-                                      Margin="3,0"
-                                      Command="ui:InspectionCommands.ShowToAddresses"
-                                      CommandParameter="to"
-                                      ImageSource="/Assets/to.png"
-                                      ToolTip="{x:Static properties:Resources.Reply}" />
-                <Popup x:Name="ToPopup"
-                       AllowsTransparency="True"
-                       Placement="Center"
-                       PlacementTarget="{Binding ElementName=ToMetroButton}"
-                       StaysOpen="False"
-                       VerticalOffset="180">
-                    <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.PopupBackgroundBrushKey}}"
-                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                            BorderThickness="1">
-                        <ui:ContactsPresenter MinWidth="250"
-                                              MinHeight="300"
-                                              MaxWidth="350"
-                                              Addresses="{Binding To}" />
-                    </Border>
-                </Popup>
-                <controls:MetroButton x:Name="CcMetroButton"
-                                      Margin="3,0"
-                                      Command="ui:InspectionCommands.ShowCcAddresses"
-                                      ImageSource="/Assets/cc.png"
-                                      ToolTip="{x:Static properties:Resources.Reply}"
-                                      Visibility="{Binding HasCarbonCopies,
-                                                           Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <Popup x:Name="CcPopup"
-                       AllowsTransparency="True"
-                       Placement="Center"
-                       PlacementTarget="{Binding ElementName=CcMetroButton}"
-                       StaysOpen="False"
-                       VerticalOffset="180">
-                    <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.PopupBackgroundBrushKey}}"
-                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                            BorderThickness="1">
-
-                        <ui:ContactsPresenter MinWidth="200"
-                                              MinHeight="300"
-                                              MaxWidth="350"
-                                              Addresses="{Binding Cc}" />
-                    </Border>
-                </Popup>
-                <Rectangle Style="{StaticResource MetroButtonSeparatorStyle}" />
-                <controls:MetroButton Margin="3,0"
-                                      Command="ui:MessageCommands.Reply"
-                                      ImageSource="/Assets/reply.png"
-                                      ToolTip="{x:Static properties:Resources.Reply}" />
-                <controls:MetroButton Margin="3,0"
-                                      Command="ui:MessageCommands.ReplyAll"
-                                      ImageSource="/Assets/reply.all.png"
-                                      ToolTip="{x:Static properties:Resources.ReplyAll}" />
-                <controls:MetroButton Margin="3,0"
-                                      Command="ui:MessageCommands.Forward"
-                                      ImageSource="/Assets/forward.png"
-                                      ToolTip="{x:Static properties:Resources.Forward}" />
-                <controls:MetroButton Margin="3,0"
-                                      Command="ApplicationCommands.Print"
-                                      ImageSource="/Assets/print.png"
-                                      ToolTip="{x:Static properties:Resources.Print}" />
-            </StackPanel>
-            <StackPanel Margin="12,0"
-                        DockPanel.Dock="Right"
-                        Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
-                           Text="{Binding Date,
-                                          Converter={StaticResource DateFormatter}}" />
-            </StackPanel>
-            <Grid VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0"
-                            DataContext="{Binding From}"
+        <Border Grid.Row="1"
+                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
+                Padding="6">
+            <DockPanel LastChildFill="True">
+                <StackPanel HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Right"
                             Orientation="Horizontal">
-                    <Image Width="32"
-                           Margin="0,0,6,0"
-                           VerticalAlignment="Center"
-                           RenderOptions.BitmapScalingMode="Fant"
-                           Source="{Binding Address,
-                                            ConverterParameter=48,
-                                            Converter={StaticResource GravatarImageConverter}}" />
-                    <StackPanel Margin="0,-2,0,0" VerticalAlignment="Center">
-                        <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
-                        <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
-                    </StackPanel>
+                    <controls:MetroButton x:Name="ToMetroButton"
+                                          Margin="3,0"
+                                          Command="ui:InspectionCommands.ShowToAddresses"
+                                          CommandParameter="to"
+                                          ImageSource="/Assets/to.png"
+                                          ToolTip="{x:Static properties:Resources.Reply}" />
+                    <Popup x:Name="ToPopup"
+                           AllowsTransparency="True"
+                           Placement="Center"
+                           PlacementTarget="{Binding ElementName=ToMetroButton}"
+                           StaysOpen="False"
+                           VerticalOffset="180">
+                        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.PopupBackgroundBrushKey}}"
+                                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                BorderThickness="1">
+                            <ui:ContactsPresenter MinWidth="250"
+                                                  MinHeight="300"
+                                                  MaxWidth="350"
+                                                  Addresses="{Binding To}" />
+                        </Border>
+                    </Popup>
+                    <controls:MetroButton x:Name="CcMetroButton"
+                                          Margin="3,0"
+                                          Command="ui:InspectionCommands.ShowCcAddresses"
+                                          ImageSource="/Assets/cc.png"
+                                          ToolTip="{x:Static properties:Resources.Reply}"
+                                          Visibility="{Binding HasCarbonCopies,
+                                                               Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <Popup x:Name="CcPopup"
+                           AllowsTransparency="True"
+                           Placement="Center"
+                           PlacementTarget="{Binding ElementName=CcMetroButton}"
+                           StaysOpen="False"
+                           VerticalOffset="180">
+                        <Border Background="{DynamicResource {x:Static themes:ThemeResourceKeys.PopupBackgroundBrushKey}}"
+                                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+                                BorderThickness="1">
+
+                            <ui:ContactsPresenter MinWidth="200"
+                                                  MinHeight="300"
+                                                  MaxWidth="350"
+                                                  Addresses="{Binding Cc}" />
+                        </Border>
+                    </Popup>
+                    <Rectangle Style="{StaticResource MetroButtonSeparatorStyle}" />
+                    <controls:MetroButton Margin="3,0"
+                                          Command="ui:MessageCommands.Reply"
+                                          ImageSource="/Assets/reply.png"
+                                          ToolTip="{x:Static properties:Resources.Reply}" />
+                    <controls:MetroButton Margin="3,0"
+                                          Command="ui:MessageCommands.ReplyAll"
+                                          ImageSource="/Assets/reply.all.png"
+                                          ToolTip="{x:Static properties:Resources.ReplyAll}" />
+                    <controls:MetroButton Margin="3,0"
+                                          Command="ui:MessageCommands.Forward"
+                                          ImageSource="/Assets/forward.png"
+                                          ToolTip="{x:Static properties:Resources.Forward}" />
+                    <controls:MetroButton Margin="3,0"
+                                          Command="ApplicationCommands.Print"
+                                          ImageSource="/Assets/print.png"
+                                          ToolTip="{x:Static properties:Resources.Print}" />
                 </StackPanel>
-            </Grid>
-        </DockPanel>
+                <StackPanel Margin="12,0"
+                            DockPanel.Dock="Right"
+                            Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                               Text="{Binding Date,
+                                              Converter={StaticResource DateFormatter}}" />
+                </StackPanel>
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0"
+                                DataContext="{Binding From}"
+                                Orientation="Horizontal">
+                        <Image Width="32"
+                               Margin="0,0,6,0"
+                               VerticalAlignment="Center"
+                               RenderOptions.BitmapScalingMode="Fant"
+                               Source="{Binding Address,
+                                                ConverterParameter=48,
+                                                Converter={StaticResource GravatarImageConverter}}" />
+                        <StackPanel Margin="0,-2,0,0" VerticalAlignment="Center">
+                            <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name, ConverterParameter=..., Converter={StaticResource NullOrEmptyFormatter}}" />
+                            <TextBlock Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{Binding Address, Converter={StaticResource NullOrEmptyFormatter}}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </DockPanel>
+        </Border>
+
         <Grid Grid.Row="1"
               Grid.RowSpan="7"
               Panel.ZIndex="500"
@@ -227,7 +234,7 @@
         </Grid>
         <ui:SpamNoticeControl Grid.Row="4"
                               Authenticatable="{Binding}"
-                              BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}" />
+                              BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}" />
         <ListView Grid.Row="5"
                   ItemTemplate="{StaticResource ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"

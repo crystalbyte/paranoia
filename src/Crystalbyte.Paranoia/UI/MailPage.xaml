@@ -67,7 +67,7 @@
             <DockPanel LastChildFill="True">
                 <Border Margin="4,0"
                         HorizontalAlignment="Stretch"
-                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.HorizontalSplitterForegroundBrushKey}}"
+                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                         BorderThickness="0,0,0,1"
                         DockPanel.Dock="Top"
                         SnapsToDevicePixels="True"
@@ -377,15 +377,15 @@
                     </TextBlock>
                 </DockPanel>
                 <Border Grid.Row="1"
-                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
+                        BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                         BorderThickness="0,1"
                         RenderOptions.EdgeMode="Aliased"
                         UseLayoutRounding="True">
                     <controls:WatermarkTextBox x:Name="QuickSearchBox"
-                                               Margin="2,0,0,0"
+                                               Margin="0"
                                                FontSize="14"
                                                IsTabStop="False"
-                                               Padding="5"
+                                               Padding="6"
                                                RenderOptions.EdgeMode="Unspecified"
                                                Text="{Binding QueryString,
                                                               Mode=TwoWay,
@@ -449,7 +449,7 @@
                         <Rectangle Width="1"
                                    Margin="4,10"
                                    VerticalAlignment="Stretch"
-                                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
+                                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                                    RenderOptions.EdgeMode="Aliased"
                                    SnapsToDevicePixels="True"
                                    UseLayoutRounding="True" />
@@ -751,7 +751,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
-                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.VerticalSplitterForegroundBrushKey}}"
+                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                     BorderThickness="0,0,0,1">
                 <Grid>
                     <Grid.ColumnDefinitions>
