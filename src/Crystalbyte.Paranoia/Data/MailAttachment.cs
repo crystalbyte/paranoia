@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Crystalbyte.Paranoia.Data.SQLite;
 
 namespace Crystalbyte.Paranoia.Data {
     [Table("mail_attachment")]
@@ -11,6 +12,7 @@ namespace Crystalbyte.Paranoia.Data {
         public Int64 Id { get; set; }
 
         [Column("filename")]
+        [Collate(CollatingSequence.NoCase)]
         public string Filename { get; set; }
 
         [Column("size")]

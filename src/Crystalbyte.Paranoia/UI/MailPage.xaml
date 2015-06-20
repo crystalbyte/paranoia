@@ -750,9 +750,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Border Grid.Row="0"
-                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
-                    BorderThickness="0,0,0,1">
+            <Border Grid.Row="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -817,11 +815,19 @@
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
                 <ui:SpamNoticeControl Authenticatable="{Binding}" />
             </Border>
-            <ListView Grid.Row="2"
+            <Border Grid.Row="2"
+                    DataContext="{Binding SelectedMessage}"
+                    Visibility="{Binding IsDetailed,
+                                         Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ui:BlockNoticeControl Blockable="{Binding}" />
+            </Border>
+            <ListView Grid.Row="3"
                       Margin="0"
+                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentListBackgroundBrushKey}}"
                       DataContext="{Binding SelectedMessage}"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
+                      Padding="3"
                       ScrollViewer.CanContentScroll="False"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -847,12 +853,6 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
             </ListView>
-            <Border Grid.Row="3"
-                    DataContext="{Binding SelectedMessage}"
-                    Visibility="{Binding IsDetailed,
-                                         Converter={StaticResource BooleanToVisibilityConverter}}">
-                <ui:BlockNoticeControl Blockable="{Binding}" />
-            </Border>
             <Grid Grid.Row="4" Visibility="{Binding IsMessageSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsDownloading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <ui:HtmlViewer x:Name="MessageViewer"

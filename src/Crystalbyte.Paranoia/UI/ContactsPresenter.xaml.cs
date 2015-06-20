@@ -1,14 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
+using NLog;
 
 namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     /// Interaction logic for ContactsPresenter.xaml
     /// </summary>
     public partial class ContactsPresenter {
+
+        #region Private Fields
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Construction
+
         public ContactsPresenter() {
             InitializeComponent();
         }
+
+        #endregion
 
         public IEnumerable<MailAddressContext> Addresses {
             get { return (IEnumerable<MailAddressContext>)GetValue(AddressesProperty); }

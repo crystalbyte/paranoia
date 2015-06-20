@@ -106,7 +106,7 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 var control = (SuggestionBox)sender;
                 var contacts = await QueryContactsAsync(e.Text);
-                await Application.Current.Dispatcher.InvokeAsync(() => { control.ItemsSource = contacts; });
+                control.ItemsSource = contacts;
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -146,16 +146,16 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        public Task<MailContactContext[]> QueryContactsAsync(string text) {
+        public Task<MailAddressContext[]> QueryContactsAsync(string text) {
             return Task.Run(async () => {
                 using (var database = new DatabaseContext()) {
-                    var candidates = await database.MailContacts
+                    var candidates = await database.MailAddresses
                         .Where(x => x.Address.StartsWith(text)
                                     || x.Name.StartsWith(text))
                         .Take(20)
                         .ToArrayAsync();
 
-                    return candidates.Select(x => new MailContactContext(x)).ToArray();
+                    return candidates.Select(x => new MailAddressContext(x)).ToArray();
                 }
             });
         }
@@ -176,7 +176,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        internal void PrepareAsNew() {
+        internal void PrepareAsNew(IEnumerable<string> addresses) {
             HtmlEditor.Source = "message:///new";
             Loaded += OnLoadedAsNew;
         }

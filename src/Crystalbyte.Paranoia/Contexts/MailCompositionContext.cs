@@ -52,6 +52,7 @@ using MailMessage = System.Net.Mail.MailMessage;
 
 namespace Crystalbyte.Paranoia {
     public sealed class MailCompositionContext : NotificationObject {
+
         #region Private Fields
 
         private string _subject;
@@ -63,7 +64,7 @@ namespace Crystalbyte.Paranoia {
         private readonly RelayCommand _finalizeCommand;
         private readonly ICommand _insertAttachmentCommand;
         private MailAccountContext _selectedAccount;
-        
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
@@ -82,7 +83,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnAddressesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-            _finalizeCommand.OnCanExecuteChanged();
+            try {
+                _finalizeCommand.OnCanExecuteChanged();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         #endregion
@@ -107,6 +112,10 @@ namespace Crystalbyte.Paranoia {
 
         #region Properties
 
+        public string Title {
+            get { return string.Format("{0} - {1}", Subject, Resources.ApplicationLongName); }
+        }
+
         public bool IsFinalizing {
             get { return _isFinalizing; }
             set {
@@ -120,7 +129,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnFinalizingChanged() {
-            _finalizeCommand.OnCanExecuteChanged();
+            try {
+                _finalizeCommand.OnCanExecuteChanged();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         public ICommand FinalizeCommand {
@@ -163,6 +176,7 @@ namespace Crystalbyte.Paranoia {
 
                 _subject = value;
                 RaisePropertyChanged(() => Subject);
+                RaisePropertyChanged(() => Title);
                 OnSubjectChanged();
             }
         }

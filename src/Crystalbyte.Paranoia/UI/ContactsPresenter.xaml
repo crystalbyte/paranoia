@@ -19,15 +19,22 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate DataType="paranoia:MailAddressContext">
-                <DockPanel Margin="6" LastChildFill="False">
-                    <Image Width="32"
+                <Grid Margin="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0"
+                           Width="32"
                            Margin="0,0,6,0"
                            VerticalAlignment="Center"
                            DockPanel.Dock="Left"
                            Source="{Binding Address,
                                             Converter={StaticResource GravatarImageConverter},
                                             ConverterParameter=32}" />
-                    <StackPanel Margin="0,-2,6,0"
+                    <StackPanel Grid.Column="1"
+                                Margin="0,-2,6,0"
                                 VerticalAlignment="Center"
                                 DockPanel.Dock="Left"
                                 Orientation="Vertical">
@@ -43,14 +50,19 @@
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap" />
                     </StackPanel>
-                    <controls:MetroButton Command="ui:MessageCommands.Reply"
-                                          ImageSource="/Assets/reply.png"
-                                          ToolTip="{x:Static properties:Resources.Reply}" />
-                    <Rectangle Style="{StaticResource MetroButtonSeparatorStyle}" />
-                    <controls:MetroButton Command="{Binding CopyAddress}"
-                                          ImageSource="/Assets/address.png"
-                                          ToolTip="{x:Static properties:Resources.CopyAddress}" />
-                </DockPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <controls:MetroButton Command="ui:MessageCommands.Compose"
+                                              CommandParameter="{Binding}"
+                                              ImageSource="/Assets/paper.png"
+                                              ToolTip="{x:Static properties:Resources.New}" />
+                        <Rectangle Style="{StaticResource MetroButtonSeparatorStyle}" />
+                        <controls:MetroButton Command="{Binding CopyAddress}"
+                                              CommandParameter="{Binding}"
+                                              ImageSource="/Assets/address.png"
+                                              ToolTip="{x:Static properties:Resources.CopyAddress}" />
+                    </StackPanel>
+
+                </Grid>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>

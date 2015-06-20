@@ -19,7 +19,7 @@
         <Setter Property="MinWidth" Value="400" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="28"
+                <WindowChrome CaptionHeight="42"
                               GlassFrameThickness="-1"
                               NonClientFrameEdges="None"
                               ResizeBorderThickness="0" />

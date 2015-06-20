@@ -27,6 +27,7 @@
         <CommandBinding Command="ui:WindowCommands.Minimize" Executed="OnMinimize" />
         <CommandBinding Command="ui:WindowCommands.RestoreDown" Executed="OnRestoreDown" />
         <CommandBinding Command="ui:MessageCommands.Reply" Executed="OnReply" />
+        <CommandBinding Command="ui:MessageCommands.Compose" Executed="OnCompose" />
         <CommandBinding Command="ui:MessageCommands.ReplyAll" Executed="OnReplyAll" />
         <CommandBinding Command="ui:MessageCommands.Forward" Executed="OnForward" />
         <CommandBinding Command="ApplicationCommands.Close" Executed="OnClose" />
@@ -235,15 +236,20 @@
         <ui:SpamNoticeControl Grid.Row="4"
                               Authenticatable="{Binding}"
                               BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}" />
-        <ListView Grid.Row="5"
+
+        <ui:BlockNoticeControl Grid.Row="5" Blockable="{Binding}" />
+        <ListView Grid.Row="6"
+                  Margin="0"
+                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentListBackgroundBrushKey}}"
                   ItemTemplate="{StaticResource ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
+                  Padding="3"
                   ScrollViewer.CanContentScroll="False"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                    <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBackgroundBrushKey}}" />
+                    <Setter Property="Background" Value="Transparent" />
                     <Setter Property="BorderBrush" Value="Transparent" />
                 </Style>
             </ListView.ItemContainerStyle>
@@ -263,7 +269,6 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <ui:BlockNoticeControl Grid.Row="6" Blockable="{Binding}" />
         <ui:HtmlViewer x:Name="HtmlViewer"
                        Grid.Row="7"
                        Margin="0" />

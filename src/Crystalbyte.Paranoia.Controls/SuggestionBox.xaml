@@ -90,8 +90,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="OuterBorder" Property="BorderBrush"
-                                    Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -112,8 +111,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="ToolTip"
-                        Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
+                <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
             </Trigger>
         </Style.Triggers>
     </Style>

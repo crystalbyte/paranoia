@@ -1336,12 +1336,15 @@ namespace Crystalbyte.Paranoia {
             window.Show();
         }
 
-
         internal void Compose() {
+            Compose(new List<string>());
+        }
+
+        internal void Compose(IEnumerable<string> addresses) {
             var owner = Application.Current.MainWindow;
-            var window = new CompositionWindow();
+            var window = new CompositionWindow { ShowActivated = true };
             window.MimicOwnership(Application.Current.MainWindow);
-            window.PrepareAsNew();
+            window.PrepareAsNew(addresses);
 
             if (owner.WindowState == WindowState.Maximized) {
                 window.WindowState = WindowState.Maximized;

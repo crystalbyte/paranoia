@@ -70,7 +70,8 @@ namespace Crystalbyte.Paranoia {
 
         internal MailMessageContext(MailboxContext mailbox, MailMessage message) {
             _mailbox = mailbox;
-            _attachments = new ObservableCollection<MailAttachmentContext>();
+            _attachments = new ObservableCollection<MailAttachmentContext>(
+                message.Attachments.Select(x => new MailAttachmentContext(x)));
 
             _message = message;
 
@@ -428,6 +429,15 @@ namespace Crystalbyte.Paranoia {
 
                             context.MailMessages.Attach(message);
                             context.Entry(message).Property(x => x.Mime).IsModified = true;
+
+                            var attachments = reader.FindAllAttachments();
+                            message.Attachments.AddRange(attachments.Select(x => new MailAttachment {
+                                ContentId = x.ContentId,
+                                ContentDisposition = x.ContentDisposition.ToString(),
+                                ContentType = x.ContentType.ToString(),
+                                Filename = x.FileName,
+                                Size = x.Body.Length
+                            }));
 
                             // May be an incomplete draft.
                             if (contact != null) {

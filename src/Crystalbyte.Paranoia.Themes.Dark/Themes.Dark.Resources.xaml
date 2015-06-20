@@ -42,6 +42,7 @@
 
     <!--  Control Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SpamNoticeBackgroundBrushKey}" Color="#26262A" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AttachmentListBackgroundBrushKey}" Color="#2E2E30" />
 
     <!--  Input Scope  -->
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.InputFontFamilyKey}">Calibri</FontFamily>
@@ -150,6 +151,5 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbBackgroundBrushKey}" Color="#686868" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbMouseOverBackgroundBrushKey}" Color="#9E9E9E" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ScrollBarThumbPressedBackgroundBrushKey}" Color="#EFEBEF" />
-
 
 </ResourceDictionary>

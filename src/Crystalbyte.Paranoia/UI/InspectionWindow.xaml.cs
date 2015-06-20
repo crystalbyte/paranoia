@@ -95,7 +95,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {
+        private async void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {
             try {
                 if (!IsLoaded) {
                     return;
@@ -105,7 +105,7 @@ namespace Crystalbyte.Paranoia.UI {
                 if (attachment == null) {
                     return;
                 }
-                attachment.Open();
+                await attachment.OpenAsync();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -213,5 +213,19 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         #endregion
+
+        private void OnCompose(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var address = e.Parameter as MailAddressContext;
+                CcPopup.IsOpen = ToPopup.IsOpen = false;
+                if (address != null) {
+                    App.Context.Compose(new[] { address.Address });
+                } else {
+                    App.Context.Compose();
+                }
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
     }
 }

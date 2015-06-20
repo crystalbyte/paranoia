@@ -10,8 +10,7 @@
                       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
                       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                       x:Name="Window"
-                      Title="{Binding Text,
-                                      ElementName=TitleBlock,
+                      Title="{Binding Title,
                                       Mode=OneWay}"
                       AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
@@ -415,8 +414,7 @@
                 <ListView Grid.Row="2"
                           Grid.Column="0"
                           Grid.ColumnSpan="4"
-                          Background="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}"
-                          BorderThickness="0,1,0,0"
+                          Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentListBackgroundBrushKey}}"
                           IsTabStop="False"
                           ItemTemplate="{StaticResource FileThumbnailTemplate}"
                           ItemsSource="{Binding Attachments}"

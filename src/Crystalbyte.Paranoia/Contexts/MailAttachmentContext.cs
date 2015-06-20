@@ -25,10 +25,12 @@
 #region Using Directives
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
@@ -63,11 +65,10 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
-        private void OnOpen(object obj) {
-            Logger.Enter();
+        internal Task OpenAsync() {
+            var name = _attachment.Filename;
 
-            try {
-                var name = _attachment.Filename;
+            return Task.Run(() => {
                 var tempPath = Path.GetTempPath();
                 var a = 1;
 
@@ -77,14 +78,21 @@ namespace Crystalbyte.Paranoia {
                     a++;
                 }
 
-                throw new NotImplementedException();
+                var fullname = Path.Combine(tempPath, name);
+                File.WriteAllBytes(fullname, GetBytes());
 
-                //_part.Save(new FileInfo(tempPath + fileName));
-                //var process = new Process { StartInfo = new ProcessStartInfo(tempPath + fileName) };
-                //process.Start();
-                //process.Exited += (sender, e) =>
-                //    File.Delete(tempPath + fileName);
+                var process = new Process { StartInfo = new ProcessStartInfo(fullname) };
+                process.Start();
+                process.Exited += (sender, e) =>
+                    File.Delete(fullname);
+            });
+        }
 
+        private async void OnOpen(object obj) {
+            Logger.Enter();
+
+            try {
+                await OpenAsync();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             } finally {
@@ -126,7 +134,13 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        public byte[] Bytes {
+            get { return GetBytes(); }
+        }
+
         public byte[] GetBytes() {
+            Application.Current.AssertBackgroundThread();
+
             using (var context = new DatabaseContext()) {
                 var mime = context.MailMessages.Where(x => x.Id == _attachment.MessageId).Select(x => x.Mime).FirstOrDefault();
                 if (mime == null) {
@@ -136,12 +150,6 @@ namespace Crystalbyte.Paranoia {
                 var reader = new MailMessageReader(mime);
                 var part = reader.FindAllAttachments().FirstOrDefault(x => x.ContentId == _attachment.ContentId);
                 return part == null ? new byte[0] : part.Body;
-            }
-        }
-
-        public void Open() {
-            if (_openCommand != null && _openCommand.CanExecute(null)) {
-                _openCommand.Execute(null);
             }
         }
 

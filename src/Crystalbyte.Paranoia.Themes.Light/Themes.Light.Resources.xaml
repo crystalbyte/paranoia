@@ -38,7 +38,10 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}" Color="#222" />
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.InputFontFamilyKey}">Calibri</FontFamily>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.InputFontSizeKey}">13</system:Double>
+
+    <!--  Control Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SpamNoticeBackgroundBrushKey}" Color="#F8F8F9" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AttachmentListBackgroundBrushKey}" Color="#EAEAEA" />
 
     <!--  Navigation Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}">White</SolidColorBrush>
