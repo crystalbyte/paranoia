@@ -82,9 +82,14 @@ namespace Crystalbyte.Paranoia {
                 File.WriteAllBytes(fullname, GetBytes());
 
                 var process = new Process { StartInfo = new ProcessStartInfo(fullname) };
+                process.Exited += (sender, e) => {
+                    try {
+                        File.Delete(fullname);
+                    } catch (IOException ex) {
+                        Logger.ErrorException(ex.Message, ex);
+                    }
+                };
                 process.Start();
-                process.Exited += (sender, e) =>
-                    File.Delete(fullname);
             });
         }
 

@@ -1,337 +1,409 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Fragment>
-    <DirectoryRef Id="APPLICATIONFOLDER">
-      <Directory Id="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Name="de" />
-      <Directory Id="dirDE139F2B8E4F53C7894010653FA4ACF5" Name="de-DE" />
-      <Directory Id="dir3A20458C1B036229CDF551BF6D0E04E0" Name="en" />
-      <Directory Id="dir64D71989966D3C995252DD5EAD72204A" Name="es" />
-      <Directory Id="dir7ABA76C83D0AFCE97CD348E8219F4CE1" Name="fr" />
-      <Directory Id="dirA1C9D6EE90DA7B3D513AC1CA7D72F253" Name="it" />
-      <Directory Id="dir250D607B4E859FD3B153389E856E9245" Name="ja" />
-      <Directory Id="dir68BD67567308D790DAE3C9405A87DE04" Name="ko" />
-      <Directory Id="dirD9BDD7640045AB6653B1C37CCF84AB0B" Name="locales" />
-      <Directory Id="dir113445E6F89EECCCAD68A52BB70F8EF9" Name="ru" />
-      <Directory Id="dir4F5F83E0389A812227380377C68B5898" Name="x64" />
-      <Directory Id="dir0FCD9E4FEBB52846A30839CE1976306B" Name="x86" />
-      <Directory Id="dirD8D18BE0CBE3A171A18753A5B5985BB4" Name="zh-Hans" />
-      <Directory Id="dir0A56E1DCE96682D4EA5091E415D1089C" Name="zh-Hant" />
-    </DirectoryRef>
-  </Fragment>
-  <Fragment>
-    <ComponentGroup Id="PrimaryOutputComponent">
-      <Component Id="cmp25875AD1E6ECE7620CC4E33BDBE3FA09" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil30894D8961E4A3F04FFA01567C375BD9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-02-07.log" />
-      </Component>
-      <Component Id="cmp209DEAA23499C09A2B72330C03FAA67B" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="filFE715A5145248B904B6AB9B38C873286" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-02-09.log" />
-      </Component>
-      <Component Id="cmpF083AB1ED2ECD8BE7D1BB76A20DD520C" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="filDBEE104418ADDB542D02DFE662D9FB72" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-02-10.log" />
-      </Component>
-      <Component Id="cmp579E63D335203B695E845B1AF76AD234" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil666CF67B1CFB66E18ED98AF4BE633C91" KeyPath="yes" Source="$(var.PrimaryOutputDir)\app.config" />
-      </Component>
-      <Component Id="cmpA2F9B0FB5083527F50BF2DE639BC57B9" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil04A5ECCFC35C9DD69052A5813B50824D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\app.manifest" />
-      </Component>
-      <Component Id="cmp7C2663391AFACCB9AC0357BDC3B69E30" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="filFB50C62A972EC9A78E01CF784102FB72" KeyPath="yes" Source="$(var.PrimaryOutputDir)\cef.log" />
-      </Component>
-      <Component Id="cmp463C4316D2DFF1837F38707979359E30" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil7975CE4E86034C44DA0FC4865FD700EA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\cef.pak" />
-      </Component>
-      <Component Id="cmpCEE89FA835454741DBFE7A857202DA08" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil5CE064950F51C43880BC54B1A625E903" KeyPath="yes" Source="$(var.PrimaryOutputDir)\CefGpuProcess.cs" />
-      </Component>
-      <Component Id="cmp28B2B537604940DBF2B0E635BE532A85" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="filBD49F847B2E04B4F6DB8CA1B7CC40438" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\CefRenderProcess.cs" />
-      </Component>
-      <Component Id="cmp7AEE3CCF09BDD71BB63E1FC49218B64C" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="filF138289CE3B3A08C928005F4D6A8158A" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\CefSharp.BrowserSubprocess.Core.dll" />
-      </Component>
-      <Component Id="cmp2735FE0F04EA095DF436A685F8138EEE" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil80A6A02681C4D3265D474F55B17A66D1" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\CefSharp.BrowserSubprocess.csproj" />
-      </Component>
-      <Component Id="cmp3D5CFE11A573CDA80485B9389A208AFE" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil5D7623D61B284702A39DD495823BAB9F" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\CefSharp.BrowserSubprocess.exe" />
-      </Component>
-      <Component Id="cmp87C16C6CB5931B4F6721EAF68B344546" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil8440955CBBA87B60D44C5063EA4BE949" KeyPath="yes" Source="$(var.PrimaryOutputDir)\CefSubProcess.cs" />
-      </Component>
-      <Component Id="cmpED6B27D86A92A08733E8C4297023E89E" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil52F2E32721DA2E320A06FB7226A9814E" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\cef_100_percent.pak" />
-      </Component>
-      <Component Id="cmpAD0F00D51339710F5A682E36A1EFDD1F" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil63021A278071DD9E52B1B3C0CEAC1FFD" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\cef_200_percent.pak" />
-      </Component>
-      <Component Id="cmp4001ECA855CB2C89EF26E43D87647B75" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="filC746FC3E681E2B8D98D5C1785D42CAD0" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\d3dcompiler_43.dll" />
-      </Component>
-      <Component Id="cmp557045603511CDD4FC02EC7BAF1A0127" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="filE2838E91AD3EEBC84CC10A685255A879" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\d3dcompiler_46.dll" />
-      </Component>
-      <Component Id="cmpB8C81CB399A45DF0500C8CCC806D6725" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil37C5426C17BC78E76755A859E2263541" KeyPath="yes" Source="$(var.PrimaryOutputDir)\debug.log" />
-      </Component>
-      <Component Id="cmpE3D49D277F2F82B9DCDB1C8BE53706BF" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="filEC440F1EDB76C21DFCE9781A51D68E96" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\devtools_resources.pak" />
-      </Component>
-      <Component Id="cmpB8736D8C69669958B5E14F925EDB18C6" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="filC01C2EF38D2DF59545FA7B497D5AD152" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ffmpegsumo.dll" />
-      </Component>
-      <Component Id="cmp2070C8742B52CED8C1E2B0A5FA35376C" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil8D331208484F98FD7470C76A5669AD3D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\icudtl.dat" />
-      </Component>
-      <Component Id="cmp76B21E7CA5F391B02CE82B9D2F1A8743" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil43A9AE0D86DFEDD73681EF4C05239116" KeyPath="yes" Source="$(var.PrimaryOutputDir)\libcef.dll" />
-      </Component>
-      <Component Id="cmpED1C29F8914A4A53211F619E1872ECC1" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil6FEA381F205FBC4A929B8656B60465E6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\libEGL.dll" />
-      </Component>
-      <Component Id="cmp8173820A225E77A4F1F9A1A20860A672" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="filC4FD67C1E47EB7B5DD004A098216196B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\libGLESv2.dll" />
-      </Component>
-      <Component Id="cmpB885E49E4D133B5B606107BA7E6CB6F5" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="filBF1302F9FCD3CF2DFEBEBFA01C577BEE" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\Paranoia.exe.config" />
-      </Component>
-      <Component Id="cmpF38711A2A24795240EF7C27EB999D0AC" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil042ECC9F1BDC53B477C32199E888DDAA" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\Paranoia.vshost.exe" />
-      </Component>
-      <Component Id="cmp6C3A628E56CD1CE1D8D869A5FB19B095" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil845103B4718354C45469E77C91B5B4E0" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\Paranoia.vshost.exe.config" />
-      </Component>
-      <Component Id="cmp071A10586FCD54A5828F400067A84711" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil49578D4219BD2304EE9EBAC20EDC7601" KeyPath="yes" Source="$(var.PrimaryOutputDir)\pdf.dll" />
-      </Component>
-      <Component Id="cmpA4B0F46A066DE96B6F7E56147052A383" Directory="APPLICATIONFOLDER" Guid="*">
-        <File Id="fil1DCD8F1BE0DD4950C08378D978978213" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Program.cs" />
-      </Component>
-      <Component Id="cmpE07E66C5E17A58D8910960EE3CE90E2F" Directory="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmpBBD9D3FF07BE35AC5241A701D3F86F99" Directory="dirDE139F2B8E4F53C7894010653FA4ACF5" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmpF704D9257C45FB1EBCC5466290DDDEB2" Directory="dir3A20458C1B036229CDF551BF6D0E04E0" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmpCD3061B942953E18E7D595A0204D331A" Directory="dir64D71989966D3C995252DD5EAD72204A" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmpE7419AE588D6ABB85E801918A7DAA143" Directory="dir7ABA76C83D0AFCE97CD348E8219F4CE1" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmp1FAFAA287E3FBD564ECB0EC205E53979" Directory="dirA1C9D6EE90DA7B3D513AC1CA7D72F253" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmpF9AD36EEB48C91D8E8E8B09C8A6C3D40" Directory="dir250D607B4E859FD3B153389E856E9245" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmp7839E28462BAC6A4B478780F1D23FC54" Directory="dir68BD67567308D790DAE3C9405A87DE04" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmpEF0E6A1F83E92A0CF8F100A395EE6C7F" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filCEC5FACBF857064E1220105019164AE5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\am.pak" />
-      </Component>
-      <Component Id="cmp62C2567F43F90D0C27821FDD5A942BE7" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil9292C5699BFD72385AE1B62DC964BC5D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ar.pak" />
-      </Component>
-      <Component Id="cmpBDCA0A97624455ED6B3148E51C6CD716" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil942ED5EFA2813DE0974B9D0CE4388549" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\bg.pak" />
-      </Component>
-      <Component Id="cmpDBDBA2E2F9956E10098644CAAFEC895D" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil0C0D38C900F41A82EBB73D5E620206F5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\bn.pak" />
-      </Component>
-      <Component Id="cmp95282681C2D8C51357F7F010B796E32F" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filED2D5F537D8C270BFC46BBD2CF580FED" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ca.pak" />
-      </Component>
-      <Component Id="cmpA9F2362A5BC9913C95815CE357BEA9C8" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil22AE479CA55A6A7D2E870A1DB0E5DD6E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\cs.pak" />
-      </Component>
-      <Component Id="cmp788AE056FFE7A8F1C9088798C2B9D16A" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filF36FAED9E51DCCAF86EC381DE84CAF99" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\da.pak" />
-      </Component>
-      <Component Id="cmp6E10C18A801C842F85CB4692B3BB91F1" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil071A9B8C82430F49C6295B966600A59D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\de.pak" />
-      </Component>
-      <Component Id="cmp4952058F60EC417C5B913F17D31604FB" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filE2EA72B722DB1885632D3B3C2BB70AD6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\el.pak" />
-      </Component>
-      <Component Id="cmp8221547D5B3DB423CBBBFFAA060A9D58" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filCA6D014BA98322C55C2E97C1B1BE5A34" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\en-GB.pak" />
-      </Component>
-      <Component Id="cmp33B6D48D9D47FB06B5962D2046DD2157" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filDBFF5D991A0FEAD9AB79B9E14548230D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\en-US.pak" />
-      </Component>
-      <Component Id="cmpAAAADC6A006B386700A049AC50BA7E8C" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filD2F99BB150208A3CE32436E2A9394547" KeyPath="yes"
-              Source="$(var.PrimaryOutputDir)\locales\es-419.pak" />
-      </Component>
-      <Component Id="cmpCFE584C7FF7E6F66BFE2E3EF9206D630" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filD14FB00DD95A3C4AF4F3ADD477FB3E86" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\es.pak" />
-      </Component>
-      <Component Id="cmpB9415FBC3E55E98412B4A1137C0CF556" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filA21E9A48F75815F1C4645E6E476C2CF6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\et.pak" />
-      </Component>
-      <Component Id="cmpD835FAC09FAF365EC7CFF7D358B357EC" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil14AA3F9F6051B3993BFD2B25EEEA9AFC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\fa.pak" />
-      </Component>
-      <Component Id="cmpC87A130587FD562381802D29C515B1F7" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filA3CE11A2E2A43961958A3BB04E34B446" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\fi.pak" />
-      </Component>
-      <Component Id="cmp5AF0CFD567E370B5DEF9E52F65438FEA" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil1682982F29F8D987B5CFB95BF7E43659" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\fil.pak" />
-      </Component>
-      <Component Id="cmp2618DA72B4EBD1CFEC9BF849B1C6A720" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil0F68D2A662FFF5D73042E7E138B2C96E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\fr.pak" />
-      </Component>
-      <Component Id="cmp9A6D91745EA3CA78B704C93A44EE8A24" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil1603F737FE6234988211C98292A36310" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\gu.pak" />
-      </Component>
-      <Component Id="cmpC2FF4524B4F889D3755BC3F346DB7532" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filAFB1BCB7D9F666A79C9F6AA66CA26577" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\he.pak" />
-      </Component>
-      <Component Id="cmpFF3E713765831F7A625146E5C4EE7756" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil1CEBAA06D9054315BB0B74B5A7C7D4D7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\hi.pak" />
-      </Component>
-      <Component Id="cmpDFEF0DFBF83DFE56CD5D00BA3EE284CD" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil61BA9CE3CA2E4C57385BCB02CBD36F82" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\hr.pak" />
-      </Component>
-      <Component Id="cmp77ED9943111D332E717A324E9A7D1462" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filBFC165D8C2C0BABCF5261449D5EFD9C4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\hu.pak" />
-      </Component>
-      <Component Id="cmp340CDE652C8B117D1F3F85871FB93A71" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil9FCFA54385F7BD97A8ED0B0539A626F5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\id.pak" />
-      </Component>
-      <Component Id="cmpA2971C1BB31E466991E9490C7EFAD08C" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filC8A0B0B234CC53BB8E4D03223CB92178" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\it.pak" />
-      </Component>
-      <Component Id="cmp06E040C37C640B62E1B2BA1DC4A20E74" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil457929410F20FE3733516DC0F3730BB2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ja.pak" />
-      </Component>
-      <Component Id="cmpCAFC3CDB194A6BD5F0DE487648130395" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filEC6063FD58B7A6B19E0B0C8C43E82648" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\kn.pak" />
-      </Component>
-      <Component Id="cmp29CF0F8D0DD57C192CFCC830705D1DDA" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filE0F3F7AA26A8474ECE3D1D2FB9ECFC3C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ko.pak" />
-      </Component>
-      <Component Id="cmp29621CC9AE64EE7F2D72B7310AAAE6B7" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil88D23D63FA0DBA2E6AE967CA4DFE7D99" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\lt.pak" />
-      </Component>
-      <Component Id="cmp72689D0F152F42DE48C8A9FA8AFB4B6B" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filF16988A7957BA6FFDA549A549BA9D944" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\lv.pak" />
-      </Component>
-      <Component Id="cmp62E5A05A6984AADB535698872B4FABAB" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil597D5C068BDA609C2C5DB74E8C3079FD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ml.pak" />
-      </Component>
-      <Component Id="cmpFAC95D800D87D9850FCD3B00AABB8810" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil44CC1B72B84AD8C068AC467CD88FDE71" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\mr.pak" />
-      </Component>
-      <Component Id="cmpBA35E583A6E70F01D86FE8BF18F33581" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil9EFD7D687D5F8A23EC1A974124F859EF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ms.pak" />
-      </Component>
-      <Component Id="cmpFABCBE881F3D1973115D5D273F226778" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil8561DF1B6AE95663880CD9C0EB93E21C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\nb.pak" />
-      </Component>
-      <Component Id="cmp270084105CD1BB1A39A5198747219228" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filC2FA3B3EFB4D101E560DEE61F820EF1D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\nl.pak" />
-      </Component>
-      <Component Id="cmp495000D3B43E522C22562A49F9729994" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filF0D001095036F853B42E25AD92697755" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\pl.pak" />
-      </Component>
-      <Component Id="cmp8EB981D7CEF1B7856C7792AE7FE5267C" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil939A51F79679DCFA4F3A02F06CC915B2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\pt-BR.pak" />
-      </Component>
-      <Component Id="cmp25A9665CC7FB5058BAAFDDF4513180C5" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filA24AE6E2487855D8D680C146E3BF01E1" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\pt-PT.pak" />
-      </Component>
-      <Component Id="cmp60CABDD4B099BA3663A1760964EA6948" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil466B2680E03F601B30B21020D984EC30" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ro.pak" />
-      </Component>
-      <Component Id="cmp670B9CE70C9F6D8252BEBDB2B2C9FEE5" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil94357857575709A3C52559D2DC01F786" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ru.pak" />
-      </Component>
-      <Component Id="cmp1FC7028DA642188F5F52E75864D2B04B" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil88B9934941FFEB0D4F5864E9BEA7901E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\sk.pak" />
-      </Component>
-      <Component Id="cmp41FFA89D1A8972541C5C058083E06D57" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filFEC04C482CDFA2300BEA4699E184D9B7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\sl.pak" />
-      </Component>
-      <Component Id="cmpCF48B1D4FEB9F0E8995B47066D381BF0" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil21F8E3199BCD3DD6B1194F6DDC55A16B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\sr.pak" />
-      </Component>
-      <Component Id="cmpD047BAEF2BD0D96CB6CDBF5045E339D8" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil3E1F45BB928DB3D8EEE7C5BCF311BFC7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\sv.pak" />
-      </Component>
-      <Component Id="cmpE9607A9AF365010A0F229B2816EEF6A5" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filD8F4D6B112B770FC9CEA7B94E37573B7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\sw.pak" />
-      </Component>
-      <Component Id="cmpA36E8F20455325C47C8E5C1488C9D4F5" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil94B8DD49F1E47784B20BCDC1A3A87DED" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ta.pak" />
-      </Component>
-      <Component Id="cmpEC7739B32F92AA82886DFD25D2798580" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil22F0C25A58E9D29DCC19F9CBD3CB4B37" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\te.pak" />
-      </Component>
-      <Component Id="cmp3B7740B523E3C15AA134C0FEE0DA01E6" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil01FE65FA127A082B6587B0DD4034C7D2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\th.pak" />
-      </Component>
-      <Component Id="cmpFFC3C12C370CEF5CBDC5F5DD49FDC4A2" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil10709857EFC915620690F9B5EAADABB7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\tr.pak" />
-      </Component>
-      <Component Id="cmp1E5C3FE4762504E822DEC4FCBCAAFB9B" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="filBFB8F27F439F4FFB11886D13A8DE116B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\uk.pak" />
-      </Component>
-      <Component Id="cmpFEC6AEB485B631E1CB87842374C2B4E3" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil7678A92FC3197C522CE775B0E941C9C5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\vi.pak" />
-      </Component>
-      <Component Id="cmp8937CD85D5A80300EB46AA934E5FBC18" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil9550FDAAE2637F3D497B7D462C1E6660" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\zh-CN.pak" />
-      </Component>
-      <Component Id="cmp26452B763005B4732D8A89EBF304D6AA" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
-        <File Id="fil5EE6EC9474B64A64255C24E49CD3CFD0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\zh-TW.pak" />
-      </Component>
-      <Component Id="cmp75F0EEFF7079152C64C9AB7A45667335" Directory="dir113445E6F89EECCCAD68A52BB70F8EF9" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmp0B5FDE9F0BA28E0A14E1F5358F1DE285" Directory="dir4F5F83E0389A812227380377C68B5898" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmpED12BB9D933BA8D5783582D4E4F733D5" Directory="dir0FCD9E4FEBB52846A30839CE1976306B" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmpD6482BB417B7E4E86A7B62AA9176EA38" Directory="dirD8D18BE0CBE3A171A18753A5B5985BB4" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-      <Component Id="cmpCAF799F00CF18598EF8B59B120AA366C" Directory="dir0A56E1DCE96682D4EA5091E415D1089C" Guid="*"
-                 KeyPath="yes">
-        <CreateFolder />
-      </Component>
-    </ComponentGroup>
-  </Fragment>
+    <Fragment>
+        <DirectoryRef Id="APPLICATIONFOLDER">
+            <Directory Id="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Name="de" />
+            <Directory Id="dirDE139F2B8E4F53C7894010653FA4ACF5" Name="de-DE" />
+            <Directory Id="dir3A20458C1B036229CDF551BF6D0E04E0" Name="en" />
+            <Directory Id="dir64D71989966D3C995252DD5EAD72204A" Name="es" />
+            <Directory Id="dir7ABA76C83D0AFCE97CD348E8219F4CE1" Name="fr" />
+            <Directory Id="dirA1C9D6EE90DA7B3D513AC1CA7D72F253" Name="it" />
+            <Directory Id="dir250D607B4E859FD3B153389E856E9245" Name="ja" />
+            <Directory Id="dir68BD67567308D790DAE3C9405A87DE04" Name="ko" />
+            <Directory Id="dirD9BDD7640045AB6653B1C37CCF84AB0B" Name="locales" />
+            <Directory Id="dir113445E6F89EECCCAD68A52BB70F8EF9" Name="ru" />
+            <Directory Id="dir4F5F83E0389A812227380377C68B5898" Name="x64" />
+            <Directory Id="dir0FCD9E4FEBB52846A30839CE1976306B" Name="x86" />
+            <Directory Id="dirD8D18BE0CBE3A171A18753A5B5985BB4" Name="zh-Hans" />
+            <Directory Id="dir0A56E1DCE96682D4EA5091E415D1089C" Name="zh-Hant" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="PrimaryOutputComponent">
+            <Component Id="cmp6E24D78416166AD9391CD711C4751D19" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filE88F443CCAA45948BFC13998EBC2BFC0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ARSoft.Tools.Net.dll" />
+            </Component>
+            <Component Id="cmp463C4316D2DFF1837F38707979359E30" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil7975CE4E86034C44DA0FC4865FD700EA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\cef.pak" />
+            </Component>
+            <Component Id="cmp7AEE3CCF09BDD71BB63E1FC49218B64C" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filF138289CE3B3A08C928005F4D6A8158A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\CefSharp.BrowserSubprocess.Core.dll" />
+            </Component>
+            <Component Id="cmp3D5CFE11A573CDA80485B9389A208AFE" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil5D7623D61B284702A39DD495823BAB9F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\CefSharp.BrowserSubprocess.exe" />
+            </Component>
+            <Component Id="cmpE1B67FC37B6616A5255EAB43FD70C1AF" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filDF9076F1F1F7DE5E22C046892828E288" KeyPath="yes" Source="$(var.PrimaryOutputDir)\CefSharp.Core.dll" />
+            </Component>
+            <Component Id="cmpD3AE1C4EEB9E28ADC69542CE16344108" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil2BE07D7DD9557844D6F54C4F61DC81C7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\CefSharp.dll" />
+            </Component>
+            <Component Id="cmpD4BF5FCBC274F08539825045F0B15481" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil6E3B007078877494F3642C7CD7461C68" KeyPath="yes" Source="$(var.PrimaryOutputDir)\CefSharp.Wpf.dll" />
+            </Component>
+            <Component Id="cmpED6B27D86A92A08733E8C4297023E89E" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil52F2E32721DA2E320A06FB7226A9814E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\cef_100_percent.pak" />
+            </Component>
+            <Component Id="cmpAD0F00D51339710F5A682E36A1EFDD1F" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil63021A278071DD9E52B1B3C0CEAC1FFD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\cef_200_percent.pak" />
+            </Component>
+            <Component Id="cmpC7FA0FE66C82FC68FBA7A45637E933DD" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil62F2EE0A0866FB99BE482EA476064795" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Controls.dll" />
+            </Component>
+            <Component Id="cmpBB93EC7A80C665380BF238282CF969BE" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil086907777BDE65F42395C67BDD45DC69" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Cryptography.dll" />
+            </Component>
+            <Component Id="cmpBD7513EEA2009883AED6E5FBE93BA65D" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil9C80EC486A251408956DF0C78E0AAD7F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Mail.dll" />
+            </Component>
+            <Component Id="cmpCB46C91EF8E794EBD3EC74AD9FAC5A5C" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil0722AE60E3F0C13CEFE1B88F44E120DA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.Dark.dll" />
+            </Component>
+            <Component Id="cmpED7A81F05BBE06C336DE3E4C82988465" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil0250A7E3124EDDBA8D775149901A5F61" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.dll" />
+            </Component>
+            <Component Id="cmp99CF09E9544AC50F578A0BE814E9DE25" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filECA54D14922D660E7A383BC5D7019C19" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Crystalbyte.Paranoia.Themes.Light.dll" />
+            </Component>
+            <Component Id="cmp4D59C83F6EDCC47E3BE026743FF1AAF0" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil7843E810DE57B37B96D19FA548BB9350" KeyPath="yes" Source="$(var.PrimaryOutputDir)\CsQuery.dll" />
+            </Component>
+            <Component Id="cmp4001ECA855CB2C89EF26E43D87647B75" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filC746FC3E681E2B8D98D5C1785D42CAD0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\d3dcompiler_43.dll" />
+            </Component>
+            <Component Id="cmp6E1494326FA64EDB36C1EF5041FF3E72" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil90A840C637C86780E6E7E138AC65E8B5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\d3dcompiler_47.dll" />
+            </Component>
+            <Component Id="cmpE3D49D277F2F82B9DCDB1C8BE53706BF" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filEC440F1EDB76C21DFCE9781A51D68E96" KeyPath="yes" Source="$(var.PrimaryOutputDir)\devtools_resources.pak" />
+            </Component>
+            <Component Id="cmp9D745C95D55B544704D037E3A86C7CBF" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filD7E76EEE7754513246C4E95A16F017C3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\dotless.ClientOnly.dll" />
+            </Component>
+            <Component Id="cmp28D78D3D3EDE8BBE8C77853A690F1257" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil81A1C88C5B58D25765FD0E3C6BE12982" KeyPath="yes" Source="$(var.PrimaryOutputDir)\EntityFramework.dll" />
+            </Component>
+            <Component Id="cmp1103AA312B68FAC6F34A8BB8288C2C04" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil8AE4AAC0688FDA0E06A2A9619271BC35" KeyPath="yes" Source="$(var.PrimaryOutputDir)\EntityFramework.SqlServer.dll" />
+            </Component>
+            <Component Id="cmpB8736D8C69669958B5E14F925EDB18C6" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filC01C2EF38D2DF59545FA7B497D5AD152" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ffmpegsumo.dll" />
+            </Component>
+            <Component Id="cmp2070C8742B52CED8C1E2B0A5FA35376C" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil8D331208484F98FD7470C76A5669AD3D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\icudtl.dat" />
+            </Component>
+            <Component Id="cmp76B21E7CA5F391B02CE82B9D2F1A8743" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil43A9AE0D86DFEDD73681EF4C05239116" KeyPath="yes" Source="$(var.PrimaryOutputDir)\libcef.dll" />
+            </Component>
+            <Component Id="cmpED1C29F8914A4A53211F619E1872ECC1" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil6FEA381F205FBC4A929B8656B60465E6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\libEGL.dll" />
+            </Component>
+            <Component Id="cmp8173820A225E77A4F1F9A1A20860A672" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filC4FD67C1E47EB7B5DD004A098216196B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\libGLESv2.dll" />
+            </Component>
+            <Component Id="cmp649A934A37C7F0DC8ADD84104468D6A4" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil62BDEBE76BBED1680D2C2094E12135B0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Microsoft.Expression.Interactions.dll" />
+            </Component>
+            <Component Id="cmp4CDF7DFD2D0E95016925C6786A10C503" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil58078AD85E0073F162CFFABD8ECDFD92" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Newtonsoft.Json.dll" />
+            </Component>
+            <Component Id="cmp459428455A80F4974712A2D278241949" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filDE9AFB8C595C5CEE318048C2DF9057E3" KeyPath="yes" Source="$(var.PrimaryOutputDir)\NLog.dll" />
+            </Component>
+            <Component Id="cmpB5ED5B54A64B18CFC9AED6049D88B6F0" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filE900DD48767027E051CFFCB9D9C7A3CC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.exe" />
+            </Component>
+            <Component Id="cmpB885E49E4D133B5B606107BA7E6CB6F5" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filBF1302F9FCD3CF2DFEBEBFA01C577BEE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.exe.config" />
+            </Component>
+            <Component Id="cmpF38711A2A24795240EF7C27EB999D0AC" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil042ECC9F1BDC53B477C32199E888DDAA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.vshost.exe" />
+            </Component>
+            <Component Id="cmp6C3A628E56CD1CE1D8D869A5FB19B095" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil845103B4718354C45469E77C91B5B4E0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.vshost.exe.config" />
+            </Component>
+            <Component Id="cmp5E0B3BE45C2C18AF23C1A4008094E4D7" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil748CEBE8FFA83B117176481E076D39B8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\Paranoia.vshost.exe.manifest" />
+            </Component>
+            <Component Id="cmp071A10586FCD54A5828F400067A84711" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil49578D4219BD2304EE9EBAC20EDC7601" KeyPath="yes" Source="$(var.PrimaryOutputDir)\pdf.dll" />
+            </Component>
+            <Component Id="cmp08C9093CA92AB322A1FD8643A8F8E9EB" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filB33C2F6608DD31FAE45B7C0513E7632E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.AttributedModel.dll" />
+            </Component>
+            <Component Id="cmp49E372B22951B5E48D55A8DD783DEE88" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filF7A7609BF8421E2213649C79F776276A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.Convention.dll" />
+            </Component>
+            <Component Id="cmp1FD1C2C30BF88DF39BAEADB1AE14AB73" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filCAE288DE6B8BA15301D9C5F23284974A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.Hosting.dll" />
+            </Component>
+            <Component Id="cmp33DA02285050EFAD1D6C2A7F1428BE30" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil20812D98E5454961271F1084D6EFF359" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.Runtime.dll" />
+            </Component>
+            <Component Id="cmpAD06BE106EC3FC9F4A4C7AC6235C5041" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filD78DD23CA05595AAF0DFB3200A4D0E81" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Composition.TypedParts.dll" />
+            </Component>
+            <Component Id="cmp33DDCE7B2996684CFA7779F51FF1104A" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil1277955C3601D1C08A41C9F079AF106E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Data.SQLite.dll" />
+            </Component>
+            <Component Id="cmp460047426D08DAAB7C367AC6EAC43D26" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filF803BE0DE9AC57C25B6F093CB4986677" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Data.SQLite.EF6.dll" />
+            </Component>
+            <Component Id="cmpEF23F1FDA63C51DB54A17DB72E234789" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil4E0071522983FB0605FBF4CD5A39B8EA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Data.SQLite.Linq.dll" />
+            </Component>
+            <Component Id="cmp13BED6C8EA8EEFC7EF027B2E79746FB8" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil5AE9F32DBAC80F00D244393269E902C8" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.Core.dll" />
+            </Component>
+            <Component Id="cmp303E138DD2E109F2479CC653D35C23DA" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil0762921B4958C454B144BAB407B8BA0B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.Interfaces.dll" />
+            </Component>
+            <Component Id="cmpD58C4EFB05F48CEF996489444B6621EC" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil00A0F696DCDA0A4C068A6A0190A3432F" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.Linq.dll" />
+            </Component>
+            <Component Id="cmpBFDEC9A912747DEBFFC51AC7D52EBFA6" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil5C577E849B6220E1351ABB58A1511B4B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.PlatformServices.dll" />
+            </Component>
+            <Component Id="cmpE1A7A1A49AEC05C97D7834F48F9304F9" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil208F16650D6E0B0FAFF134434FEE7CAE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Reactive.Windows.Threading.dll" />
+            </Component>
+            <Component Id="cmpB314FFA141B7D8435C1BFC5F2F9E2A85" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil9FA7B6CCFDF3A2FAAC66357E8928EE7A" KeyPath="yes" Source="$(var.PrimaryOutputDir)\System.Windows.Interactivity.dll" />
+            </Component>
+            <Component Id="cmp9357CF9265775A8634976D9803788046" Directory="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Guid="*">
+                <File Id="fil56AB3EF44EE958B3641FEEE0CBB7BF57" KeyPath="yes" Source="$(var.PrimaryOutputDir)\de\Microsoft.Expression.Interactions.resources.dll" />
+            </Component>
+            <Component Id="cmp78AEA08F8BF076F506BFBE6DFCCB6392" Directory="dir54BA5EE92CB8F37BEFA5CE0F7976ACAB" Guid="*">
+                <File Id="fil0CC841226C20AEEE2C4604BA72243881" KeyPath="yes" Source="$(var.PrimaryOutputDir)\de\System.Windows.Interactivity.resources.dll" />
+            </Component>
+            <Component Id="cmpDE7786F62EB057484A4254ED01017E77" Directory="dirDE139F2B8E4F53C7894010653FA4ACF5" Guid="*">
+                <File Id="filCA3C1BA5DE7A943594ACA3778A225EC4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\de-DE\Paranoia.resources.dll" />
+            </Component>
+            <Component Id="cmp1447D32BB20674B72E09ED512A13513F" Directory="dir3A20458C1B036229CDF551BF6D0E04E0" Guid="*">
+                <File Id="fil58E4C61E9C9736A71AE92B4800ACBE5D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\en\Microsoft.Expression.Interactions.resources.dll" />
+            </Component>
+            <Component Id="cmpF5337AF2748D9A317751361439D8D017" Directory="dir3A20458C1B036229CDF551BF6D0E04E0" Guid="*">
+                <File Id="filFEDEE2539EFB34FB9F339504599BE46E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\en\System.Windows.Interactivity.resources.dll" />
+            </Component>
+            <Component Id="cmpAC873B8D84D4B4163FB904971717B13B" Directory="dir64D71989966D3C995252DD5EAD72204A" Guid="*">
+                <File Id="fil0542B316E214C1750D719E4CC52498E9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\es\Microsoft.Expression.Interactions.resources.dll" />
+            </Component>
+            <Component Id="cmpEBFAF4581D60EC1F1B23476A77DC699B" Directory="dir64D71989966D3C995252DD5EAD72204A" Guid="*">
+                <File Id="filF71625D19421038D87EB9B4968837AFE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\es\System.Windows.Interactivity.resources.dll" />
+            </Component>
+            <Component Id="cmp90ED9FB08C4179628E1607D951457857" Directory="dir7ABA76C83D0AFCE97CD348E8219F4CE1" Guid="*">
+                <File Id="fil773CBE740421CB3AA88825A71C535CC4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\fr\Microsoft.Expression.Interactions.resources.dll" />
+            </Component>
+            <Component Id="cmp27B4C0B0F575433C63580F068FC44000" Directory="dir7ABA76C83D0AFCE97CD348E8219F4CE1" Guid="*">
+                <File Id="fil970859F6267AF5B3E5BE70595AF0D935" KeyPath="yes" Source="$(var.PrimaryOutputDir)\fr\System.Windows.Interactivity.resources.dll" />
+            </Component>
+            <Component Id="cmp6F7C56DFE81F4CB4EBD08119D0027132" Directory="dirA1C9D6EE90DA7B3D513AC1CA7D72F253" Guid="*">
+                <File Id="fil90459531777A1892244F7618AD90268C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\it\Microsoft.Expression.Interactions.resources.dll" />
+            </Component>
+            <Component Id="cmpFF6F54C131F4C248E56E80B27D552436" Directory="dirA1C9D6EE90DA7B3D513AC1CA7D72F253" Guid="*">
+                <File Id="fil7A3890B7A014AD89F8B332687CF1E2AA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\it\System.Windows.Interactivity.resources.dll" />
+            </Component>
+            <Component Id="cmpBCD42986932CF874AD5821F6E39B27FC" Directory="dir250D607B4E859FD3B153389E856E9245" Guid="*">
+                <File Id="filF691B6AD9D9DBEFE8AEFE3EE127CF77B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ja\Microsoft.Expression.Interactions.resources.dll" />
+            </Component>
+            <Component Id="cmp2A4FC60946899B628C042BED17D01F13" Directory="dir250D607B4E859FD3B153389E856E9245" Guid="*">
+                <File Id="filBC2DE0A9CDA93C440160B12912DD4044" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ja\System.Windows.Interactivity.resources.dll" />
+            </Component>
+            <Component Id="cmp4256492A31BF2FB5483DA2E50B6A2FAA" Directory="dir68BD67567308D790DAE3C9405A87DE04" Guid="*">
+                <File Id="fil79BD7A5D0E0B6AC178B066726860C974" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ko\Microsoft.Expression.Interactions.resources.dll" />
+            </Component>
+            <Component Id="cmpDC8BA138108ADF6A904C10AF05C39557" Directory="dir68BD67567308D790DAE3C9405A87DE04" Guid="*">
+                <File Id="fil0935AF9875B0958D044B790E8F6662E9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ko\System.Windows.Interactivity.resources.dll" />
+            </Component>
+            <Component Id="cmpEF0E6A1F83E92A0CF8F100A395EE6C7F" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filCEC5FACBF857064E1220105019164AE5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\am.pak" />
+            </Component>
+            <Component Id="cmp62C2567F43F90D0C27821FDD5A942BE7" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil9292C5699BFD72385AE1B62DC964BC5D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ar.pak" />
+            </Component>
+            <Component Id="cmpBDCA0A97624455ED6B3148E51C6CD716" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil942ED5EFA2813DE0974B9D0CE4388549" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\bg.pak" />
+            </Component>
+            <Component Id="cmpDBDBA2E2F9956E10098644CAAFEC895D" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil0C0D38C900F41A82EBB73D5E620206F5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\bn.pak" />
+            </Component>
+            <Component Id="cmp95282681C2D8C51357F7F010B796E32F" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filED2D5F537D8C270BFC46BBD2CF580FED" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ca.pak" />
+            </Component>
+            <Component Id="cmpA9F2362A5BC9913C95815CE357BEA9C8" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil22AE479CA55A6A7D2E870A1DB0E5DD6E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\cs.pak" />
+            </Component>
+            <Component Id="cmp788AE056FFE7A8F1C9088798C2B9D16A" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filF36FAED9E51DCCAF86EC381DE84CAF99" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\da.pak" />
+            </Component>
+            <Component Id="cmp6E10C18A801C842F85CB4692B3BB91F1" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil071A9B8C82430F49C6295B966600A59D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\de.pak" />
+            </Component>
+            <Component Id="cmp4952058F60EC417C5B913F17D31604FB" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filE2EA72B722DB1885632D3B3C2BB70AD6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\el.pak" />
+            </Component>
+            <Component Id="cmp8221547D5B3DB423CBBBFFAA060A9D58" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filCA6D014BA98322C55C2E97C1B1BE5A34" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\en-GB.pak" />
+            </Component>
+            <Component Id="cmp33B6D48D9D47FB06B5962D2046DD2157" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filDBFF5D991A0FEAD9AB79B9E14548230D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\en-US.pak" />
+            </Component>
+            <Component Id="cmpAAAADC6A006B386700A049AC50BA7E8C" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filD2F99BB150208A3CE32436E2A9394547" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\es-419.pak" />
+            </Component>
+            <Component Id="cmpCFE584C7FF7E6F66BFE2E3EF9206D630" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filD14FB00DD95A3C4AF4F3ADD477FB3E86" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\es.pak" />
+            </Component>
+            <Component Id="cmpB9415FBC3E55E98412B4A1137C0CF556" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filA21E9A48F75815F1C4645E6E476C2CF6" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\et.pak" />
+            </Component>
+            <Component Id="cmpD835FAC09FAF365EC7CFF7D358B357EC" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil14AA3F9F6051B3993BFD2B25EEEA9AFC" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\fa.pak" />
+            </Component>
+            <Component Id="cmpC87A130587FD562381802D29C515B1F7" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filA3CE11A2E2A43961958A3BB04E34B446" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\fi.pak" />
+            </Component>
+            <Component Id="cmp5AF0CFD567E370B5DEF9E52F65438FEA" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil1682982F29F8D987B5CFB95BF7E43659" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\fil.pak" />
+            </Component>
+            <Component Id="cmp2618DA72B4EBD1CFEC9BF849B1C6A720" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil0F68D2A662FFF5D73042E7E138B2C96E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\fr.pak" />
+            </Component>
+            <Component Id="cmp9A6D91745EA3CA78B704C93A44EE8A24" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil1603F737FE6234988211C98292A36310" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\gu.pak" />
+            </Component>
+            <Component Id="cmpC2FF4524B4F889D3755BC3F346DB7532" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filAFB1BCB7D9F666A79C9F6AA66CA26577" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\he.pak" />
+            </Component>
+            <Component Id="cmpFF3E713765831F7A625146E5C4EE7756" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil1CEBAA06D9054315BB0B74B5A7C7D4D7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\hi.pak" />
+            </Component>
+            <Component Id="cmpDFEF0DFBF83DFE56CD5D00BA3EE284CD" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil61BA9CE3CA2E4C57385BCB02CBD36F82" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\hr.pak" />
+            </Component>
+            <Component Id="cmp77ED9943111D332E717A324E9A7D1462" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filBFC165D8C2C0BABCF5261449D5EFD9C4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\hu.pak" />
+            </Component>
+            <Component Id="cmp340CDE652C8B117D1F3F85871FB93A71" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil9FCFA54385F7BD97A8ED0B0539A626F5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\id.pak" />
+            </Component>
+            <Component Id="cmpA2971C1BB31E466991E9490C7EFAD08C" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filC8A0B0B234CC53BB8E4D03223CB92178" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\it.pak" />
+            </Component>
+            <Component Id="cmp06E040C37C640B62E1B2BA1DC4A20E74" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil457929410F20FE3733516DC0F3730BB2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ja.pak" />
+            </Component>
+            <Component Id="cmpCAFC3CDB194A6BD5F0DE487648130395" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filEC6063FD58B7A6B19E0B0C8C43E82648" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\kn.pak" />
+            </Component>
+            <Component Id="cmp29CF0F8D0DD57C192CFCC830705D1DDA" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filE0F3F7AA26A8474ECE3D1D2FB9ECFC3C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ko.pak" />
+            </Component>
+            <Component Id="cmp29621CC9AE64EE7F2D72B7310AAAE6B7" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil88D23D63FA0DBA2E6AE967CA4DFE7D99" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\lt.pak" />
+            </Component>
+            <Component Id="cmp72689D0F152F42DE48C8A9FA8AFB4B6B" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filF16988A7957BA6FFDA549A549BA9D944" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\lv.pak" />
+            </Component>
+            <Component Id="cmp62E5A05A6984AADB535698872B4FABAB" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil597D5C068BDA609C2C5DB74E8C3079FD" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ml.pak" />
+            </Component>
+            <Component Id="cmpFAC95D800D87D9850FCD3B00AABB8810" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil44CC1B72B84AD8C068AC467CD88FDE71" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\mr.pak" />
+            </Component>
+            <Component Id="cmpBA35E583A6E70F01D86FE8BF18F33581" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil9EFD7D687D5F8A23EC1A974124F859EF" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ms.pak" />
+            </Component>
+            <Component Id="cmpFABCBE881F3D1973115D5D273F226778" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil8561DF1B6AE95663880CD9C0EB93E21C" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\nb.pak" />
+            </Component>
+            <Component Id="cmp270084105CD1BB1A39A5198747219228" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filC2FA3B3EFB4D101E560DEE61F820EF1D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\nl.pak" />
+            </Component>
+            <Component Id="cmp495000D3B43E522C22562A49F9729994" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filF0D001095036F853B42E25AD92697755" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\pl.pak" />
+            </Component>
+            <Component Id="cmp8EB981D7CEF1B7856C7792AE7FE5267C" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil939A51F79679DCFA4F3A02F06CC915B2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\pt-BR.pak" />
+            </Component>
+            <Component Id="cmp25A9665CC7FB5058BAAFDDF4513180C5" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filA24AE6E2487855D8D680C146E3BF01E1" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\pt-PT.pak" />
+            </Component>
+            <Component Id="cmp60CABDD4B099BA3663A1760964EA6948" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil466B2680E03F601B30B21020D984EC30" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ro.pak" />
+            </Component>
+            <Component Id="cmp670B9CE70C9F6D8252BEBDB2B2C9FEE5" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil94357857575709A3C52559D2DC01F786" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ru.pak" />
+            </Component>
+            <Component Id="cmp1FC7028DA642188F5F52E75864D2B04B" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil88B9934941FFEB0D4F5864E9BEA7901E" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\sk.pak" />
+            </Component>
+            <Component Id="cmp41FFA89D1A8972541C5C058083E06D57" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filFEC04C482CDFA2300BEA4699E184D9B7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\sl.pak" />
+            </Component>
+            <Component Id="cmpCF48B1D4FEB9F0E8995B47066D381BF0" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil21F8E3199BCD3DD6B1194F6DDC55A16B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\sr.pak" />
+            </Component>
+            <Component Id="cmpD047BAEF2BD0D96CB6CDBF5045E339D8" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil3E1F45BB928DB3D8EEE7C5BCF311BFC7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\sv.pak" />
+            </Component>
+            <Component Id="cmpE9607A9AF365010A0F229B2816EEF6A5" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filD8F4D6B112B770FC9CEA7B94E37573B7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\sw.pak" />
+            </Component>
+            <Component Id="cmpA36E8F20455325C47C8E5C1488C9D4F5" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil94B8DD49F1E47784B20BCDC1A3A87DED" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\ta.pak" />
+            </Component>
+            <Component Id="cmpEC7739B32F92AA82886DFD25D2798580" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil22F0C25A58E9D29DCC19F9CBD3CB4B37" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\te.pak" />
+            </Component>
+            <Component Id="cmp3B7740B523E3C15AA134C0FEE0DA01E6" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil01FE65FA127A082B6587B0DD4034C7D2" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\th.pak" />
+            </Component>
+            <Component Id="cmpFFC3C12C370CEF5CBDC5F5DD49FDC4A2" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil10709857EFC915620690F9B5EAADABB7" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\tr.pak" />
+            </Component>
+            <Component Id="cmp1E5C3FE4762504E822DEC4FCBCAAFB9B" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="filBFB8F27F439F4FFB11886D13A8DE116B" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\uk.pak" />
+            </Component>
+            <Component Id="cmpFEC6AEB485B631E1CB87842374C2B4E3" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil7678A92FC3197C522CE775B0E941C9C5" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\vi.pak" />
+            </Component>
+            <Component Id="cmp8937CD85D5A80300EB46AA934E5FBC18" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil9550FDAAE2637F3D497B7D462C1E6660" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\zh-CN.pak" />
+            </Component>
+            <Component Id="cmp26452B763005B4732D8A89EBF304D6AA" Directory="dirD9BDD7640045AB6653B1C37CCF84AB0B" Guid="*">
+                <File Id="fil5EE6EC9474B64A64255C24E49CD3CFD0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\locales\zh-TW.pak" />
+            </Component>
+            <Component Id="cmpC3992B974F68C88F60DB1D38A79F37E7" Directory="dir113445E6F89EECCCAD68A52BB70F8EF9" Guid="*">
+                <File Id="fil8F81C254B1B14C7697C9D1F68E1A3A06" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ru\Microsoft.Expression.Interactions.resources.dll" />
+            </Component>
+            <Component Id="cmpFE12B33C3ECB84200BA15D1D5EF2020B" Directory="dir113445E6F89EECCCAD68A52BB70F8EF9" Guid="*">
+                <File Id="fil07E5F4F859FC0E3D29B2F0F6A02162F0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ru\System.Windows.Interactivity.resources.dll" />
+            </Component>
+            <Component Id="cmp7B0870617F483B8427A60D3C7D063B07" Directory="dir4F5F83E0389A812227380377C68B5898" Guid="*">
+                <File Id="fil174C2091985754C145BEDF1E6BB934FE" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x64\libsodium.dll" />
+            </Component>
+            <Component Id="cmp3F33B9A829C593B4E23F58320C9D418F" Directory="dir4F5F83E0389A812227380377C68B5898" Guid="*">
+                <File Id="fil427BA3158997A772456417D40059F48D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x64\SQLite.Interop.dll" />
+            </Component>
+            <Component Id="cmpDE0752AAD516C55AC121AA19F981840A" Directory="dir0FCD9E4FEBB52846A30839CE1976306B" Guid="*">
+                <File Id="filAEA872A0EB59DBE078DBBB3D9475DDE9" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x86\libsodium.dll" />
+            </Component>
+            <Component Id="cmp04A2EB52269EB2B2ED3AD11D145EA61F" Directory="dir0FCD9E4FEBB52846A30839CE1976306B" Guid="*">
+                <File Id="fil6231896B0CC2C61965B19F857E567082" KeyPath="yes" Source="$(var.PrimaryOutputDir)\x86\SQLite.Interop.dll" />
+            </Component>
+            <Component Id="cmp5120643303F8CC54025E27D5008808F7" Directory="dirD8D18BE0CBE3A171A18753A5B5985BB4" Guid="*">
+                <File Id="fil922AE6B76E78EA5A28D7FDA9C3229AED" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hans\Microsoft.Expression.Interactions.resources.dll" />
+            </Component>
+            <Component Id="cmpDAF1C30F0F3B27B096E97E38CF8345BF" Directory="dirD8D18BE0CBE3A171A18753A5B5985BB4" Guid="*">
+                <File Id="fil0072B9AE983E8769E41D99BBC24C09F4" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hans\System.Windows.Interactivity.resources.dll" />
+            </Component>
+            <Component Id="cmp11A645D213819B28F8E352A8978E3064" Directory="dir0A56E1DCE96682D4EA5091E415D1089C" Guid="*">
+                <File Id="fil807B7549C152C8E8072F4C620355990D" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hant\Microsoft.Expression.Interactions.resources.dll" />
+            </Component>
+            <Component Id="cmpD5512E7FEA616B3E9564B9DBCF486A68" Directory="dir0A56E1DCE96682D4EA5091E415D1089C" Guid="*">
+                <File Id="filC8C78402C32DB10639B16C59DFB79165" KeyPath="yes" Source="$(var.PrimaryOutputDir)\zh-Hant\System.Windows.Interactivity.resources.dll" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
 </Wix>

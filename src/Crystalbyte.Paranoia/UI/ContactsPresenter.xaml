@@ -19,7 +19,7 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate DataType="paranoia:MailAddressContext">
-                <Grid Margin="6">
+                <Grid Margin="6" Background="Transparent">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
@@ -50,11 +50,17 @@
                                    TextTrimming="CharacterEllipsis"
                                    TextWrapping="NoWrap" />
                     </StackPanel>
-                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <StackPanel Grid.Column="2"
+                                Orientation="Horizontal"
+                                Visibility="{Binding IsMouseOver,
+                                                     RelativeSource={RelativeSource FindAncestor,
+                                                                                    AncestorType=ContentPresenter},
+                                                     Converter={StaticResource BooleanToVisibilityConverter},
+                                                     ConverterParameter=h}">
                         <controls:MetroButton Command="ui:MessageCommands.Compose"
                                               CommandParameter="{Binding}"
                                               ImageSource="/Assets/paper.png"
-                                              ToolTip="{x:Static properties:Resources.New}" />
+                                              ToolTip="{x:Static properties:Resources.ComposeMessage}" />
                         <Rectangle Style="{StaticResource MetroButtonSeparatorStyle}" />
                         <controls:MetroButton Command="{Binding CopyAddress}"
                                               CommandParameter="{Binding}"
