@@ -70,40 +70,35 @@
                                Text="{Binding Address}" />
                 </StackPanel>
             </Grid>
-            <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
-                </DataTrigger>
-            </DataTemplate.Triggers>
         </DataTemplate>
         <DataTemplate x:Key="StringTokenTemplate" DataType="system:String">
-            <Grid Height="20">
+            <Grid SnapsToDevicePixels="True">
                 <Rectangle HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
-                           Fill="#222" />
-                <StackPanel Margin="0,0,3,0" Orientation="Horizontal">
-                    <Border Background="Transparent"
-                            BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                            BorderThickness="0,0,3,0"
-                            RenderOptions.EdgeMode="Aliased"
-                            UseLayoutRounding="True">
-                        <Image Width="16"
+                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                <StackPanel Height="16"
+                            Margin="0,0,3,0"
+                            Orientation="Horizontal">
+                    <Image Width="16"
+                           Height="16"
+                           Margin="0,0,4,0"
+                           VerticalAlignment="Stretch"
+                           RenderOptions.BitmapScalingMode="Linear"
+                           Source="/Assets/contact_default.jpg"
+                           Stretch="UniformToFill" />
+                    <TextBlock MaxWidth="130"
+                               Margin="2,0"
                                VerticalAlignment="Center"
-                               RenderOptions.BitmapScalingMode="Linear"
-                               Source="/Assets/contact_default.jpg" />
-                    </Border>
-                    <TextBlock Margin="2,0,2,0"
-                               Background="Transparent"
-                               FontWeight="Normal"
-                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
-                               Text="{Binding}" />
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}"
+                               Text="{Binding}"
+                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="NoWrap" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="ContactTokenTemplate" DataType="paranoia:MailContactContext">
-            <Grid Height="20"
-                  MaxWidth="180"
-                  SnapsToDevicePixels="True">
+            <Grid SnapsToDevicePixels="True">
                 <Rectangle HorizontalAlignment="Stretch"
                            VerticalAlignment="Stretch"
                            Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
@@ -118,12 +113,12 @@
                            Source="{Binding Address,
                                             IsAsync=True,
                                             Converter={StaticResource GravatarImageConverter},
-                                            ConverterParameter=24}"
+                                            ConverterParameter=16}"
                            Stretch="UniformToFill" />
-                    <TextBlock Margin="2,0"
+                    <TextBlock MaxWidth="130"
+                               Margin="2,0"
                                VerticalAlignment="Center"
-                               FontSize="{Binding FontSize,
-                                                  RelativeSource={RelativeSource AncestorType=controls:SuggestionBox}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}"
                                Text="{Binding NameOrAddress}"
                                TextTrimming="CharacterEllipsis"
@@ -146,29 +141,31 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Margin="0,0,0,4">
-            <Grid>
-                <StackPanel Height="36"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                    <Image Width="20"
-                           Margin="10,0"
-                           DockPanel.Dock="Left"
-                           RenderOptions.BitmapScalingMode="HighQuality"
-                           Source="/Assets/logo.window.png" />
-                    <TextBlock x:Name="TitleBlock"
-                               Margin="0"
-                               VerticalAlignment="Center"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
-                               WindowChrome.IsHitTestVisibleInChrome="False"
-                               d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
-                        <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
-                        <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text=" - " />
-                        <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
-                    </TextBlock>
-                </StackPanel>
-            </Grid>
+        <Rectangle Grid.Row="0"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+        <Border Grid.Row="0">
+            <StackPanel Height="36"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                <Image Width="20"
+                       Margin="10,0"
+                       DockPanel.Dock="Left"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       Source="/Assets/logo.window.png" />
+                <TextBlock x:Name="TitleBlock"
+                           Margin="0"
+                           VerticalAlignment="Center"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                           WindowChrome.IsHitTestVisibleInChrome="False"
+                           d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
+                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />
+                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderSecondaryForegroundBrushKey}}" Text=" - " />
+                    <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.ApplicationLongName}" />
+                </TextBlock>
+            </StackPanel>
         </Border>
         <Grid Grid.Row="0"
               HorizontalAlignment="Right"
@@ -250,100 +247,134 @@
                        RenderOptions.EdgeMode="Aliased" />
         </Grid>
         <Grid Grid.Row="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Button Grid.Row="0"
-                        Grid.Column="0"
-                        Width="40"
-                        Margin="4,0,0,4"
-                        VerticalAlignment="Stretch"
-                        Command="{Binding FinalizeCommand}"
-                        IsTabStop="False">
-                    <Rectangle Width="16"
-                               Height="16"
-                               Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}">
-                        <Rectangle.OpacityMask>
-                            <ImageBrush ImageSource="/Assets/send.png" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Button>
-                <ComboBox x:Name="AccountComboBox"
-                          Grid.Row="0"
-                          Grid.Column="1"
-                          Width="160"
-                          Height="{Binding ActualHeight,
-                                           ElementName=RecipientsBox}"
-                          Margin="4,0,0,4"
-                          HorizontalAlignment="Stretch"
-                          VerticalAlignment="Stretch"
-                          DataContextChanged="OnAccountComboboxDataContextChanged"
-                          IsTabStop="False"
-                          ItemsSource="{Binding Accounts}"
-                          SelectedIndex="0"
-                          SelectedItem="{Binding SelectedAccount}"
-                          SelectionChanged="OnAccountSelectionChanged">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid d:DataContext="{d:DesignInstance paranoia:MailAccountContext}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Image Grid.Row="0"
-                                       Grid.Column="0"
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0"
+                    Grid.Column="0"
+                    Width="40"
+                    Margin="4,4,0,4"
+                    VerticalAlignment="Stretch"
+                    Command="{Binding FinalizeCommand}"
+                    IsTabStop="False">
+                <Rectangle Width="16"
+                           Height="16"
+                           Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}">
+                    <Rectangle.OpacityMask>
+                        <ImageBrush ImageSource="/Assets/send.png" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+            <ComboBox x:Name="AccountComboBox"
+                      Grid.Row="0"
+                      Grid.Column="1"
+                      Width="160"
+                      Height="{Binding ActualHeight,
+                                       ElementName=RecipientsBox}"
+                      Margin="4,4,0,4"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      DataContextChanged="OnAccountComboboxDataContextChanged"
+                      IsTabStop="False"
+                      ItemsSource="{Binding Accounts}"
+                      SelectedIndex="0"
+                      SelectedItem="{Binding SelectedAccount}"
+                      SelectionChanged="OnAccountSelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid d:DataContext="{d:DesignInstance paranoia:MailAccountContext}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Row="0"
+                                   Grid.Column="0"
+                                   Margin="3"
+                                   VerticalAlignment="Center"
+                                   RenderOptions.BitmapScalingMode="Fant"
+                                   Source="{Binding Address,
+                                                    ConverterParameter=26,
+                                                    Converter={StaticResource GravatarImageConverter}}" />
+                            <TextBlock x:Name="AddressBlock"
+                                       Grid.Column="1"
                                        Margin="3"
                                        VerticalAlignment="Center"
-                                       RenderOptions.BitmapScalingMode="Fant"
-                                       Source="{Binding Address,
-                                                        ConverterParameter=26,
-                                                        Converter={StaticResource GravatarImageConverter}}" />
-                                <TextBlock x:Name="AddressBlock"
-                                           Grid.Column="1"
-                                           Margin="3"
-                                           VerticalAlignment="Center"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
-                                           RenderOptions.ClearTypeHint="Enabled"
-                                           Text="{Binding Name,
-                                                          Converter={StaticResource NullOrEmptyFormatter}}"
-                                           TextTrimming="CharacterEllipsis"
-                                           TextWrapping="NoWrap" />
-                            </Grid>
-                            <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ComboBoxItem}}" Value="True">
-                                    <Setter TargetName="AddressBlock" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
-                                </DataTrigger>
-                            </DataTemplate.Triggers>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <controls:SuggestionBox x:Name="RecipientsBox"
-                                        Grid.Row="0"
-                                        Grid.Column="2"
-                                        Margin="4,0,0,4"
-                                        VerticalAlignment="Center"
-                                        FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
+                                       RenderOptions.ClearTypeHint="Enabled"
+                                       Text="{Binding Name,
+                                                      Converter={StaticResource NullOrEmptyFormatter}}"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="NoWrap" />
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <controls:SuggestionBox x:Name="RecipientsBox"
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Margin="4,4,0,4"
+                                    VerticalAlignment="Center"
+                                    FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                                    ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                                    ItemsSourceRequested="OnItemsSourceRequested"
+                                    Padding="6"
+                                    SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                                    StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                                    TokenTemplate="{StaticResource ContactTokenTemplate}"
+                                    Watermark="{x:Static properties:Resources.To}"
+                                    WatermarkTemplate="{StaticResource LargeWatermarkTemplate}">
+                <controls:SuggestionBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </controls:SuggestionBox.ItemContainerStyle>
+            </controls:SuggestionBox>
+            <Grid Grid.Row="0"
+                  Grid.Column="3"
+                  Margin="4">
+                <ToggleButton x:Name="CarbonCopyToggleButton"
+                              IsTabStop="False"
+                              Padding="0">
+                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
+                               Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
+                               Padding="6,0">
+                        Cc
+                    </TextBlock>
+                </ToggleButton>
+            </Grid>
+            <StackPanel x:Name="CarbonCopyGrid"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="4"
+                        Visibility="{Binding IsChecked,
+                                             ElementName=CarbonCopyToggleButton,
+                                             Converter={StaticResource BooleanToVisibilityConverter}}">
+                <controls:SuggestionBox x:Name="CarbonCopyBox"
+                                        Margin="4,0"
+                                        HorizontalAlignment="Stretch"
                                         ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                                        ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                        Padding="3"
+                                        ItemsSourceRequested="OnItemsSourceRequested"
+                                        Padding="6"
                                         SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                         StringTokenTemplate="{StaticResource StringTokenTemplate}"
                                         TokenTemplate="{StaticResource ContactTokenTemplate}"
-                                        Watermark="{x:Static properties:Resources.To}"
-                                        WatermarkTemplate="{StaticResource LargeWatermarkTemplate}">
+                                        Visibility="{Binding IsChecked,
+                                                             ElementName=CarbonCopyToggleButton,
+                                                             Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Watermark="{x:Static properties:Resources.CarbonCopies}">
                     <controls:SuggestionBox.ItemContainerStyle>
                         <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                             <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
@@ -351,124 +382,84 @@
                         </Style>
                     </controls:SuggestionBox.ItemContainerStyle>
                 </controls:SuggestionBox>
-                <Grid Grid.Row="0"
-                      Grid.Column="3"
-                      Margin="4,0,4,4">
-                    <ToggleButton x:Name="CarbonCopyToggleButton"
-                                  IsTabStop="False"
-                                  Padding="0">
-                        <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
-                                   Padding="6,0">
-                            Cc
-                        </TextBlock>
-                    </ToggleButton>
-                </Grid>
-                <StackPanel x:Name="CarbonCopyGrid"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="4"
-                            Margin="4,0,4,4"
-                            Visibility="{Binding IsChecked,
-                                                 ElementName=CarbonCopyToggleButton,
-                                                 Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <controls:SuggestionBox x:Name="CarbonCopyBox"
-                                            Margin="0,0,0,0"
-                                            HorizontalAlignment="Stretch"
-                                            ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                                            ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                            SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
-                                            StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                                            TokenTemplate="{StaticResource ContactTokenTemplate}"
-                                            Visibility="{Binding IsChecked,
-                                                                 ElementName=CarbonCopyToggleButton,
-                                                                 Converter={StaticResource BooleanToVisibilityConverter}}"
-                                            Watermark="{x:Static properties:Resources.CarbonCopies}">
-                        <controls:SuggestionBox.ItemContainerStyle>
-                            <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                                <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                            </Style>
-                        </controls:SuggestionBox.ItemContainerStyle>
-                    </controls:SuggestionBox>
-                    <controls:SuggestionBox x:Name="BlindCarbonCopyBox"
-                                            Margin="0,4,0,0"
-                                            HorizontalAlignment="Stretch"
-                                            ItemTemplate="{StaticResource ContactSuggestionTemplate}"
-                                            ItemsSourceRequested="OnRecipientsBoxItemsSourceRequested"
-                                            SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
-                                            StringTokenTemplate="{StaticResource StringTokenTemplate}"
-                                            TokenTemplate="{StaticResource ContactTokenTemplate}"
-                                            Visibility="{Binding IsChecked,
-                                                                 ElementName=CarbonCopyToggleButton,
-                                                                 Converter={StaticResource BooleanToVisibilityConverter}}"
-                                            Watermark="{x:Static properties:Resources.BlindCarbonCopies}">
-                        <controls:SuggestionBox.ItemContainerStyle>
-                            <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                                <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-                                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                            </Style>
-                        </controls:SuggestionBox.ItemContainerStyle>
-                    </controls:SuggestionBox>
-                </StackPanel>
-                <ListView Grid.Row="2"
-                          Grid.Column="0"
-                          Grid.ColumnSpan="4"
-                          Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentListBackgroundBrushKey}}"
-                          IsTabStop="False"
-                          ItemTemplate="{StaticResource FileThumbnailTemplate}"
-                          ItemsSource="{Binding Attachments}"
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          ScrollViewer.VerticalScrollBarVisibility="Auto"
-                          UseLayoutRounding="True">
-                    <ListView.CommandBindings>
-                        <CommandBinding Command="Delete" Executed="OnAttachmentsDelete" />
-                    </ListView.CommandBindings>
-                    <ListView.InputBindings>
-                        <KeyBinding Key="Delete" Command="Delete" />
-                    </ListView.InputBindings>
-                    <ListView.Style>
-                        <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="ListView">
-                            <Style.Triggers>
-                                <Trigger Property="HasItems" Value="False">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.Style>
-                    <ListView.ItemContainerStyle>
+                <controls:SuggestionBox x:Name="BlindCarbonCopyBox"
+                                        Margin="4,4,4,4"
+                                        HorizontalAlignment="Stretch"
+                                        ItemTemplate="{StaticResource ContactSuggestionTemplate}"
+                                        ItemsSourceRequested="OnItemsSourceRequested"
+                                        Padding="6"
+                                        SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
+                                        StringTokenTemplate="{StaticResource StringTokenTemplate}"
+                                        TokenTemplate="{StaticResource ContactTokenTemplate}"
+                                        Visibility="{Binding IsChecked,
+                                                             ElementName=CarbonCopyToggleButton,
+                                                             Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Watermark="{x:Static properties:Resources.BlindCarbonCopies}">
+                    <controls:SuggestionBox.ItemContainerStyle>
                         <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                            <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClick" />
-                            <Setter Property="BorderBrush" Value="Transparent" />
-                            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}" />
+                            <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                         </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                </ListView>
-                <controls:WatermarkTextBox Grid.Row="3"
-                                           Grid.Column="0"
-                                           Grid.ColumnSpan="4"
-                                           Margin="0"
-                                           BorderThickness="0,1,0,1"
-                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
-                                           Padding="6"
-                                           Text="{Binding Subject,
-                                                          UpdateSourceTrigger=PropertyChanged,
-                                                          Mode=TwoWay}"
-                                           Watermark="{x:Static properties:Resources.Subject}"
-                                           WatermarkTemplate="{StaticResource LargeWatermarkTemplate}" />
-                <Grid Grid.Row="4"
+                    </controls:SuggestionBox.ItemContainerStyle>
+                </controls:SuggestionBox>
+            </StackPanel>
+            <ListView Grid.Row="2"
                       Grid.Column="0"
-                      Grid.ColumnSpan="4">
-                    <ui:HtmlEditor x:Name="HtmlEditor"
-                                   AllowDrop="True"
-                                   Drop="OnHtmlSurfaceDrop"
-                                   UseLayoutRounding="True" />
-                </Grid>
+                      Grid.ColumnSpan="4"
+                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentListBackgroundBrushKey}}"
+                      IsTabStop="False"
+                      ItemTemplate="{StaticResource FileThumbnailTemplate}"
+                      ItemsSource="{Binding Attachments}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      UseLayoutRounding="True">
+                <ListView.CommandBindings>
+                    <CommandBinding Command="Delete" Executed="OnAttachmentsDelete" />
+                </ListView.CommandBindings>
+                <ListView.InputBindings>
+                    <KeyBinding Key="Delete" Command="Delete" />
+                </ListView.InputBindings>
+                <ListView.Style>
+                    <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="ListView">
+                        <Style.Triggers>
+                            <Trigger Property="HasItems" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Style>
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                        <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClick" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+            <controls:WatermarkTextBox Grid.Row="3"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="4"
+                                       Margin="0"
+                                       BorderThickness="0,1,0,1"
+                                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                                       Padding="6"
+                                       Text="{Binding Subject,
+                                                      UpdateSourceTrigger=PropertyChanged,
+                                                      Mode=TwoWay}"
+                                       Watermark="{x:Static properties:Resources.Subject}"
+                                       WatermarkTemplate="{StaticResource LargeWatermarkTemplate}" />
+            <Grid Grid.Row="4"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="4">
+                <ui:HtmlEditor x:Name="HtmlEditor"
+                               AllowDrop="True"
+                               Drop="OnHtmlSurfaceDrop"
+                               UseLayoutRounding="True" />
             </Grid>
         </Grid>
     </Grid>

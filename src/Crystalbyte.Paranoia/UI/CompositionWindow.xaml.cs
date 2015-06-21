@@ -26,10 +26,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,7 +35,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
-using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Themes;
 using NLog;
 
@@ -72,6 +68,16 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
+        private void OnItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
+            Application.Current.AssertBackgroundThread();
+            try {
+                var contacts = QueryContacts(e.Text);
+                e.Source = contacts;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
         internal void CloseOverlay() {
             ModalOverlay.Visibility = Visibility.Collapsed;
             PopupFrame.Content = null;
@@ -97,16 +103,6 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 var context = (MailCompositionContext)DataContext;
                 AccountComboBox.SelectedValue = context.Accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
-
-        private async void OnRecipientsBoxItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
-            try {
-                var control = (SuggestionBox)sender;
-                var contacts = await QueryContactsAsync(e.Text);
-                control.ItemsSource = contacts;
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -146,18 +142,18 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        public Task<MailAddressContext[]> QueryContactsAsync(string text) {
-            return Task.Run(async () => {
-                using (var database = new DatabaseContext()) {
-                    var candidates = await database.MailAddresses
-                        .Where(x => x.Address.StartsWith(text)
-                                    || x.Name.StartsWith(text))
-                        .Take(20)
-                        .ToArrayAsync();
+        public MailContactContext[] QueryContacts(string text) {
+            Application.Current.AssertBackgroundThread();
 
-                    return candidates.Select(x => new MailAddressContext(x)).ToArray();
-                }
-            });
+            using (var database = new DatabaseContext()) {
+                var candidates = database.MailContacts
+                    .Where(x => x.Address.StartsWith(text)
+                                || x.Name.StartsWith(text))
+                    .Take(20)
+                    .ToArray();
+
+                return candidates.Select(x => new MailContactContext(x)).ToArray();
+            }
         }
 
         private void OnRecipientsBoxSelectionChanged(object sender, EventArgs e) {
@@ -183,9 +179,9 @@ namespace Crystalbyte.Paranoia.UI {
 
         private async void OnLoadedAsNew(object sender, RoutedEventArgs e) {
             try {
+                Loaded -= OnLoadedAsNew;
                 await Application.Current.Dispatcher.InvokeAsync(() => {
                     RecipientsBox.Focus();
-                    Loaded -= OnLoadedAsNew;
                 });
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
