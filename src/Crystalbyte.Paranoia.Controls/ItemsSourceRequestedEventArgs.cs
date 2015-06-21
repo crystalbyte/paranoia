@@ -35,5 +35,6 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public string Text { get; private set; }
+        public object Source { get; set; }
     }
 }

@@ -646,7 +646,7 @@ namespace Crystalbyte.Paranoia {
                 var query = groups
                     .Where(x => !contacts.ContainsKey(x.Key))
                         .Select(group => new MailContact {
-                            Address = group.First().Address.ToLower(CultureInfo.InvariantCulture),
+                            Address = group.First().Address,
                             Name = group.First().Name.ToLower(CultureInfo.InvariantCulture)
                         });
 
