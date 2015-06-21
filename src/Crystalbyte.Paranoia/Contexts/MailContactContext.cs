@@ -41,6 +41,8 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
+        #region Construction
+
         internal MailContactContext(MailContact contact) {
             if (contact == null) {
                 throw new ArgumentNullException("contact");
@@ -48,6 +50,10 @@ namespace Crystalbyte.Paranoia {
 
             _contact = contact;
         }
+
+        #endregion
+
+        #region Properties
 
         public long Id {
             get { return _contact.Id; }
@@ -144,5 +150,7 @@ namespace Crystalbyte.Paranoia {
         public string NameOrAddress {
             get { return string.IsNullOrWhiteSpace(Name) || Name.EqualsIgnoreCase("NIL") ? Address : Name; }
         }
+
+        #endregion
     }
 }

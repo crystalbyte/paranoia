@@ -36,6 +36,7 @@ using System.Threading.Tasks;
 using CefSharp;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Properties;
 using NLog;
 
 #endregion
@@ -85,9 +86,9 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 if (Regex.IsMatch(uri.AbsolutePath, "reply")) {
-                    Task.Run(() => {
+                    Task.Run(async () => {
                         try {
-                            ComposeQuotedCompositionResponse(request, response);
+                            await ComposeQuotedCompositionResponseAsync(request, response);
                             requestCompletedCallback();
                         } catch (Exception ex) {
                             Logger.ErrorException(ex.Message, ex);
@@ -98,9 +99,9 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 if (Regex.IsMatch(uri.AbsolutePath, "forward")) {
-                    Task.Run(() => {
+                    Task.Run(async () => {
                         try {
-                            ComposeQuotedCompositionResponse(request, response);
+                            await ComposeQuotedCompositionResponseAsync(request, response);
                             requestCompletedCallback();
                         } catch (Exception ex) {
                             Logger.ErrorException(ex.Message, ex);
@@ -174,37 +175,35 @@ namespace Crystalbyte.Paranoia {
             return null;
         }
 
-        private static void ComposeQuotedCompositionResponse(IRequest request, ISchemeHandlerResponse response) {
+        private async static Task ComposeQuotedCompositionResponseAsync(IRequest request, ISchemeHandlerResponse response) {
             var variables = new Dictionary<string, string>();
 
-            throw new NotImplementedException();
+            long messageId;
+            var uri = new Uri(request.Url);
+            var arguments = uri.OriginalString.ToPageArguments();
+            if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
+                var message = await GetMessageBytesAsync(messageId);
+                var reader = new MailMessageReader(message);
 
-            //long messageId;
-            //var uri = new Uri(request.Url);
-            //var arguments = uri.OriginalString.ToPageArguments();
-            //if (arguments.ContainsKey("id") && long.TryParse(arguments["id"], out messageId)) {
-            //    var message = GetMessageBytesAsync(messageId);
-            //    var reader = new MailMessageReader(message);
+                var header = string.Format(Resources.HtmlResponseHeader, reader.Headers.DateSent,
+                    reader.Headers.From.DisplayName);
+                const string rule =
+                    "<hr style='border-right: medium none; border-top: #CCCCCC 1px solid; border-left: medium none; border-bottom: medium none; height: 1px'>";
+                variables.Add("separator",
+                    string.Format("{0}{1}{2}{3}{4}", "<div style=\"margin:20px 0; font-family: Trebuchet MS;\">", header,
+                        "<br/>", rule, "</div>"));
 
-            //    var header = string.Format(Resources.HtmlResponseHeader, reader.Headers.DateSent,
-            //        reader.Headers.From.DisplayName);
-            //    const string rule =
-            //        "<hr style='border-right: medium none; border-top: #CCCCCC 1px solid; border-left: medium none; border-bottom: medium none; height: 1px'>";
-            //    variables.Add("separator",
-            //        string.Format("{0}{1}{2}{3}{4}", "<div style=\"margin:20px 0; font-family: Trebuchet MS;\">", header,
-            //            "<br/>", rule, "</div>"));
+                var text = HtmlSupport.FindBestSupportedBody(reader);
+                text = HtmlSupport.ModifyEmbeddedParts(text, messageId);
+                variables.Add("quote", text);
+            }
 
-            //    var text = HtmlSupport.FindBestSupportedBody(reader);
-            //    text = HtmlSupport.ModifyEmbeddedParts(text, messageId);
-            //    variables.Add("quote", text);
-            //}
+            if (!variables.Keys.Contains("quote"))
+                variables.Add("quote", string.Empty);
 
-            //if (!variables.Keys.Contains("quote"))
-            //    variables.Add("quote", string.Empty);
-
-            //var html = HtmlSupport.GetEditorTemplate(variables);
-            //var bytes = Encoding.UTF8.GetBytes(html);
-            //ComposeHtmlResponse(response, bytes);
+            var html = HtmlSupport.GetEditorTemplate(variables);
+            var bytes = Encoding.UTF8.GetBytes(html);
+            CreateHtmlResponse(response, bytes);
         }
 
         private static string RemoveExternalSources(string content) {

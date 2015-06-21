@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,6 +36,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Themes;
 using NLog;
 
@@ -189,118 +191,117 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         internal async Task PrepareAsReplyAsync(IReadOnlyDictionary<string, string> arguments) {
-            MailContactContext from = null;
-            MailMessageReader message = null;
             var id = Int64.Parse(arguments["id"]);
 
-            throw new NotImplementedException();
+            var info = await Task.Run(async () => {
+                using (var database = new DatabaseContext()) {
+                    return await database.MailMessages
+                        .Where(x => x.Id == id)
+                        .Select(x => new { x.Subject, x.Addresses })
+                        .FirstOrDefaultAsync();
+                }
+            });
 
-            //await Task.Run(async () => {
-            //    using (var database = new DatabaseContext()) {
-            //        var content = await database.MailData
-            //            .Where(x => x.MessageId == id)
-            //            .ToArrayAsync();
+            if (info == null) {
+                throw new InvalidOperationException();
+            }
 
-            //        if (!content.Any())
-            //            throw new InvalidOperationException();
+            HtmlEditor.ContentReady += OnContentReady;
+            HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
-            //        message = new MailMessageReader(content[0].Mime);
-            //        from = new MailContactContext(await database.MailContacts
-            //            .FirstAsync(x => x.MailAddress == message.Headers.From.Address));
-            //    }
-            //});
+            var context = (MailCompositionContext)DataContext;
+            context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, info.Subject);
 
-            //HtmlEditor.ContentReady += OnContentReady;
-            //HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
-
-            //var context = (MailCompositionContext)DataContext;
-            //context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
-
-            //RecipientsBox.Preset(new[] { from });
+            var from = info.Addresses.FirstOrDefault(x => x.Role == AddressRole.From);
+            if (from != null) {
+                RecipientsBox.Preset(new[] { from.Address });
+            }
         }
 
         private async void OnContentReady(object sender, EventArgs e) {
-            await Application.Current.Dispatcher.InvokeAsync(() => {
-                HtmlEditor.BrowserInitialized -= OnContentReady;
-                HtmlEditor.FocusEditor();
-            });
+            try {
+                await Application.Current.Dispatcher.InvokeAsync(() => {
+                    HtmlEditor.BrowserInitialized -= OnContentReady;
+                    HtmlEditor.FocusEditor();
+                });
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         internal async Task PrepareAsReplyAllAsync(IReadOnlyDictionary<string, string> arguments) {
-            MailContactContext from;
-            var carbonCopies = new List<MailContactContext>();
-            var blindCarbonCopies = new List<MailContactContext>();
-            MailMessageReader message;
             var id = Int64.Parse(arguments["id"]);
 
-            throw new NotImplementedException();
+            var info = await Task.Run(() => {
+                using (var context = new DatabaseContext()) {
+                    return context.Set<MailMessage>()
+                        .Where(x => x.Id == id)
+                        .Select(x => new { x.Subject, x.Addresses })
+                        .FirstOrDefaultAsync();
+                }
+            });
 
-            //using (var database = new DatabaseContext()) {
-            //    var content = await database.MailData
-            //        .Where(x => x.MessageId == id)
-            //        .ToArrayAsync();
+            if (info == null) {
+                throw new InvalidOperationException();
+            }
 
-            //    if (!content.Any())
-            //        throw new InvalidOperationException(Paranoia.Properties.Resources.MessageNotFoundException);
+            var fromAddresses = info.Addresses.Where(x => x.Role == AddressRole.From).Select(x => x.Address).ToArray();
+            var from = Task.Run(() => {
+                using (var context = new DatabaseContext()) {
+                    return context.Set<MailContact>()
+                        .Where(x => fromAddresses.Contains(x.Address))
+                        .ToArrayAsync();
+                }
+            });
 
-            //    message = new MailMessageReader(content[0].Mime);
-            //    from = new MailContactContext(await database.MailContacts
-            //        .FirstAsync(x => x.MailAddress == message.Headers.From.Address));
+            var toAddresses = info.Addresses.Where(x => x.Role == AddressRole.To).Select(x => x.Address).ToArray();
+            var to = Task.Run(() => {
+                using (var context = new DatabaseContext()) {
+                    return context.Set<MailContact>()
+                        .Where(x => toAddresses.Contains(x.Address))
+                        .ToArrayAsync();
+                }
+            });
 
-            //    foreach (var cc in message.Headers.Cc.Where(y =>
-            //        !App.Context.Accounts.Any(x => x.Address.EqualsIgnoreCase(y.Address)))) {
-            //        var lcc = cc;
-            //        var contact = new MailContactContext(await database.MailContacts
-            //            .FirstAsync(x => x.MailAddress == lcc.Address));
+            var ccAddresses = info.Addresses.Where(x => x.Role == AddressRole.Cc).Select(x => x.Address).ToArray();
+            var cc = Task.Run(() => {
+                using (var context = new DatabaseContext()) {
+                    return context.Set<MailContact>()
+                        .Where(x => ccAddresses.Contains(x.Address))
+                        .ToArrayAsync();
+                }
+            });
 
-            //        carbonCopies.Add(contact);
-            //    }
+            RecipientsBox.Preset((await from).Select(x => new MailContactContext(x)));
+            RecipientsBox.Preset((await to).Select(x => new MailContactContext(x)));
+            RecipientsBox.Preset((await cc).Select(x => new MailContactContext(x)));
 
-            //    foreach (var bcc in message.Headers.Bcc.Where(y =>
-            //        !App.Context.Accounts.Any(x => x.Address.EqualsIgnoreCase(y.Address)))) {
-            //        var lbcc = bcc;
-            //        var contact = new MailContactContext(await database.MailContacts
-            //            .FirstAsync(x => x.MailAddress == lbcc.Address));
+            HtmlEditor.ContentReady += OnContentReady;
+            HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
-            //        blindCarbonCopies.Add(contact);
-            //    }
-            //}
-
-            //HtmlEditor.ContentReady += OnContentReady;
-            //HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
-
-            //var context = (MailCompositionContext)DataContext;
-            //context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, message.Headers.Subject);
-
-            //RecipientsBox.Preset(new[] { from });
-            //CarbonCopyBox.Preset(carbonCopies);
-            //BlindCarbonCopyBox.Preset(blindCarbonCopies);
+            var c = (MailCompositionContext)DataContext;
+            c.Subject = string.Format("{0} {1}", Settings.Default.PrefixForAnswering, info.Subject);
         }
 
         internal async Task PrepareAsForwardAsync(IReadOnlyDictionary<string, string> arguments) {
 
-            throw new NotImplementedException();
-            //var id = Int64.Parse(arguments["id"]);
-            //var reader = await Task.Run(async () => {
-            //    using (var database = new DatabaseContext()) {
-            //        var mime = await database.MailData
-            //            .Where(x => x.MessageId == id)
-            //            .ToArrayAsync();
+            var id = Int64.Parse(arguments["id"]);
 
-            //        if (!mime.Any())
-            //            throw new InvalidOperationException(
-            //                Paranoia.Properties.Resources.MessageNotFoundException);
+            var info = await Task.Run(() => {
+                using (var context = new DatabaseContext()) {
+                    return context.Set<MailMessage>()
+                        .Where(x => x.Id == id)
+                        .Select(x => new { x.Subject, x.Addresses })
+                        .FirstOrDefaultAsync();
+                }
+            });
 
-            //        return new MailMessageReader(mime[0].Mime);
-            //    }
-            //});
+            HtmlEditor.Source = string.Format("message:///forward?id={0}", id);
 
-            //HtmlEditor.Source = string.Format("message:///forward?id={0}", id);
+            var c = (MailCompositionContext)DataContext;
+            c.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, info.Subject);
 
-            //var context = (MailCompositionContext)DataContext;
-            //context.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, reader.Headers.Subject);
-
-            //Loaded += OnLoadedAsNew;
+            Loaded += OnLoadedAsNew;
         }
 
         private void OnHtmlSurfaceDrop(object sender, DragEventArgs e) {
