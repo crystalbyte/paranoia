@@ -31,13 +31,18 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Reactive.Threading;
+using System.Windows.Threading;
 
 #endregion
 
@@ -45,6 +50,7 @@ namespace Crystalbyte.Paranoia.UI {
     [TemplatePart(Name = PopupPartName, Type = typeof(Popup))]
     [TemplatePart(Name = HostPartName, Type = typeof(ListView))]
     public sealed class SuggestionBox : RichTextBox {
+
         #region Xaml Support
 
         private const string PopupPartName = "PART_Popup";
@@ -58,7 +64,6 @@ namespace Crystalbyte.Paranoia.UI {
         private ListView _itemsHost;
         private bool _suppressRecognition;
         private readonly List<ITokenMatcher> _tokenMatchers;
-        private readonly ObservableCollection<object> _selectedValues;
 
         #endregion
 
@@ -70,11 +75,8 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public SuggestionBox() {
-            _selectedValues = new ObservableCollection<object>();
             _tokenMatchers = new List<ITokenMatcher> { new MailAddressTokenMatcher() };
-
             CommandBindings.Add(new CommandBinding(SuggestionBoxCommands.Select, OnSelectContact));
-            SelectedValues = _selectedValues;
         }
 
         #endregion
@@ -111,6 +113,21 @@ namespace Crystalbyte.Paranoia.UI {
 
         private bool IsStyleApplied {
             get { return _popup != null; }
+        }
+
+        public IEnumerable<object> Matches {
+            get {
+                var paragraph = CaretPosition.Paragraph;
+                if (paragraph == null) {
+                    return null;
+                }
+
+                var objects = paragraph.Inlines
+                    .OfType<InlineUIContainer>()
+                    .Select(x => ((ContentPresenter)x.Child).Content);
+
+                return objects;
+            }
         }
 
         #endregion
@@ -156,16 +173,6 @@ namespace Crystalbyte.Paranoia.UI {
         // Using a DependencyProperty as the backing store for WatermarkTemplate.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty WatermarkTemplateProperty =
             DependencyProperty.Register("WatermarkTemplate", typeof(DataTemplate), typeof(SuggestionBox),
-                new PropertyMetadata(null));
-
-        public IEnumerable<object> SelectedValues {
-            get { return (IEnumerable<object>)GetValue(SelectedValuesProperty); }
-            set { SetValue(SelectedValuesProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SelectedValues.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedValuesProperty =
-            DependencyProperty.Register("SelectedValues", typeof(IEnumerable<object>), typeof(SuggestionBox),
                 new PropertyMetadata(null));
 
         public Style ItemContainerStyle {
@@ -294,17 +301,12 @@ namespace Crystalbyte.Paranoia.UI {
             Observable.FromEventPattern<TextChangedEventHandler, TextChangedEventArgs>(
                 action => TextChanged += action,
                 action => TextChanged -= action)
-                    .Where(x => !DesignerProperties.GetIsInDesignMode(this))
+                    .Where(x => x.EventArgs.Changes.Any(y => y.AddedLength > 0))
                     .Where(x => IsStyleApplied)
-                    .Where(x => {
-                        var text = ((SuggestionBox)x.Sender).Text;
-                        return !string.IsNullOrWhiteSpace(text) && text.Length > 1;
-                    })
-                    .Throttle(TimeSpan.FromMilliseconds(60))
                     .Select(x => ((SuggestionBox)x.Sender).Text)
+                    .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length > 2)
+                    .Throttle(TimeSpan.FromMilliseconds(300))
                     .Subscribe(OnTextChangeObserved);
-
-            TextChanged += OnTextChanged;
         }
 
         private void AppendContainer(Inline container) {
@@ -441,30 +443,18 @@ namespace Crystalbyte.Paranoia.UI {
             Focus();
         }
 
-        private void OnTextChanged(object sender, TextChangedEventArgs e) {
-            RecognizeMatches();
-            UpdateSelectedValues();
-            InvalidateWatermark();
-        }
-
         private void InvalidateWatermark() {
-            IsWatermarkVisible = string.IsNullOrEmpty(Text) && _selectedValues.Count == 0;
-        }
-
-        private void UpdateSelectedValues() {
             var paragraph = CaretPosition.Paragraph;
             if (paragraph == null) {
+                IsWatermarkVisible = string.IsNullOrEmpty(Text);
                 return;
             }
 
-            var objects = paragraph.Inlines
+            var containers = paragraph.Inlines
                 .OfType<InlineUIContainer>()
-                .Select(x => ((ContentPresenter)x.Child).Content);
+                .ToArray();
 
-            _selectedValues.Clear();
-            _selectedValues.AddRange(objects);
-
-            OnSelectedValuesChanged();
+            IsWatermarkVisible = string.IsNullOrEmpty(Text) && containers.Length > 0;
         }
 
         private void CommitSelection() {
@@ -474,9 +464,17 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async void OnTextChangeObserved(string text) {
-            var e = new ItemsSourceRequestedEventArgs(text);
-            OnItemsSourceRequested(e);
-            await Application.Current.Dispatcher.InvokeAsync(() => ItemsSource = e.Source);
+            var requestSource = Task.Run(() => {
+                var e = new ItemsSourceRequestedEventArgs(text);
+                OnItemsSourceRequested(e);
+                return e.Source;
+            });
+
+            await Application.Current.Dispatcher.InvokeAsync(async () => {
+                InvalidateWatermark();
+                RecognizeMatches();
+                ItemsSource = await requestSource;
+            });
         }
 
         private void RecognizeMatches() {

@@ -182,7 +182,11 @@ namespace Crystalbyte.Paranoia {
         }
 
         private void OnSubjectChanged() {
-            _finalizeCommand.OnCanExecuteChanged();
+            try {
+                _finalizeCommand.OnCanExecuteChanged();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         #endregion
@@ -199,65 +203,70 @@ namespace Crystalbyte.Paranoia {
 
         public async Task SaveToOutboxAsync() {
             try {
-                //var account = SelectedAccount;
-                //var document = _provider.GetDocumentAsync();
+                var account = SelectedAccount;
+                var document = _provider.GetDocumentAsync();
 
-                //KeyPair current = null;
+                KeyPair current = null;
 
-                //var contacts = await Task.Run(() => {
-                //    using (var context = new DatabaseContext()) {
-                //        current = context.KeyPairs.OrderByDescending(x => x.Date).First();
-                //        return Addresses
-                //            .Select(x => context.MailContacts
-                //                .Include("Keys")
-                //                .FirstOrDefault(y => y.Address == x))
-                //            .Where(w => w != null)
-                //            .ToDictionary(z => z.Address);
-                //    }
-                //});
+                var contacts = await Task.Run(() => {
+                    using (var context = new DatabaseContext()) {
+                        current = context.KeyPairs.OrderByDescending(x => x.Date).First();
+                        return Addresses
+                            .Select(x => context.MailContacts
+                                .Include("Keys")
+                                .FirstOrDefault(y => y.Address == x))
+                            .Where(w => w != null)
+                            .ToDictionary(z => z.Address);
+                    }
+                });
 
-                //var messages = new List<MailMessage>();
-                //foreach (var address in Addresses) {
-                //    PublicKey key = null;
-                //    if (contacts.ContainsKey(address)) {
-                //        var contact = contacts[address];
-                //        key = contact.Keys.FirstOrDefault();
-                //    }
+                var messages = new List<MailMessage>();
+                foreach (var address in Addresses) {
+                    PublicKey key = null;
+                    if (contacts.ContainsKey(address)) {
+                        var contact = contacts[address];
+                        key = contact.Keys.FirstOrDefault();
+                    }
 
-                //    var message = new MailMessage {
-                //        IsBodyHtml = true,
-                //        Subject = Subject,
-                //        BodyEncoding = Encoding.UTF8,
-                //        BodyTransferEncoding = TransferEncoding.Base64,
-                //        From = new MailAddress(account.Address, account.Name),
-                //        Body = await document
-                //    };
+                    var message = new MailMessage {
+                        IsBodyHtml = true,
+                        Subject = Subject,
+                        BodyEncoding = Encoding.UTF8,
+                        BodyTransferEncoding = TransferEncoding.Base64,
+                        From = new MailAddress(account.Address, account.Name),
+                        Body = await document
+                    };
 
-                //    var signet = string.Format("pkey={0};", Convert.ToBase64String(current.PublicKey));
-                //    message.Headers.Add(MessageHeaders.Signet, signet);
+                    var signet = string.Format("pkey={0};", Convert.ToBase64String(current.PublicKey));
+                    message.Headers.Add(MessageHeaders.Signet, signet);
 
-                //    message.To.Add(new MailAddress(address));
-                //    foreach (var a in Attachments) {
-                //        message.Attachments.Add(new Attachment(a.FullName));
-                //    }
+                    message.To.Add(new MailAddress(address));
+                    foreach (var a in Attachments) {
+                        message.Attachments.Add(new Attachment(a.FullName));
+                    }
 
-                //    // IO heavy operation, needs to run in background thread.
-                //    var m = message;
-                //    await Task.Run(() => m.PackageEmbeddedContent());
+                    // IO heavy operation, needs to run in background thread.
+                    var m = message;
+                    await Task.Run(() => m.PackageEmbeddedContent());
 
-                //    if (key == null) {
-                //        messages.Add(message);
-                //    } else {
-                //        var nonce = PublicKeyCrypto.GenerateNonce();
-                //        var payload = await EncryptMessageAsync(message, current, key, nonce);
-                //        message = GenerateDeliveryMessage(account, current.PublicKey, address, nonce);
-                //        message.AlternateViews.Add(new AlternateView(new MemoryStream(payload),
-                //            new ContentType(MediaTypes.EncryptedMime)));
-                //        messages.Add(message);
-                //    }
+                    if (key == null) {
+                        messages.Add(message);
+                    } else {
+                        var nonce = PublicKeyCrypto.GenerateNonce();
+                        var payload = await EncryptMessageAsync(message, current, key, nonce);
+                        message = GenerateDeliveryMessage(account, current.PublicKey, address, nonce);
+                        message.AlternateViews.Add(new AlternateView(new MemoryStream(payload),
+                            new ContentType(MediaTypes.EncryptedMime)));
+                        messages.Add(message);
+                    }
+                }
+
+
+                //foreach (var VARIABLE in COLLECTION) {
+                    
                 //}
 
-                //await account.SaveCompositionsAsync(messages);
+                //await account.SaveCompositionsAsync();
                 //await App.Context.NotifyOutboxNotEmpty();
             } catch (Exception ex) {
                 Logger.Error(ex);

@@ -241,7 +241,9 @@
     <Compile Include="IAuthenticatable.cs" />
     <Compile Include="IBlockable.cs" />
     <Compile Include="IDecryptor.cs" />
+    <Compile Include="IMailDataSource.cs" />
     <Compile Include="IMailMessage.cs" />
+    <Compile Include="IRecipientProvider.cs" />
     <Compile Include="LocalMailboxes.cs" />
     <Compile Include="LoggerExtensions.cs" />
     <Compile Include="MailMessageExtension.cs" />

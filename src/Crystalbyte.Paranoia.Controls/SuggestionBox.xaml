@@ -61,6 +61,7 @@
                                    MinHeight="0"
                                    MaxWidth="500"
                                    MaxHeight="300"
+                                   AllowsTransparency="False"
                                    Focusable="False"
                                    HorizontalOffset="-1"
                                    IsOpen="False"

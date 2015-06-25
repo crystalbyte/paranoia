@@ -73,6 +73,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewBorderBrushKey}}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Margin" Value="0" />
+        <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
         <Setter Property="Padding" Value="1.5" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />

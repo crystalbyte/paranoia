@@ -1414,12 +1414,11 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void NotifySeenStatesChanged(IDictionary<long, MailMessage> messages) {
+        internal void NotifySeenStatesChanged(ICollection<Int64> seenIds) {
             foreach (var message in
                 from message in _messages
-                let hasKey = messages.ContainsKey(message.Id)
-                where hasKey select message) {
-                message.IsSeen = messages[message.Id].Flags.Any(x => x.Value == MailMessageFlags.Seen);
+                select message) {
+                message.IsSeen = seenIds.Contains(message.Id);
             }
         }
 

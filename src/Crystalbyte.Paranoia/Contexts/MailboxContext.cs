@@ -33,6 +33,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -542,6 +543,8 @@ namespace Crystalbyte.Paranoia {
                     await StoreMessagesAsync(messages);
                 }
 
+                await SyncLocalSeenFlagsAsync(seenUids, unseenUids);
+
                 var countNotSeen = CountMessagesAsync();
                 var contexts = messages
                     .Select(x => new MailMessageContext(this, x))
@@ -556,6 +559,41 @@ namespace Crystalbyte.Paranoia {
                 IsSyncingMessages = false;
                 Logger.Exit();
             }
+        }
+
+        private async Task SyncLocalSeenFlagsAsync(HashSet<Int64> seenUids, HashSet<Int64> unseenUids) {
+            var seenIds = await Task.Run(async () => {
+                using (var context = new DatabaseContext()) {
+                    var messages = await context.Set<MailMessage>()
+                        .Where(x => x.MailboxId == _mailbox.Id)
+                        .Include(x => x.Flags)
+                        .Select(x => new { x.Id, x.Uid, x.Flags })
+                        .ToArrayAsync();
+
+                    var seen = messages.Where(x => x.Flags.Any(y => y.Value.EqualsIgnoreCase(MailMessageFlags.Seen)))
+                        .ToDictionary(x => x.Uid);
+
+                    var unseen = messages.Where(x => x.Flags.All(y => !y.Value.EqualsIgnoreCase(MailMessageFlags.Seen)))
+                        .ToDictionary(x => x.Uid);
+
+                    var toBeMarkedAsSeen = unseen.Where(x => seenUids.Contains(x.Key))
+                        .Select(x => new { x.Value.Id, x.Value.Flags });
+
+                    var toBeMarkedAsUnseen = seen.Where(x => unseenUids.Contains(x.Key))
+                        .Select(x => new { x.Value.Id, x.Value.Flags });
+
+                    var set = context.Set<MailMessageFlag>();
+                    var seenFlags = toBeMarkedAsUnseen.Select(x => x.Flags.First(y => y.Value == MailMessageFlags.Seen));
+                    set.RemoveRange(seenFlags);
+                    set.AddRange(toBeMarkedAsSeen.Select(x => new MailMessageFlag { Value = MailMessageFlags.Seen }));
+
+                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+
+                    return new HashSet<Int64>(seen.Values.Select(x => x.Id));
+                }
+            });
+
+            App.Context.NotifySeenStatesChanged(seenIds);
         }
 
         private async void OnIsExpandedChanged(object sender, EventArgs e) {

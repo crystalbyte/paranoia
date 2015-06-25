@@ -330,7 +330,6 @@
                                     ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                     ItemsSourceRequested="OnItemsSourceRequested"
                                     Padding="6"
-                                    SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                     StringTokenTemplate="{StaticResource StringTokenTemplate}"
                                     TokenTemplate="{StaticResource ContactTokenTemplate}"
                                     Watermark="{x:Static properties:Resources.To}"
@@ -368,7 +367,6 @@
                                         ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                         ItemsSourceRequested="OnItemsSourceRequested"
                                         Padding="6"
-                                        SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                         StringTokenTemplate="{StaticResource StringTokenTemplate}"
                                         TokenTemplate="{StaticResource ContactTokenTemplate}"
                                         Visibility="{Binding IsChecked,
@@ -388,7 +386,6 @@
                                         ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                         ItemsSourceRequested="OnItemsSourceRequested"
                                         Padding="6"
-                                        SelectedValuesChanged="OnRecipientsBoxSelectionChanged"
                                         StringTokenTemplate="{StaticResource StringTokenTemplate}"
                                         TokenTemplate="{StaticResource ContactTokenTemplate}"
                                         Visibility="{Binding IsChecked,

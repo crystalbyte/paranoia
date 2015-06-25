@@ -27,7 +27,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,7 +37,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Crystalbyte.Paranoia.Data;
-using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.Themes;
 using NLog;
@@ -46,7 +47,7 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for CompositionWindow.xaml
     /// </summary>
-    public partial class CompositionWindow : IAccentAware, IDocumentProvider {
+    public partial class CompositionWindow : IAccentAware, IMailDataSource {
 
         #region Private Fields
 
@@ -155,22 +156,6 @@ namespace Crystalbyte.Paranoia.UI {
                     .ToArray();
 
                 return candidates.Select(x => new MailContactContext(x)).ToArray();
-            }
-        }
-
-        private void OnRecipientsBoxSelectionChanged(object sender, EventArgs e) {
-            try {
-                var addresses = RecipientsBox
-                    .SelectedValues
-                    .Select(x => x is MailContactContext
-                        ? ((MailContactContext)x).Address
-                        : x as string);
-
-                var context = (MailCompositionContext)DataContext;
-                context.Addresses.Clear();
-                context.Addresses.AddRange(addresses);
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -284,9 +269,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         internal async Task PrepareAsForwardAsync(IReadOnlyDictionary<string, string> arguments) {
-
             var id = Int64.Parse(arguments["id"]);
-
             var info = await Task.Run(() => {
                 using (var context = new DatabaseContext()) {
                     return context.Set<MailMessage>()
@@ -296,12 +279,10 @@ namespace Crystalbyte.Paranoia.UI {
                 }
             });
 
+            Loaded += OnLoadedAsNew;
             HtmlEditor.Source = string.Format("message:///forward?id={0}", id);
-
             var c = (MailCompositionContext)DataContext;
             c.Subject = string.Format("{0} {1}", Settings.Default.PrefixForForwarding, info.Subject);
-
-            Loaded += OnLoadedAsNew;
         }
 
         private void OnHtmlSurfaceDrop(object sender, DragEventArgs e) {
@@ -329,22 +310,21 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private async Task SignAsync() {
-            //throw new NotImplementedException();
-            //var context = (MailCompositionContext)DataContext;
-            //var path = context.SelectedAccount.SignaturePath;
+            var context = (MailCompositionContext)DataContext;
+            var path = context.SelectedAccount.SignaturePath;
 
-            //string signature;
-            //if (!File.Exists(path)) {
-            //    signature = string.Empty;
-            //    var warning = string.Format(Paranoia.Properties.Resources.MissingSignatureTemplate, path);
-            //    Logger.Warn(warning);
-            //} else {
-            //    signature = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));
-            //}
+            string signature;
+            if (!File.Exists(path)) {
+                signature = string.Empty;
+                var warning = string.Format(Paranoia.Properties.Resources.MissingSignatureTemplate, path);
+                Logger.Warn(warning);
+            } else {
+                signature = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));
+            }
 
-            //var bytes = Encoding.UTF8.GetBytes(signature);
-            //var encoded = Convert.ToBase64String(bytes);
-            //HtmlEditor.InsertSignature(encoded);
+            var bytes = Encoding.UTF8.GetBytes(signature);
+            var encoded = Convert.ToBase64String(bytes);
+            HtmlEditor.InsertSignature(encoded);
         }
 
         private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -373,26 +353,56 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         private void OnAttachmentMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            var item = (ListViewItem)sender;
-            var attachment = (FileAttachmentContext)item.DataContext;
-            attachment.Open();
+            try {
+                var item = (ListViewItem)sender;
+                var attachment = (FileAttachmentContext)item.DataContext;
+                attachment.Open();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnAttachmentsDelete(object sender, ExecutedRoutedEventArgs e) {
-
-            throw new NotImplementedException();
-
-            //var composition = (MailCompositionContext)DataContext;
-            //var listView = (ListView)sender;
-            //foreach (var item in listView.SelectedItems.OfType<FileAttachmentContext>().ToArray()) {
-            //    composition.Attachments.Remove(item);
-            //}
+            try {
+                var composition = (MailCompositionContext)DataContext;
+                var listView = (ListView)sender;
+                foreach (var item in listView.SelectedItems.OfType<FileAttachmentContext>().ToArray()) {
+                    composition.Attachments.Remove(item);
+                }
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
+
+        #region Implementation of IMailDataSource
 
         public async Task<string> GetDocumentAsync() {
             var content = await HtmlEditor.GetHtmlAsync();
             var appendix = await HtmlEditor.GetAppendixAsync();
             return string.Format("<div>{0}{1}</div>", content, appendix);
+        }
+
+        #endregion
+
+        public IEnumerable<string> GetTo() {
+            return RecipientsBox.Matches.Select(x => {
+                var contact = x as MailContactContext;
+                return contact != null ? contact.Address : x as string;
+            });
+        }
+
+        public IEnumerable<string> GetCc() {
+            return CarbonCopyBox.Matches.Select(x => {
+                var contact = x as MailContactContext;
+                return contact != null ? contact.Address : x as string;
+            });
+        }
+
+        public IEnumerable<string> GetBcc() {
+            return BlindCarbonCopyBox.Matches.Select(x => {
+                var contact = x as MailContactContext;
+                return contact != null ? contact.Address : x as string;
+            });
         }
     }
 }
