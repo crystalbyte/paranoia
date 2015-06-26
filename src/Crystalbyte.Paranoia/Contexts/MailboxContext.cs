@@ -567,39 +567,44 @@ namespace Crystalbyte.Paranoia {
         private async Task SyncLocalSeenFlagsAsync(ICollection<long> seenUids, ICollection<long> unseenUids) {
             var seenIds = await Task.Run(async () => {
                 using (var context = new DatabaseContext()) {
+                    await context.OpenAsync();
+                    await context.EnableForeignKeysAsync();
+
                     var messages = await context.Set<MailMessage>()
                         .Where(x => x.MailboxId == _mailbox.Id)
                         .Include(x => x.Flags)
                         .Select(x => new { x.Id, x.Uid, x.Flags })
                         .ToArrayAsync();
 
-                    var seen = messages.Where(x => x.Flags.Any(y => y.Value.EqualsIgnoreCase(MailMessageFlags.Seen)))
+                    var localSeenUids = messages.Where(x => x.Flags.Any(y => y.Value.EqualsIgnoreCase(MailMessageFlags.Seen)))
                         .ToDictionary(x => x.Uid);
 
-                    var unseen = messages.Where(x => x.Flags.All(y => !y.Value.EqualsIgnoreCase(MailMessageFlags.Seen)))
+                    var localUnseenUids = messages.Where(x => x.Flags.All(y => !y.Value.EqualsIgnoreCase(MailMessageFlags.Seen)))
                         .ToDictionary(x => x.Uid);
 
-                    var toBeMarkedAsSeen = unseen.Where(x => seenUids.Contains(x.Key))
+                    var toBeMarkedAsSeen = localUnseenUids.Where(x => seenUids.Contains(x.Key))
                         .Select(x => new { x.Value.Id, x.Value.Flags });
 
-                    var toBeMarkedAsUnseen = seen.Where(x => unseenUids.Contains(x.Key))
+                    var toBeMarkedAsUnseen = localSeenUids.Where(x => unseenUids.Contains(x.Key))
                         .Select(x => new { x.Value.Id, x.Value.Flags });
 
                     var set = context.Set<MailMessageFlag>();
                     var seenFlags = toBeMarkedAsUnseen.Select(x => x.Flags.First(y => y.Value == MailMessageFlags.Seen));
                     set.RemoveRange(seenFlags);
-                    set.AddRange(toBeMarkedAsSeen.Select(x => new MailMessageFlag { Value = MailMessageFlags.Seen }));
+                    set.AddRange(toBeMarkedAsSeen.Select(x => new MailMessageFlag { Value = MailMessageFlags.Seen, MessageId = x.Id}));
 
                     await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
 
                     var updatedSeenFlags = context.Set<MailMessageFlag>()
                         .Where(x => x.Message.MailboxId == _mailbox.Id)
-                        .Select(x => x.MessageId);
-                    return new HashSet<Int64>(updatedSeenFlags);
+                        .Where(x => x.Value == MailMessageFlags.Seen)
+                        .Select(x => x.MessageId)
+                        .ToArrayAsync();
+                    return new HashSet<Int64>(await updatedSeenFlags);
                 }
             });
 
-            App.Context.NotifySeenStatesChanged(seenIds);
+            App.Context.NotifySeenStatesChanged(seenIds, _mailbox.Id);
         }
 
         private async void OnIsExpandedChanged(object sender, EventArgs e) {

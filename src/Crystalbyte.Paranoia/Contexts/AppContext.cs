@@ -485,7 +485,7 @@ namespace Crystalbyte.Paranoia {
                     .Select(Convert.ToChar).ToArray();
             }
         }
-     
+
         internal async Task LoadContactsAsync() {
             Logger.Enter();
 
@@ -1278,9 +1278,9 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void NotifySeenStatesChanged(ICollection<Int64> seenIds) {
+        internal void NotifySeenStatesChanged(ICollection<Int64> seenIds, Int64 mailboxId) {
             foreach (var message in
-                from message in _messages
+                from message in _messages.Where(x => x.Mailbox.Id == mailboxId)
                 select message) {
                 message.IsSeen = seenIds.Contains(message.Id);
             }
