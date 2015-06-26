@@ -523,6 +523,9 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
 
+                // TODO: We might need to split the download activity into smaller chunks in
+                // TODO: order not to block the database for too long a time.
+
                 var getSeenUids = SearchAsync(name, "1:* SEEN");
                 var getUnseenUids = SearchAsync(name, "1:* NOT SEEN");
                 var fetchEnvelopes = FetchEnvelopesAsync(name, await getMaxUid);
@@ -561,7 +564,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task SyncLocalSeenFlagsAsync(HashSet<Int64> seenUids, HashSet<Int64> unseenUids) {
+        private async Task SyncLocalSeenFlagsAsync(ICollection<long> seenUids, ICollection<long> unseenUids) {
             var seenIds = await Task.Run(async () => {
                 using (var context = new DatabaseContext()) {
                     var messages = await context.Set<MailMessage>()
@@ -589,7 +592,10 @@ namespace Crystalbyte.Paranoia {
 
                     await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
 
-                    return new HashSet<Int64>(seen.Values.Select(x => x.Id));
+                    var updatedSeenFlags = context.Set<MailMessageFlag>()
+                        .Where(x => x.Message.MailboxId == _mailbox.Id)
+                        .Select(x => x.MessageId);
+                    return new HashSet<Int64>(updatedSeenFlags);
                 }
             });
 
