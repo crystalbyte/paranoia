@@ -67,7 +67,6 @@ namespace Crystalbyte.Paranoia {
         private bool _isSyncedInitially;
         private bool _isSelectedSubtly;
 
-
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
@@ -290,6 +289,10 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => IsSubscribed);
                 RaisePropertyChanged(() => IsSubscribedAndSelectable);
                 RaisePropertyChanged(() => IsListed);
+
+                if (_account.IsManagingMailboxes) {
+                    _account.ChangeSubscription(this, value);
+                }
             }
         }
 
@@ -470,38 +473,6 @@ namespace Crystalbyte.Paranoia {
 
         public bool CheckForValidName(string name) {
             return Children.All(x => string.Compare(name, x.LocalName, StringComparison.OrdinalIgnoreCase) != 0);
-        }
-
-        private async Task SubscribeAsync() {
-            using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                    using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                        await session.SubscribeAsync(Name);
-                    }
-                }
-            }
-
-            using (var database = new DatabaseContext()) {
-                var mailbox = await database.Mailboxes.FindAsync(_mailbox.Id);
-                mailbox.IsSubscribed = true;
-                await database.SaveChangesAsync();
-            }
-        }
-
-        private async Task UnsubscribeAsync() {
-            using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
-                using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
-                    using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
-                        await session.UnsubscribeAsync(Name);
-                    }
-                }
-            }
-
-            using (var database = new DatabaseContext()) {
-                var mailbox = await database.Mailboxes.FindAsync(_mailbox.Id);
-                mailbox.IsSubscribed = false;
-                await database.SaveChangesAsync();
-            }
         }
 
         internal async Task SyncMessagesAsync() {

@@ -205,7 +205,7 @@
                                     <Setter TargetName="LayoutRoot" Property="ContextMenu">
                                         <Setter.Value>
                                             <ContextMenu>
-                                                <MenuItem Command="{Binding HideUnsubscribedMailboxesCommand}" Header="{x:Static properties:Resources.HideUnsubscribedMailboxes}">
+                                                <MenuItem Command="{Binding AcceptSubscriptionChangesCommand}" Header="{x:Static properties:Resources.HideUnsubscribedMailboxes}">
                                                     <MenuItem.Icon>
                                                         <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
                                                             <Rectangle.OpacityMask>

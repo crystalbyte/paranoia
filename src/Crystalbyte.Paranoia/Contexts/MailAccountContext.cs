@@ -36,6 +36,7 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -63,6 +64,8 @@ namespace Crystalbyte.Paranoia {
         private bool _isMailboxSelectionAvailable;
         private TestingContext _testing;
 
+        private readonly Dictionary<MailboxContext, bool> _subscriptionChanges;
+
         private readonly AppContext _appContext;
         private readonly MailAccount _account;
         private readonly ICommand _listMailboxesCommand;
@@ -70,7 +73,7 @@ namespace Crystalbyte.Paranoia {
         private readonly ICommand _deleteAccountCommand;
         private readonly ICommand _configAccountCommand;
         private readonly ICommand _showUnsubscribedMailboxesCommand;
-        private readonly ICommand _hideUnsubscribedMailboxesCommand;
+        private readonly ICommand _acceptSubscriptionChangesCommand;
         private readonly ObservableCollection<MailboxContext> _mailboxes;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -90,9 +93,11 @@ namespace Crystalbyte.Paranoia {
             _configAccountCommand = new RelayCommand(OnConfigAccount);
             _deleteAccountCommand = new RelayCommand(OnDeleteAccount);
             _showUnsubscribedMailboxesCommand = new RelayCommand(OnShowUnsubscribedMailboxes);
-            _hideUnsubscribedMailboxesCommand = new RelayCommand(OnHideUnsubscribedMailboxes);
+            _acceptSubscriptionChangesCommand = new RelayCommand(OnAcceptSubscriptionChanges);
             _isAutoDetectPreferred = true;
             _saveMutex = new object();
+
+            _subscriptionChanges = new Dictionary<MailboxContext, bool>();
 
             _mailboxes = new ObservableCollection<MailboxContext>();
             _mailboxes.CollectionChanged += (sender, e) => {
@@ -154,9 +159,15 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private void OnHideUnsubscribedMailboxes(object obj) {
-            IsManagingMailboxes = false;
-            Mailboxes.ForEach(x => x.IsEditing = false);
+        private async void OnAcceptSubscriptionChanges(object obj) {
+            try {
+                IsManagingMailboxes = false;
+                Mailboxes.ForEach(x => x.IsEditing = false);
+
+                await ApplySubscriptionsAsync();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         private void OnShowUnsubscribedMailboxes(object obj) {
@@ -265,8 +276,8 @@ namespace Crystalbyte.Paranoia {
             get { return _listMailboxesCommand; }
         }
 
-        public ICommand HideUnsubscribedMailboxesCommand {
-            get { return _hideUnsubscribedMailboxesCommand; }
+        public ICommand AcceptSubscriptionChangesCommand {
+            get { return _acceptSubscriptionChangesCommand; }
         }
 
         public ICommand ShowUnsubscribedMailboxesCommand {
@@ -357,6 +368,58 @@ namespace Crystalbyte.Paranoia {
                 _isSyncingMailboxes = value;
                 RaisePropertyChanged(() => IsSyncingMailboxes);
             }
+        }
+
+        internal void ChangeSubscription(MailboxContext mailbox, bool subscribe) {
+            if (_subscriptionChanges.ContainsKey(mailbox)) {
+                _subscriptionChanges[mailbox] = subscribe;
+            } else {
+                _subscriptionChanges.Add(mailbox, subscribe);
+            }
+        }
+
+        internal async Task ApplySubscriptionsAsync() {
+
+            var toBeSubbed = _subscriptionChanges.Where(x => x.Value).Select(x => x.Key).ToArray();
+            var toBeUnsubbed = _subscriptionChanges.Where(x => !x.Value).Select(x => x.Key).ToArray();
+
+            if (toBeSubbed.Length == 0 && toBeUnsubbed.Length == 0) {
+                return;
+            }
+
+            var applyRemote = Task.Run(async () => {
+                using (var connection = new ImapConnection { Security = _account.ImapSecurity }) {
+                    using (var auth = await connection.ConnectAsync(_account.ImapHost, _account.ImapPort)) {
+                        using (var session = await auth.LoginAsync(_account.ImapUsername, _account.ImapPassword)) {
+                            foreach (var mailbox in toBeSubbed) {
+                                await session.SubscribeAsync(mailbox.Name);
+                            }
+                            foreach (var mailbox in toBeUnsubbed) {
+                                await session.UnsubscribeAsync(mailbox.Name);
+                            }
+                        }
+                    }
+                }
+            });
+
+            var applyLocal = Task.Run(async () => {
+                using (var context = new DatabaseContext()) {
+                    var set = context.Set<Mailbox>();
+
+                    foreach (var e in toBeSubbed.Select(mailbox => new Mailbox { Id = mailbox.Id })) {
+                        set.Attach(e);
+                        e.IsSubscribed = true;
+                    }
+                    foreach (var e in toBeUnsubbed.Select(mailbox => new Mailbox { Id = mailbox.Id })) {
+                        set.Attach(e);
+                        e.IsSubscribed = false;
+                    }
+
+                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+                }
+            });
+
+            await Task.WhenAll(new[] { applyRemote, applyLocal });
         }
 
         internal async Task SyncMailboxesAsync() {
@@ -1034,7 +1097,7 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
 
-                
+
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
                 App.Context.NotifyAccountCreated(this);
