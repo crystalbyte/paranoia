@@ -123,35 +123,6 @@ namespace Crystalbyte.Paranoia {
             _flagMessagesCommand = new FlagMessagesCommand(this);
             _unflagMessagesCommand = new UnflagMessagesCommand(this);
 
-            NetworkChange.NetworkAvailabilityChanged += OnNetworkAvailabilityChanged;
-
-            Observable.FromEventPattern(
-                action => MessageSelectionChanged += action,
-                action => MessageSelectionChanged -= action)
-                    .Throttle(TimeSpan.FromMilliseconds(10))
-                    .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                    .Subscribe(OnMessageSelectionCommitted);
-
-            Observable.FromEventPattern<QueryStringEventArgs>(
-                action => QueryStringChanged += action,
-                action => QueryStringChanged -= action)
-                    .Select(x => x.EventArgs)
-                    .Where(x => (x.Text.Length > 1 || String.IsNullOrEmpty(x.Text)))
-                    .Throttle(TimeSpan.FromMilliseconds(200))
-                    .Select(x => x.Text)
-                    .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                    .Subscribe(OnQueryReceived);
-
-            Observable.FromEventPattern<QueryStringEventArgs>(
-                action => ContactQueryStringChanged += action,
-                action => ContactQueryStringChanged -= action)
-                    .Select(x => x.EventArgs)
-                    .Where(x => (x.Text.Length > 1 || String.IsNullOrEmpty(x.Text)))
-                    .Throttle(TimeSpan.FromMilliseconds(200))
-                    .Select(x => x.Text)
-                    .ObserveOn(new DispatcherSynchronizationContext(Application.Current.Dispatcher))
-                    .Subscribe(OnContactQueryReceived);
-
             _outboxTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
             _outboxTimer.Tick += OnOutboxTimerTick;
 
@@ -165,21 +136,6 @@ namespace Crystalbyte.Paranoia {
             var context = _navigationOptions.OfType<MailNavigationContext>().FirstOrDefault();
             if (context != null) {
                 await context.CountGlobalUnseenAsync();
-            }
-        }
-
-        private async void OnNetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e) {
-            try {
-                if (!e.IsAvailable)
-                    return;
-
-                await Application.Current.Dispatcher.InvokeAsync(async () => {
-                    foreach (var account in Accounts) {
-                        await account.TakeOnlineAsync();
-                    }
-                });
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -514,14 +470,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async void OnContactQueryReceived(string query) {
-            try {
-                await FilterContactsAsync(query);
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
-
         private void OnMessagesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             try {
                 RaisePropertyChanged(() => Messages);
@@ -537,31 +485,7 @@ namespace Crystalbyte.Paranoia {
                     .Select(Convert.ToChar).ToArray();
             }
         }
-
-        internal async Task FilterContactsAsync(string query) {
-            Application.Current.AssertUIThread();
-
-            throw new NotImplementedException();
-            _contacts.Clear();
-
-            if (String.IsNullOrWhiteSpace(query)) {
-                await Task.Run(async () => await LoadContactsAsync());
-                return;
-            }
-
-            var contacts = await Task.Run(async () => {
-                using (var database = new DatabaseContext()) {
-                    return await database.MailContacts
-                        .Where(x => x.Name.Contains(query)
-                                    || x.Address.Contains(query))
-                        .ToArrayAsync();
-                }
-            });
-
-            await Application.Current.Dispatcher.InvokeAsync(() => _contacts
-                .AddRange(contacts.Select(x => new MailContactContext(x))));
-        }
-
+     
         internal async Task LoadContactsAsync() {
             Logger.Enter();
 
@@ -735,23 +659,6 @@ namespace Crystalbyte.Paranoia {
             RaisePropertyChanged(() => SelectedContacts);
         }
 
-        internal event EventHandler<QueryStringEventArgs> QueryStringChanged;
-
-        private void OnQueryStringChanged(QueryStringEventArgs e) {
-            var handler = QueryStringChanged;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        internal event EventHandler<QueryStringEventArgs> ContactQueryStringChanged;
-
-
-        private void OnContactQueryStringChanged(QueryStringEventArgs e) {
-            var handler = ContactQueryStringChanged;
-            if (handler != null)
-                handler(this, e);
-        }
-
         #endregion
 
         #region Properties
@@ -861,18 +768,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public string QueryString {
-            get { return _queryString; }
-            set {
-                if (_queryString == value) {
-                    return;
-                }
-                _queryString = value;
-                RaisePropertyChanged(() => QueryString);
-                OnQueryStringChanged(new QueryStringEventArgs(value));
-            }
-        }
-
         public IMessageSource MessageSource {
             get { return _messageSource; }
             set {
@@ -882,18 +777,6 @@ namespace Crystalbyte.Paranoia {
                 _messageSource = value;
                 RaisePropertyChanged(() => MessageSource);
                 OnMessageSourceChanged();
-            }
-        }
-
-        public string ContactQueryString {
-            get { return _queryContactString; }
-            set {
-                if (_queryContactString == value) {
-                    return;
-                }
-                _queryContactString = value;
-                RaisePropertyChanged(() => ContactQueryString);
-                OnContactQueryStringChanged(new QueryStringEventArgs(value));
             }
         }
 
@@ -975,7 +858,7 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
-        private void OnQueryReceived(string text) {
+        internal void QueryMessages(string text) {
             try {
                 if (string.IsNullOrEmpty(text)) {
                     MessageSource = SelectedMailbox;
@@ -992,25 +875,6 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => Accounts);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
-            }
-        }
-
-        private async void OnMessageSelectionCommitted(EventPattern<object> obj) {
-            Logger.Enter();
-
-            Application.Current.AssertUIThread();
-
-            try {
-                var message = SelectedMessages.FirstOrDefault();
-                if (message == null) {
-                    return;
-                }
-
-                await ViewMessageAsync(message);
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            } finally {
-                Logger.Exit();
             }
         }
 

@@ -387,9 +387,6 @@
                                                IsTabStop="False"
                                                Padding="6"
                                                RenderOptions.EdgeMode="Unspecified"
-                                               Text="{Binding QueryString,
-                                                              Mode=TwoWay,
-                                                              UpdateSourceTrigger=PropertyChanged}"
                                                Watermark="{x:Static properties:Resources.SearchBoxWatermark}">
                         <controls:WatermarkTextBox.InputBindings>
                             <KeyBinding Key="Escape" Command="ui:MessageCommands.CancelSearch" />
@@ -474,7 +471,6 @@
                           Padding="2,0"
                           PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDownMessagesListView"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          SelectionChanged="OnMessageSelectionChanged"
                           SnapsToDevicePixels="True"
                           TabIndex="4"
                           VirtualizingPanel.IsVirtualizing="True"

@@ -20,8 +20,14 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="PrimaryOutputComponent">
+            <Component Id="cmp3F54FAFFDE7690E96870777990DF0B40" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="fil8D9634E7AD1EE3543AF8E2B87EB09D80" KeyPath="yes" Source="$(var.PrimaryOutputDir)\2015-06-20.log" />
+            </Component>
             <Component Id="cmp6E24D78416166AD9391CD711C4751D19" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="filE88F443CCAA45948BFC13998EBC2BFC0" KeyPath="yes" Source="$(var.PrimaryOutputDir)\ARSoft.Tools.Net.dll" />
+            </Component>
+            <Component Id="cmp7C2663391AFACCB9AC0357BDC3B69E30" Directory="APPLICATIONFOLDER" Guid="*">
+                <File Id="filFB50C62A972EC9A78E01CF784102FB72" KeyPath="yes" Source="$(var.PrimaryOutputDir)\cef.log" />
             </Component>
             <Component Id="cmp463C4316D2DFF1837F38707979359E30" Directory="APPLICATIONFOLDER" Guid="*">
                 <File Id="fil7975CE4E86034C44DA0FC4865FD700EA" KeyPath="yes" Source="$(var.PrimaryOutputDir)\cef.pak" />

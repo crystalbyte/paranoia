@@ -30,14 +30,18 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Crystalbyte.Paranoia.Data;
 using NLog;
+using NLog.Fluent;
 
 #endregion
 
@@ -54,6 +58,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
+        #region Construction
+
         public MailPage() {
             InitializeComponent();
 
@@ -66,6 +72,93 @@ namespace Crystalbyte.Paranoia.UI {
 
             _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
         }
+
+        #endregion
+
+        #region Class Override
+
+        protected override void OnInitialized(EventArgs e) {
+            base.OnInitialized(e);
+
+            try {
+                Observable.FromEventPattern<SelectionChangedEventHandler, SelectionChangedEventArgs>(
+                    action => MessagesListView.SelectionChanged += action,
+                    action => MessagesListView.SelectionChanged -= action)
+                        .Select(x => x.EventArgs)
+                        .Throttle(TimeSpan.FromMilliseconds(200))
+                        .Subscribe(OnMessageSelectionChangeObserved);
+
+                Observable.FromEventPattern<TextChangedEventHandler, TextChangedEventArgs>(
+                    action => QuickSearchBox.TextChanged += action,
+                    action => QuickSearchBox.TextChanged -= action)
+                        .Select(x => ((WatermarkTextBox)x.Sender).Text)
+                        .Where(x => x.Length > 2 || String.IsNullOrEmpty(x))
+                        .Subscribe(OnQueryTextChangeObserved);
+
+            } catch (Exception ex) {
+                Logger.Error(ex.Message, ex);
+            }
+        }
+
+        private static async void OnQueryTextChangeObserved(string query) {
+            try {
+                await Application.Current.Dispatcher.InvokeAsync(() => {
+                    var app = App.Context;
+                    app.QueryMessages(query);
+                });
+            } catch (Exception ex) {
+                Logger.Error(ex.Message, ex);
+            }
+        }
+
+        private async void OnMessageSelectionChangeObserved(SelectionChangedEventArgs e) {
+            try {
+                await Application.Current.Dispatcher.InvokeAsync(async () => {
+                    if (!IsLoaded) {
+                        return;
+                    }
+
+                    foreach (var item in e.AddedItems.OfType<SelectionObject>()) {
+                        item.IsSelected = true;
+                    }
+
+                    foreach (var item in e.RemovedItems.OfType<SelectionObject>()) {
+                        item.IsSelected = false;
+                    }
+
+                    var app = App.Context;
+                    app.OnMessageSelectionChanged();
+
+                    Task flagMessages = null;
+                    if (e.AddedItems.Count == 1) {
+                        var last = e.RemovedItems.OfType<MailMessageContext>().FirstOrDefault();
+                        if (last != null) {
+                            flagMessages = app.MarkMessagesAsSeenAsync(new[] { last });
+                        }
+                    }
+
+                    var message = app.SelectedMessage;
+                    if (message == null)
+                        return;
+
+                    await app.ViewMessageAsync(message);
+
+                    var container = (Control)MessagesListView
+                        .ItemContainerGenerator.ContainerFromItem(message);
+                    if (container != null) {
+                        container.Focus();
+                    }
+
+                    if (flagMessages != null) {
+                        await flagMessages;
+                    }
+                });
+            } catch (Exception ex) {
+                Logger.Error(ex.Message, ex);
+            }
+        }
+
+        #endregion
 
         private void OnCancelSearch(object sender, ExecutedRoutedEventArgs e) {
             try {
@@ -291,49 +384,6 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static void RequeryRoutedCommands() {
             CommandManager.InvalidateRequerySuggested();
-        }
-
-        private async void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            try {
-                if (!IsLoaded) {
-                    return;
-                }
-
-                foreach (var item in e.AddedItems.OfType<SelectionObject>()) {
-                    item.IsSelected = true;
-                }
-
-                foreach (var item in e.RemovedItems.OfType<SelectionObject>()) {
-                    item.IsSelected = false;
-                }
-
-                var app = App.Context;
-                app.OnMessageSelectionChanged();
-
-                Task flagMessages = null;
-                if (e.AddedItems.Count == 1) {
-                    var last = e.RemovedItems.OfType<MailMessageContext>().FirstOrDefault();
-                    if (last != null) {
-                        flagMessages = app.MarkMessagesAsSeenAsync(new[] { last });
-                    }
-                }
-
-                var message = app.SelectedMessage;
-                if (message == null)
-                    return;
-
-                var container = (Control)MessagesListView
-                    .ItemContainerGenerator.ContainerFromItem(message);
-                if (container != null) {
-                    container.Focus();
-                }
-
-                if (flagMessages != null) {
-                    await flagMessages;
-                }
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            }
         }
 
         private async void OnAttachmentMouseDoubleClicked(object sender, MouseButtonEventArgs e) {

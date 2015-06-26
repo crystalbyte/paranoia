@@ -47,7 +47,6 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         public void Execute(object parameter) {
             var arg = parameter as string;
             if (arg == "!") {
-                _app.QueryString = string.Empty;
                 _control.MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
                 return;
             }
