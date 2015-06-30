@@ -29,7 +29,7 @@
 
     <!--  Window Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="White" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}" Color="#F8F8F9" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderSecondaryForegroundBrushKey}" Color="LightGray" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}" Color="#22000000" />
@@ -47,7 +47,7 @@
     <!--  Navigation Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}">White</SolidColorBrush>
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBorderBrushKey}">Gray</SolidColorBrush>
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="#DFDFDF" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="WhiteSmoke" />
 
     <!--  Button Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />
