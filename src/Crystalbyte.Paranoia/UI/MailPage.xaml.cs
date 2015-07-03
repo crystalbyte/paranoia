@@ -30,7 +30,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -38,10 +38,8 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Crystalbyte.Paranoia.Data;
 using NLog;
-using NLog.Fluent;
 
 #endregion
 
@@ -53,6 +51,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Private Fields
 
+        private MailMessageContext _toBeMarkedAsSeen;
         private readonly CollectionViewSource _messageViewSource;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -70,6 +69,7 @@ namespace Crystalbyte.Paranoia.UI {
             App.Context.SortOrderChanged += OnSortOrderChanged;
             App.Context.ItemSelectionRequested += OnItemSelectionRequested;
 
+
             _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
         }
 
@@ -81,11 +81,12 @@ namespace Crystalbyte.Paranoia.UI {
             base.OnInitialized(e);
 
             try {
+                MessagesListView.SelectionChanged += OnMessageSelectionChanged;
                 Observable.FromEventPattern<SelectionChangedEventHandler, SelectionChangedEventArgs>(
                     action => MessagesListView.SelectionChanged += action,
                     action => MessagesListView.SelectionChanged -= action)
                         .Select(x => x.EventArgs)
-                        .Throttle(TimeSpan.FromMilliseconds(200))
+                        .Throttle(TimeSpan.FromMilliseconds(200), NewThreadScheduler.Default)
                         .Subscribe(OnMessageSelectionChangeObserved);
 
                 Observable.FromEventPattern<TextChangedEventHandler, TextChangedEventArgs>(
@@ -97,6 +98,20 @@ namespace Crystalbyte.Paranoia.UI {
 
             } catch (Exception ex) {
                 Logger.Error(ex.Message, ex);
+            }
+        }
+
+        private static void OnMessageSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            try {
+                foreach (var item in e.RemovedItems.OfType<SelectionObject>()) {
+                    item.IsSelected = false;
+                }
+
+                foreach (var item in e.AddedItems.OfType<SelectionObject>()) {
+                    item.IsSelected = true;
+                }
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 
@@ -118,29 +133,20 @@ namespace Crystalbyte.Paranoia.UI {
                         return;
                     }
 
-                    foreach (var item in e.AddedItems.OfType<SelectionObject>()) {
-                        item.IsSelected = true;
-                    }
-
-                    foreach (var item in e.RemovedItems.OfType<SelectionObject>()) {
-                        item.IsSelected = false;
-                    }
-
                     var app = App.Context;
                     app.OnMessageSelectionChanged();
 
                     Task flagMessages = null;
-                    if (e.AddedItems.Count == 1) {
-                        var last = e.RemovedItems.OfType<MailMessageContext>().FirstOrDefault();
-                        if (last != null) {
-                            flagMessages = app.MarkMessagesAsSeenAsync(new[] { last });
-                        }
+                    if (_toBeMarkedAsSeen != null) {
+                        flagMessages = app.MarkMessagesAsSeenAsync(new[] { _toBeMarkedAsSeen });
+                        _toBeMarkedAsSeen = null;
                     }
 
                     var message = app.SelectedMessage;
                     if (message == null)
                         return;
 
+                    _toBeMarkedAsSeen = message;
                     await app.ViewMessageAsync(message);
 
                     var container = (Control)MessagesListView
