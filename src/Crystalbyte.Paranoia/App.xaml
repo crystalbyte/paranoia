@@ -86,7 +86,7 @@
                 <Setter Property="StrokeThickness" Value="0" />
             </Style>
 
-            <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:MailAttachmentContext">
+            <DataTemplate x:Key="ThumbnailTemplate" DataType="paranoia:MailBindableAttachmentContext">
                 <Border ToolTip="{Binding Filename}">
                     <Border.ContextMenu>
                         <ContextMenu>
@@ -159,7 +159,7 @@
                 </Border>
             </DataTemplate>
 
-            <DataTemplate x:Key="FileThumbnailTemplate" DataType="paranoia:FileAttachmentContext">
+            <DataTemplate x:Key="FileThumbnailTemplate" DataType="paranoia:FileBindableAttachmentContext">
                 <Border ToolTip="{Binding FullName}">
                     <Border.ContextMenu>
                         <ContextMenu>

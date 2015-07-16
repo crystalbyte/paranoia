@@ -68,6 +68,9 @@ namespace Crystalbyte.Paranoia.Data {
         public DbSet<MailMessage> MailMessages { get; set; }
         public DbSet<PublicKey> PublicKeys { get; set; }
         public DbSet<MailMessageFlag> MailMessageFlags { get; set; }
+        public DbSet<MailComposition> MailCompositions { get; set; }
+        public DbSet<MailCompositionAddress> MailCompositionAddresses { get; set; }
+        public DbSet<MailCompositionAttachment> MailCompositionAttachments { get; set; }
 
         #endregion
 

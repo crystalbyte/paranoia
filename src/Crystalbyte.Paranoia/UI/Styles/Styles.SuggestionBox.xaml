@@ -3,15 +3,12 @@
                     xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
                     xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI;assembly=Crystalbyte.Paranoia.Controls">
     <Style TargetType="ui:SuggestionBox">
-        <Setter Property="Background"
-                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SuggestionBoxBackgroundBrushKey}}" />
-        <Setter Property="Foreground"
-                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}}" />
-        <Setter Property="BorderBrush"
-                Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SuggestionBoxBorderBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SuggestionBoxBackgroundBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.SuggestionBoxBorderBrushKey}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontFamilyKey}}" />
         <Setter Property="AccentBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.InputFontSizeKey}}" />
-        <Setter Property="Padding" Value="4" />
+        <Setter Property="Padding" Value="5" />
     </Style>
 </ResourceDictionary>

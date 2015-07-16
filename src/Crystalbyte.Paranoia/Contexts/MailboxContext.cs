@@ -33,7 +33,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -654,7 +653,6 @@ namespace Crystalbyte.Paranoia {
 
             try {
                 var contacts = await context.MailContacts.ToDictionaryAsync(x => x.Address.ToLower());
-
                 var mailContacts = messages.SelectMany(x => x.Addresses).ToArray();
                 var groups = mailContacts
                     .Where(x => !string.IsNullOrEmpty(x.Address))
@@ -667,7 +665,7 @@ namespace Crystalbyte.Paranoia {
                     .Where(x => !contacts.ContainsKey(x.Key))
                         .Select(group => new MailContact {
                             Address = group.First().Address,
-                            Name = group.First().Name.ToLower(CultureInfo.InvariantCulture)
+                            Name = group.First().Name
                         });
 
                 var newContacts = query.ToArray();

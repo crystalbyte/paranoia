@@ -40,7 +40,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public void NotifyContentReady() {
-            Application.Current.Dispatcher.Invoke(() => _editor.OnContentReady());
+            Application.Current.Dispatcher.Invoke(() => _editor.OnEditorReady());
         }
 
         public void NotifySelectionChanged(string json) {

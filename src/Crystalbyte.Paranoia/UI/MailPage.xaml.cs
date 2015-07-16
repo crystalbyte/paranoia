@@ -69,7 +69,6 @@ namespace Crystalbyte.Paranoia.UI {
             App.Context.SortOrderChanged += OnSortOrderChanged;
             App.Context.ItemSelectionRequested += OnItemSelectionRequested;
 
-
             _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
         }
 
@@ -94,6 +93,7 @@ namespace Crystalbyte.Paranoia.UI {
                     action => QuickSearchBox.TextChanged -= action)
                         .Select(x => ((WatermarkTextBox)x.Sender).Text)
                         .Where(x => x.Length > 2 || String.IsNullOrEmpty(x))
+                        .Throttle(TimeSpan.FromMilliseconds(200), NewThreadScheduler.Default)
                         .Subscribe(OnQueryTextChangeObserved);
 
             } catch (Exception ex) {

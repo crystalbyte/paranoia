@@ -347,7 +347,7 @@
         </Grid>
         <GridSplitter Grid.Row="0"
                       Grid.Column="1"
-                      Width="8"
+                      Width="6"
                       HorizontalAlignment="Center"
                       IsTabStop="False" />
         <DockPanel Grid.Row="0"
@@ -383,9 +383,8 @@
                         UseLayoutRounding="True">
                     <controls:WatermarkTextBox x:Name="QuickSearchBox"
                                                Margin="0"
-                                               FontSize="14"
                                                IsTabStop="False"
-                                               Padding="6"
+                                               Padding="5"
                                                RenderOptions.EdgeMode="Unspecified"
                                                Watermark="{x:Static properties:Resources.SearchBoxWatermark}">
                         <controls:WatermarkTextBox.InputBindings>
@@ -729,7 +728,7 @@
         </DockPanel>
         <GridSplitter Grid.Row="0"
                       Grid.Column="3"
-                      Width="8"
+                      Width="6"
                       HorizontalAlignment="Center"
                       IsTabStop="False" />
         <Grid Grid.Row="0"

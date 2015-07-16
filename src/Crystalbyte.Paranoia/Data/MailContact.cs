@@ -34,7 +34,7 @@ using Crystalbyte.Paranoia.Data.SQLite;
 
 namespace Crystalbyte.Paranoia.Data {
 
-    [Table("contact")]
+    [Table("mail_contact")]
     internal class MailContact {
         private List<PublicKey> _keys;
 

@@ -12,18 +12,51 @@
                    Text="{Binding}" />
     </DataTemplate>
 
-    <Style TargetType="ui:SuggestionBox">
-        <Setter Property="AcceptsReturn" Value="False" />
-        <Setter Property="SpellCheck.IsEnabled" Value="False" />
-        <Setter Property="WatermarkTemplate" Value="{StaticResource DefaultWatermarkTemplate}" />
-        <Setter Property="Background" Value="{x:Static SystemColors.ControlLightBrush}" />
-        <Setter Property="Foreground" Value="{x:Static SystemColors.ControlTextBrush}" />
-        <Setter Property="AccentBrush" Value="{x:Static SystemColors.HotTrackBrush}" />
-        <Setter Property="BorderBrush" Value="{x:Static SystemColors.ControlDarkBrush}" />
+    <Style x:Key="{x:Type Hyperlink}" TargetType="{x:Type Hyperlink}">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" />
+        <Setter Property="TextDecorations" Value="Underline" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Foreground" Value="Red" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="true">
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type ui:SuggestionBox}">
+        <Style.Resources>
+            <Style x:Key="{x:Type FlowDocument}" TargetType="{x:Type FlowDocument}">
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+            </Style>
+            <Style x:Key="{x:Type Hyperlink}"
+                   BasedOn="{StaticResource {x:Type Hyperlink}}"
+                   TargetType="{x:Type Hyperlink}">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="true">
+                        <Setter Property="Foreground" Value="Blue" />
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="false">
+                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
+        <Setter Property="MinWidth" Value="10" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Padding" Value="3" />
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="FontFamily" Value="Calibri" />
-        <Setter Property="Margin" Value="3" />
+        <Setter Property="AllowDrop" Value="true" />
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -33,27 +66,24 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ui:SuggestionBox">
-                    <Border x:Name="OuterBorder"
+                <ControlTemplate TargetType="{x:Type ui:SuggestionBox}">
+                    <Border x:Name="border"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
                         <Grid>
                             <ScrollViewer x:Name="PART_ContentHost"
-                                          Margin="-3,0,0,0"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Focusable="False"
-                                          Foreground="{TemplateBinding Foreground}"
+                                          Focusable="false"
                                           HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Hidden" />
-                            <ContentPresenter x:Name="WatermarkHost"
+                            <ContentPresenter x:Name="watermark"
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="{TemplateBinding Watermark}"
                                               ContentTemplate="{TemplateBinding WatermarkTemplate}"
+                                              Focusable="False"
                                               IsHitTestVisible="False"
                                               Visibility="Collapsed" />
                             <Popup x:Name="PART_Popup"
@@ -63,18 +93,18 @@
                                    MaxHeight="300"
                                    AllowsTransparency="False"
                                    Focusable="False"
-                                   HorizontalOffset="-1"
+                                   HorizontalOffset="0"
                                    IsOpen="False"
                                    Placement="Bottom"
                                    PlacementTarget="{Binding ElementName=PART_ContentHost}"
                                    StaysOpen="False"
                                    UseLayoutRounding="True"
-                                   VerticalOffset="5">
+                                   VerticalOffset="2">
                                 <Border Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        Padding="2">
+                                        BorderThickness="{TemplateBinding BorderThickness}">
                                     <ListView x:Name="PART_ItemsHost"
+                                              Margin="0"
                                               Background="Transparent"
                                               BorderThickness="0"
                                               Focusable="False"
@@ -84,37 +114,34 @@
                                               ItemsSource="{TemplateBinding ItemsSource}"
                                               KeyboardNavigation.ControlTabNavigation="None"
                                               KeyboardNavigation.DirectionalNavigation="Contained"
-                                              KeyboardNavigation.TabNavigation="None" />
+                                              KeyboardNavigation.TabNavigation="None"
+                                              Padding="1" />
                                 </Border>
                             </Popup>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="OuterBorder" Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                        <Trigger Property="IsWatermarkVisible" Value="True">
+                            <Setter TargetName="watermark" Property="Visibility" Value="Visible" />
                         </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsKeyboardFocused" Value="False" />
-                                <Condition Property="IsWatermarkVisible" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="WatermarkHost" Property="Visibility" Value="Visible" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.InactiveBorderBrush}" />
-                            <Setter Property="Foreground" Value="{x:Static SystemColors.GrayTextBrush}" />
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border" Property="Opacity" Value="0.56" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="ToolTip" Value="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={x:Static RelativeSource.Self}}" />
-            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true" />
+                    <Condition Property="IsSelectionActive" Value="false" />
+                </MultiTrigger.Conditions>
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+            </MultiTrigger>
         </Style.Triggers>
     </Style>
-
 </ResourceDictionary>

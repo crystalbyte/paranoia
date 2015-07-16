@@ -28,7 +28,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -42,7 +41,7 @@ using NLog;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public class MailAttachmentContext {
+    public class MailAttachmentContext : AttachmentBase {
 
         #region Private Fields
 
@@ -65,6 +64,18 @@ namespace Crystalbyte.Paranoia {
 
         #endregion
 
+        #region Properties
+
+        public ICommand OpenCommand {
+            get { return _openCommand; }
+        }
+
+        public ICommand SaveCommand {
+            get { return _saveCommand; }
+        }
+
+        #endregion
+
         internal Task OpenAsync() {
             var name = _attachment.Filename;
 
@@ -79,7 +90,7 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 var fullname = Path.Combine(tempPath, name);
-                File.WriteAllBytes(fullname, GetBytes());
+                File.WriteAllBytes(fullname, Bytes);
 
                 var process = new Process { StartInfo = new ProcessStartInfo(fullname) };
                 process.Exited += (sender, e) => {
@@ -125,7 +136,7 @@ namespace Crystalbyte.Paranoia {
 
                 await Task.Run(() => {
                     try {
-                        var bytes = GetBytes();
+                        var bytes = Bytes;
                         File.WriteAllBytes(dialog.FileName, bytes);
                     } catch (Exception ex) {
                         Logger.ErrorException(ex.Message, ex);
@@ -139,11 +150,13 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public byte[] Bytes {
-            get { return GetBytes(); }
+        #region Class Override
+
+        public override string Name {
+            get { return _attachment.Filename; }
         }
 
-        public byte[] GetBytes() {
+        public override byte[] GetBytes() {
             Application.Current.AssertBackgroundThread();
 
             using (var context = new DatabaseContext()) {
@@ -158,23 +171,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public string Filename {
-            get { return _attachment.Filename; }
-        }
-
-        public bool IsImage {
-            get {
-                return _attachment.ContentType.Contains("image")
-                       || Regex.IsMatch(_attachment.Filename, ".jpg|.png|.jpeg|.tiff|.gif", RegexOptions.IgnoreCase);
-            }
-        }
-
-        public ICommand OpenCommand {
-            get { return _openCommand; }
-        }
-
-        public ICommand SaveCommand {
-            get { return _saveCommand; }
-        }
+        #endregion
     }
 }

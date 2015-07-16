@@ -35,8 +35,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Reactive;
-using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -51,6 +49,7 @@ using Crystalbyte.Paranoia.Themes;
 using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
+using MailMessage = Crystalbyte.Paranoia.Data.MailMessage;
 
 #endregion
 
@@ -61,9 +60,6 @@ namespace Crystalbyte.Paranoia {
         #region Private Fields
 
         private string _source;
-        private string _queryString;
-        private string _queryContactString;
-
         private bool _isAnimating;
         private bool _isPopupVisible;
         private bool _showOnlyUnseen;
@@ -537,8 +533,6 @@ namespace Crystalbyte.Paranoia {
                 _messages.AddRange(messages);
                 _messages.DeferNotifications = false;
                 _messages.NotifyCollectionChanged();
-
-                OnItemSelectionRequested(new ItemSelectionRequestedEventArgs(SelectionPosition.First));
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             } finally {
@@ -1049,9 +1043,83 @@ namespace Crystalbyte.Paranoia {
             }
 
             try {
-
+                await ProcessOutboxAsync();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private async Task ProcessOutboxAsync() {
+            var getCompositions = Task.Run(async () => {
+                using (var context = new DatabaseContext()) {
+                    return await context.MailCompositions.Include(x => x.Addresses)
+                                .Include(x => x.Attachments)
+                                .ToArrayAsync();
+                }
+            });
+
+            var getKeyPairs = Task.Run(async () => {
+                using (var context = new DatabaseContext()) {
+                    return await context.KeyPairs
+                        .OrderByDescending(x => x.Date)
+                        .ToArrayAsync();
+                }
+            });
+
+            var keyPairs = await getKeyPairs;
+            var compositions = await getCompositions;
+
+            foreach (var composition in compositions.OrderBy(x => x.Created)) {
+                var addresses = composition.Addresses.Select(x => x.Address).ToArray();
+                var contacts = await Task.Run(async () => {
+                    using (var context = new DatabaseContext()) {
+                        return await context.MailContacts
+                                .Include(x => x.Keys)
+                                .Where(x => addresses.Contains(x.Address))
+                                .ToDictionaryAsync(z => z.Address.ToLower());
+                    }
+                });
+
+                //var message = new 
+
+                // TODO: @Sebastian ...
+
+                //var from = composition.Addresses.First(x => x.Role == AddressRole.From);
+                //var message = new System.Net.Mail.MailMessage {
+                //    From = from.
+                //};
+                //    var message = new MailMessage {
+                //        IsBodyHtml = true,
+                //        Subject = Subject,
+                //        BodyEncoding = Encoding.UTF8,
+                //        BodyTransferEncoding = TransferEncoding.Base64,
+                //        From = new MailAddress(account.Address, account.Name),
+                //        Body = await document
+                //    };
+
+                //    var signet = string.Format("pkey={0};", Convert.ToBase64String(current.PublicKey));
+                //    message.Headers.Add(MessageHeaders.Signet, signet);
+
+                //    message.To.Add(new MailAddress(address));
+                //    foreach (var a in Attachments) {
+                //        message.Attachments.Add(new Attachment(a.FullName));
+                //    }
+
+                //    // IO heavy operation, needs to run in background thread.
+                //    var m = message;
+                //    await Task.Run(() => m.PackageEmbeddedContent());
+
+                //    if (key == null) {
+                //        messages.Add(message);
+                //    } else {
+                //        var nonce = PublicKeyCrypto.GenerateNonce();
+                //        var payload = await EncryptMessageAsync(message, current, key, nonce);
+                //        message = GenerateDeliveryMessage(account, current.PublicKey, address, nonce);
+                //        message.AlternateViews.Add(new AlternateView(new MemoryStream(payload),
+                //            new ContentType(MediaTypes.EncryptedMime)));
+                //        messages.Add(message);
+                //    }
+                //}
             }
         }
 

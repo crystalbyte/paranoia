@@ -47,29 +47,52 @@ namespace Crystalbyte.Paranoia.UI {
     /// <summary>
     ///     Interaction logic for CompositionWindow.xaml
     /// </summary>
-    public partial class CompositionWindow : IAccentAware, IMailDataSource {
+    public partial class CompositionWindow : IAccentAware, ICompositionView {
 
         #region Private Fields
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly MailCompositionContext _mailComposition;
 
         #endregion
 
         #region Construction
 
-        public CompositionWindow() {
+        public CompositionWindow()
+            : this(new MailComposition()) {
+        }
+
+        internal CompositionWindow(MailComposition composition) {
             InitializeComponent();
-
-            var context = new MailCompositionContext(this);
-            context.CompositionFinalized += OnCompositionFinalized;
-
-            DataContext = context;
-            HtmlEditor.ContentReady += async (sender, e) => await SignAsync();
+            DataContext = _mailComposition = new MailCompositionContext(composition, this);
+            HtmlEditor.EditorReady += async (sender, e) => await SignAsync();
         }
 
         #endregion
 
         #region Methods
+
+        private void OnAttachmentMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            try {
+                var item = (ListViewItem)sender;
+                var attachment = (FileAttachmentContext)item.DataContext;
+                attachment.Open();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private void OnAttachmentsDelete(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var composition = (MailCompositionContext)DataContext;
+                var listView = (ListView)sender;
+                foreach (var item in listView.SelectedItems.OfType<FileAttachmentContext>().ToArray()) {
+                    composition.Attachments.Remove(item);
+                }
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
 
         private void OnItemsSourceRequested(object sender, ItemsSourceRequestedEventArgs e) {
             Application.Current.AssertBackgroundThread();
@@ -89,14 +112,6 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnCancel(object sender, ExecutedRoutedEventArgs e) {
             try {
                 CloseOverlay();
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
-
-        private void OnCompositionFinalized(object sender, EventArgs e) {
-            try {
-                Window.Close();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -191,7 +206,7 @@ namespace Crystalbyte.Paranoia.UI {
                 throw new InvalidOperationException();
             }
 
-            HtmlEditor.ContentReady += OnContentReady;
+            HtmlEditor.EditorReady += OnContentReady;
             HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
             var context = (MailCompositionContext)DataContext;
@@ -203,10 +218,27 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
+        private async void OnSendToOutbox(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                await _mailComposition.SendToOutboxAsync();
+                Close();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private void OnSaveAsDraft(object sender, ExecutedRoutedEventArgs e) {
+            try {
+
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
         private async void OnContentReady(object sender, EventArgs e) {
             try {
                 await Application.Current.Dispatcher.InvokeAsync(() => {
-                    HtmlEditor.BrowserInitialized -= OnContentReady;
+                    HtmlEditor.Ready -= OnContentReady;
                     HtmlEditor.FocusEditor();
                 });
             } catch (Exception ex) {
@@ -261,7 +293,7 @@ namespace Crystalbyte.Paranoia.UI {
             RecipientsBox.Preset((await to).Select(x => new MailContactContext(x)));
             RecipientsBox.Preset((await cc).Select(x => new MailContactContext(x)));
 
-            HtmlEditor.ContentReady += OnContentReady;
+            HtmlEditor.EditorReady += OnContentReady;
             HtmlEditor.Source = string.Format("message:///reply?id={0}", id);
 
             var c = (MailCompositionContext)DataContext;
@@ -292,7 +324,7 @@ namespace Crystalbyte.Paranoia.UI {
             //if (files == null | context == null)
             //    return;
 
-            //files.ToList().ForEach(x => context.Attachments.Add(new FileAttachmentContext(x)));
+            //files.ToList().ForEach(x => context.Attachments.Add(new FileBindableAttachmentContext(x)));
         }
 
         public static Window GetParentWindow(DependencyObject child) {
@@ -352,29 +384,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
-        private void OnAttachmentMouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            try {
-                var item = (ListViewItem)sender;
-                var attachment = (FileAttachmentContext)item.DataContext;
-                attachment.Open();
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
-
-        private void OnAttachmentsDelete(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                var composition = (MailCompositionContext)DataContext;
-                var listView = (ListView)sender;
-                foreach (var item in listView.SelectedItems.OfType<FileAttachmentContext>().ToArray()) {
-                    composition.Attachments.Remove(item);
-                }
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
-
-        #region Implementation of IMailDataSource
+        #region Implementation of ICompositionView
 
         public async Task<string> GetDocumentAsync() {
             var content = await HtmlEditor.GetHtmlAsync();
@@ -382,27 +392,81 @@ namespace Crystalbyte.Paranoia.UI {
             return string.Format("<div>{0}{1}</div>", content, appendix);
         }
 
+        void IRecipientView.SetAddresses(MailCompositionAddress[] addresses) {
+            RecipientsBox.Preset(addresses.Where(x => x.Role == AddressRole.To).ToArray());
+            CarbonCopyBox.Preset(addresses.Where(x => x.Role == AddressRole.Cc).ToArray());
+            BlindCarbonCopyBox.Preset(addresses.Where(x => x.Role == AddressRole.Bcc).ToArray());
+        }
+
+        IEnumerable<MailCompositionAddress> IRecipientView.GetAddresses() {
+            var from = RecipientsBox.SelectedValues.Select(x => {
+                var contact = x as MailContactContext;
+                return contact != null
+                    ? new MailCompositionAddress { Address = contact.Address, Role = AddressRole.To }
+                    : new MailCompositionAddress { Address = x as string, Role = AddressRole.To };
+            });
+
+            var cc = CarbonCopyBox.SelectedValues.Select(x => {
+                var contact = x as MailContactContext;
+                return contact != null
+                    ? new MailCompositionAddress { Address = contact.Address, Role = AddressRole.Cc }
+                    : new MailCompositionAddress { Address = x as string, Role = AddressRole.Cc };
+            });
+
+            var bcc = BlindCarbonCopyBox.SelectedValues.Select(x => {
+                var contact = x as MailContactContext;
+                return contact != null
+                    ? new MailCompositionAddress { Address = contact.Address, Role = AddressRole.Bcc }
+                    : new MailCompositionAddress { Address = x as string, Role = AddressRole.Bcc };
+            });
+
+            return from.Concat(cc).Concat(bcc);
+        }
+
         #endregion
 
-        public IEnumerable<string> GetTo() {
-            return RecipientsBox.Matches.Select(x => {
-                var contact = x as MailContactContext;
-                return contact != null ? contact.Address : x as string;
-            });
+        #region Implementation of IDocumentView
+
+        void IDocumentView.Preset(MailComposition composition) {
+            HtmlEditor.Source = string.Format("composition:///{0}", composition.Id);
         }
 
-        public IEnumerable<string> GetCc() {
-            return CarbonCopyBox.Matches.Select(x => {
-                var contact = x as MailContactContext;
-                return contact != null ? contact.Address : x as string;
-            });
+        #endregion
+
+        private bool CanSend() {
+            return RecipientsBox.SelectedValues.Length > 0;
         }
 
-        public IEnumerable<string> GetBcc() {
-            return BlindCarbonCopyBox.Matches.Select(x => {
-                var contact = x as MailContactContext;
-                return contact != null ? contact.Address : x as string;
-            });
+        private void OnCarbonCopyBoxSelectedValuesChanged(object sender, EventArgs e) {
+            try {
+                // Nada yet ...
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private void OnBlindCarbonCopyBoxSelectedValuesChanged(object sender, EventArgs e) {
+            try {
+                // Nada yet ...
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private void OnRecipientBoxSelectedValuesChanged(object sender, EventArgs e) {
+            try {
+                SendButton.IsEnabled = CanSend();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private void OnSubjectTextChanged(object sender, TextChangedEventArgs e) {
+            try {
+                SendButton.IsEnabled = CanSend();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
     }
 }

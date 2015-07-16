@@ -80,6 +80,18 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
+        #region Events 
+
+        public event EventHandler Ready;
+
+        protected virtual void OnReady() {
+            var handler = Ready;
+            if (handler != null) 
+                handler(this, EventArgs.Empty);
+        }
+
+        #endregion
+
         #region Methods
 
         internal async Task PrintAsync() {
@@ -151,9 +163,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
             try {
-                if (!string.IsNullOrEmpty(Source)) {
-                    Navigate(new Uri(Source));
-                }
+                OnReady();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }

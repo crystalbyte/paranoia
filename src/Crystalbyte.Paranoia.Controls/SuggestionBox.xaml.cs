@@ -27,13 +27,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,8 +39,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Reactive.Threading;
-using System.Windows.Threading;
 
 #endregion
 
@@ -115,7 +111,7 @@ namespace Crystalbyte.Paranoia.UI {
             get { return _popup != null; }
         }
 
-        public IEnumerable<object> Matches {
+        public object[] SelectedValues {
             get {
                 var paragraph = CaretPosition.Paragraph;
                 if (paragraph == null) {
@@ -126,7 +122,7 @@ namespace Crystalbyte.Paranoia.UI {
                     .OfType<InlineUIContainer>()
                     .Select(x => ((ContentPresenter)x.Child).Content);
 
-                return objects;
+                return objects.ToArray();
             }
         }
 
@@ -269,6 +265,11 @@ namespace Crystalbyte.Paranoia.UI {
             Close();
         }
 
+        protected override void OnTextChanged(TextChangedEventArgs e) {
+            base.OnTextChanged(e);
+            InvalidateWatermark();
+        }
+
         protected override void OnPreviewKeyUp(KeyEventArgs e) {
             base.OnPreviewKeyUp(e);
 
@@ -285,9 +286,13 @@ namespace Crystalbyte.Paranoia.UI {
             Close();
         }
 
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e) {
+            base.OnGotKeyboardFocus(e);
+            InvalidateWatermark();
+        }
+
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e) {
             base.OnLostKeyboardFocus(e);
-
             InvalidateWatermark();
         }
 
@@ -301,11 +306,11 @@ namespace Crystalbyte.Paranoia.UI {
             Observable.FromEventPattern<TextChangedEventHandler, TextChangedEventArgs>(
                 action => TextChanged += action,
                 action => TextChanged -= action)
-                    .Where(x => x.EventArgs.Changes.Any(y => y.AddedLength > 0))
                     .Where(x => IsStyleApplied)
+                    .Where(x => x.EventArgs.Changes.Any(y => y.AddedLength > 0))
                     .Select(x => ((SuggestionBox)x.Sender).Text)
                     .Where(x => !string.IsNullOrWhiteSpace(x) && x.Length > 2)
-                    .Throttle(TimeSpan.FromMilliseconds(300))
+                    .Throttle(TimeSpan.FromMilliseconds(300), NewThreadScheduler.Default)
                     .Subscribe(OnTextChangeObserved);
         }
 
@@ -446,7 +451,7 @@ namespace Crystalbyte.Paranoia.UI {
         private void InvalidateWatermark() {
             var paragraph = CaretPosition.Paragraph;
             if (paragraph == null) {
-                IsWatermarkVisible = string.IsNullOrEmpty(Text);
+                IsWatermarkVisible = string.IsNullOrEmpty(Text) && !IsKeyboardFocusWithin;
                 return;
             }
 
@@ -454,7 +459,7 @@ namespace Crystalbyte.Paranoia.UI {
                 .OfType<InlineUIContainer>()
                 .ToArray();
 
-            IsWatermarkVisible = string.IsNullOrEmpty(Text) && containers.Length > 0;
+            IsWatermarkVisible = string.IsNullOrEmpty(Text) && containers.Length == 0 && !IsKeyboardFocusWithin;
         }
 
         private void CommitSelection() {
@@ -471,8 +476,8 @@ namespace Crystalbyte.Paranoia.UI {
             });
 
             await Application.Current.Dispatcher.InvokeAsync(async () => {
-                InvalidateWatermark();
                 RecognizeMatches();
+                InvalidateWatermark();
                 ItemsSource = await requestSource;
             });
         }
@@ -491,6 +496,8 @@ namespace Crystalbyte.Paranoia.UI {
 
             var container = CreateTokenContainerFromString(match);
             AppendContainer(container);
+
+            OnSelectedValuesChanged();
         }
 
         #endregion

@@ -27,7 +27,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -39,9 +38,9 @@ using System.Windows;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
+using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
-using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using Microsoft.Win32;
 using NLog;
@@ -55,13 +54,10 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
-        private string _subject;
-        private bool _isFinalizing;
-        private readonly IDocumentProvider _provider;
+        private readonly MailComposition _composition;
+        private readonly ICompositionView _source;
         private readonly IEnumerable<MailAccountContext> _accounts;
-        private readonly ObservableCollection<string> _addresses;
-        private readonly ObservableCollection<FileAttachmentContext> _attachments;
-        private readonly RelayCommand _finalizeCommand;
+        private readonly ObservableCollection<AttachmentBase> _attachments;
         private readonly ICommand _insertAttachmentCommand;
         private MailAccountContext _selectedAccount;
 
@@ -71,41 +67,21 @@ namespace Crystalbyte.Paranoia {
 
         #region Construction
 
-        public MailCompositionContext(IDocumentProvider provider) {
-            _provider = provider;
+        internal MailCompositionContext(MailComposition composition, ICompositionView source) {
+            _source = source;
+            _composition = composition;
             _accounts = App.Context.Accounts;
-            _selectedAccount = _accounts.FirstOrDefault();
-            _addresses = new ObservableCollection<string>();
-            _addresses.CollectionChanged += OnAddressesCollectionChanged;
-            _finalizeCommand = new RelayCommand(OnCanFinalize, OnFinalize);
+
+            var accountId = _composition.AccountId;
+            _selectedAccount = accountId != 0 
+                ? _accounts.FirstOrDefault(x => x.Id == accountId) 
+                : _accounts.OrderByDescending(x => x.IsDefaultTime).FirstOrDefault();
+
             _insertAttachmentCommand = new RelayCommand(OnInsertAttachment);
-            _attachments = new ObservableCollection<FileAttachmentContext>();
-        }
-
-        private void OnAddressesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-            try {
-                _finalizeCommand.OnCanExecuteChanged();
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
+            _attachments = new ObservableCollection<AttachmentBase>();
+            foreach (var attachment in composition.Attachments) {
+                _attachments.Add(new StreamAttachmentContext(attachment.Name, attachment.Bytes));
             }
-        }
-
-        #endregion
-
-        #region Event Declarations
-
-        public event EventHandler CompositionFinalizing;
-
-        private void OnCompositionFinalizing() {
-            var handler = CompositionFinalizing;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
-        public event EventHandler CompositionFinalized;
-
-        private void OnCompositionFinalized() {
-            var handler = CompositionFinalized;
-            if (handler != null) handler(this, EventArgs.Empty);
         }
 
         #endregion
@@ -116,39 +92,11 @@ namespace Crystalbyte.Paranoia {
             get { return string.Format("{0} - {1}", Subject, Resources.ApplicationLongName); }
         }
 
-        public bool IsFinalizing {
-            get { return _isFinalizing; }
-            set {
-                if (_isFinalizing == value) {
-                    return;
-                }
-                _isFinalizing = value;
-                RaisePropertyChanged(() => IsFinalizing);
-                OnFinalizingChanged();
-            }
-        }
-
-        private void OnFinalizingChanged() {
-            try {
-                _finalizeCommand.OnCanExecuteChanged();
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
-
-        public ICommand FinalizeCommand {
-            get { return _finalizeCommand; }
-        }
-
         public ICommand AddAttachmentCommand {
             get { return _insertAttachmentCommand; }
         }
 
-        public ICollection<string> Addresses {
-            get { return _addresses; }
-        }
-
-        public ICollection<FileAttachmentContext> Attachments {
+        public ICollection<AttachmentBase> Attachments {
             get { return _attachments; }
         }
 
@@ -164,110 +112,120 @@ namespace Crystalbyte.Paranoia {
                 }
                 _selectedAccount = value;
                 RaisePropertyChanged(() => SelectedAccount);
+                OnSelectedAccountChanged();
             }
+        }
+
+        private void OnSelectedAccountChanged() {
+            if (SelectedAccount == null) {
+                _composition.AccountId = -1;
+                return;
+            }
+            _composition.AccountId = SelectedAccount.Id;
         }
 
         public string Subject {
-            get { return _subject; }
+            get { return _composition.Subject; }
             set {
-                if (_subject == value) {
+                if (_composition.Subject == value) {
                     return;
                 }
 
-                _subject = value;
+                _composition.Subject = value;
                 RaisePropertyChanged(() => Subject);
                 RaisePropertyChanged(() => Title);
-                OnSubjectChanged();
-            }
-        }
-
-        private void OnSubjectChanged() {
-            try {
-                _finalizeCommand.OnCanExecuteChanged();
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
             }
         }
 
         #endregion
 
-        internal async Task FinalizeAsync() {
-            IsFinalizing = true;
+        #region Methods
 
-            OnCompositionFinalizing();
-            await SaveToOutboxAsync();
-
-            IsFinalizing = false;
-            OnCompositionFinalized();
-        }
-
-        public async Task SaveToOutboxAsync() {
+        public async Task SendToOutboxAsync() {
             try {
+                //KeyPair current = null;
+
+                //var contacts = await Task.Run(() => {
+                //    using (var context = new DatabaseContext()) {
+                //        current = context.KeyPairs.OrderByDescending(x => x.Date).First();
+                //        return Addresses
+                //            .Select(x => context.MailContacts
+                //                .Include("Keys")
+                //                .FirstOrDefault(y => y.Address == x))
+                //            .Where(w => w != null)
+                //            .ToDictionary(z => z.Address);
+                //    }
+                //});
+
+                //var messages = new List<MailMessage>();
+
+
+                //    PublicKey key = null;
+                //    if (contacts.ContainsKey(address)) {
+                //        var contact = contacts[address];
+                //        key = contact.Keys.FirstOrDefault();
+                //    }
+
+                //    var message = new MailMessage {
+                //        IsBodyHtml = true,
+                //        Subject = Subject,
+                //        BodyEncoding = Encoding.UTF8,
+                //        BodyTransferEncoding = TransferEncoding.Base64,
+                //        From = new MailAddress(account.Address, account.Name),
+                //        Body = await document
+                //    };
+
+                //    var signet = string.Format("pkey={0};", Convert.ToBase64String(current.PublicKey));
+                //    message.Headers.Add(MessageHeaders.Signet, signet);
+
+                //    message.To.Add(new MailAddress(address));
+                //    foreach (var a in Attachments) {
+                //        message.Attachments.Add(new Attachment(a.FullName));
+                //    }
+
+                //    // IO heavy operation, needs to run in background thread.
+                //    var m = message;
+                //    await Task.Run(() => m.PackageEmbeddedContent());
+
+                //    if (key == null) {
+                //        messages.Add(message);
+                //    } else {
+                //        var nonce = PublicKeyCrypto.GenerateNonce();
+                //        var payload = await EncryptMessageAsync(message, current, key, nonce);
+                //        message = GenerateDeliveryMessage(account, current.PublicKey, address, nonce);
+                //        message.AlternateViews.Add(new AlternateView(new MemoryStream(payload),
+                //            new ContentType(MediaTypes.EncryptedMime)));
+                //        messages.Add(message);
+                //    }
+                //}
+
                 var account = SelectedAccount;
-                var document = _provider.GetDocumentAsync();
+                
+                var composition = new MailComposition {
+                    AccountId = account.Id,
+                    Subject = Subject,
+                };
 
-                KeyPair current = null;
+                composition.Addresses.AddRange(_source.GetAddresses());
 
-                var contacts = await Task.Run(() => {
+                var attachments = new List<MailCompositionAttachment>();
+                foreach (var attachment in _attachments) {
+                    var ca = new MailCompositionAttachment();
+                    var la = attachment;
+                    ca.Name = attachment.Name;
+                    ca.Bytes = await Task.Run(() => la.GetBytes());
+                    attachments.Add(ca);
+                }
+
+                await Task.Run(async () => {
                     using (var context = new DatabaseContext()) {
-                        current = context.KeyPairs.OrderByDescending(x => x.Date).First();
-                        return Addresses
-                            .Select(x => context.MailContacts
-                                .Include("Keys")
-                                .FirstOrDefault(y => y.Address == x))
-                            .Where(w => w != null)
-                            .ToDictionary(z => z.Address);
+                        context.MailCompositions.Add(composition);
+                        await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
                     }
                 });
 
-                var messages = new List<MailMessage>();
-                foreach (var address in Addresses) {
-                    PublicKey key = null;
-                    if (contacts.ContainsKey(address)) {
-                        var contact = contacts[address];
-                        key = contact.Keys.FirstOrDefault();
-                    }
+                App.Context.NotifyOutboxNotEmpty();
 
-                    var message = new MailMessage {
-                        IsBodyHtml = true,
-                        Subject = Subject,
-                        BodyEncoding = Encoding.UTF8,
-                        BodyTransferEncoding = TransferEncoding.Base64,
-                        From = new MailAddress(account.Address, account.Name),
-                        Body = await document
-                    };
-
-                    var signet = string.Format("pkey={0};", Convert.ToBase64String(current.PublicKey));
-                    message.Headers.Add(MessageHeaders.Signet, signet);
-
-                    message.To.Add(new MailAddress(address));
-                    foreach (var a in Attachments) {
-                        message.Attachments.Add(new Attachment(a.FullName));
-                    }
-
-                    // IO heavy operation, needs to run in background thread.
-                    var m = message;
-                    await Task.Run(() => m.PackageEmbeddedContent());
-
-                    if (key == null) {
-                        messages.Add(message);
-                    } else {
-                        var nonce = PublicKeyCrypto.GenerateNonce();
-                        var payload = await EncryptMessageAsync(message, current, key, nonce);
-                        message = GenerateDeliveryMessage(account, current.PublicKey, address, nonce);
-                        message.AlternateViews.Add(new AlternateView(new MemoryStream(payload),
-                            new ContentType(MediaTypes.EncryptedMime)));
-                        messages.Add(message);
-                    }
-                }
-
-
-                //foreach (var VARIABLE in COLLECTION) {
-                    
-                //}
-
-                //await account.SaveCompositionsAsync();
-                //await App.Context.NotifyOutboxNotEmpty();
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
@@ -303,21 +261,8 @@ namespace Crystalbyte.Paranoia {
         private static async Task<byte[]> EncryptMessageAsync(MailMessage message, KeyPair pair,
             PublicKey pKey, byte[] nonce) {
             var mime = await message.ToMimeAsync();
-            var bytes = Encoding.UTF8.GetBytes(mime);
             var crypto = new PublicKeyCrypto(pair.PublicKey, pair.PrivateKey);
-            return crypto.EncryptWithPublicKey(bytes, pKey.Bytes, nonce);
-        }
-
-        private async void OnFinalize(object obj) {
-            try {
-                await FinalizeAsync();
-            } catch (Exception ex) {
-                Logger.Error(ex);
-            }
-        }
-
-        private bool OnCanFinalize(object obj) {
-            return Addresses.Any() && !IsFinalizing;
+            return crypto.EncryptWithPublicKey(mime, pKey.Bytes, nonce);
         }
 
         private void OnInsertAttachment(object obj) {
@@ -362,7 +307,7 @@ namespace Crystalbyte.Paranoia {
                     .Trim(new[] { '"' })
                     .Replace("asset://tempImage/", string.Empty);
 
-                Attachment attachment;
+                AttachmentBase attachment;
                 string name;
 
                 var arguments = result.ToPageArguments();
@@ -383,7 +328,7 @@ namespace Crystalbyte.Paranoia {
                         continue;
 
                     name = new FileInfo(result).Name;
-                    attachment = new Attachment(result) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
+                    //attachment = new AttachmentBase(result) { ContentId = (name + "@" + Guid.NewGuid()).Replace(" ", "") };
                 }
 
                 //message.Attachments.Add(attachment);
@@ -393,5 +338,7 @@ namespace Crystalbyte.Paranoia {
 
             return message;
         }
+
+        #endregion
     }
 }

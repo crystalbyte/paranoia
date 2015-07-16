@@ -148,7 +148,7 @@
     <value>Edit</value>
   </data>
   <data name="ContactsTitle" xml:space="preserve">
-    <value>Contacts</value>
+    <value>CONTACTS</value>
   </data>
   <data name="CrossThreadException" xml:space="preserve">
     <value>Method was called on an invalid thread.</value>
@@ -212,7 +212,7 @@ Please select a corresponding IMAP folder to synchronize.</value>
     <value>Loading Message ...</value>
   </data>
   <data name="MessagesTitle" xml:space="preserve">
-    <value>Messages</value>
+    <value>MESSAGES</value>
   </data>
   <data name="MissingKeyTemplate" xml:space="preserve">
     <value>Primary key is missing from type {0}.</value>

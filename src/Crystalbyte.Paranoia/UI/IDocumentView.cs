@@ -25,11 +25,13 @@
 #region Using Directives
 
 using System.Threading.Tasks;
+using Crystalbyte.Paranoia.Data;
 
 #endregion
 
 namespace Crystalbyte.Paranoia.UI {
-    public interface IDocumentProvider {
+    internal interface IDocumentView {
         Task<string> GetDocumentAsync();
+        void Preset(MailComposition composition);
     }
 }

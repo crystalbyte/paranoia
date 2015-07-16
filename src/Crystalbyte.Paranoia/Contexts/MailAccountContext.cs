@@ -36,7 +36,6 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -885,32 +884,6 @@ namespace Crystalbyte.Paranoia {
                     IsFaulted = true
                 };
             }
-        }
-
-        internal async Task SaveCompositionsAsync(IEnumerable<MailMessage> messages) {
-
-            throw new NotImplementedException();
-
-            //await Task.Run(async () => {
-            //    using (var context = new DatabaseContext()) {
-            //        var account = await context.MailAccounts.FindAsync(_account.Id);
-
-            //        foreach (var message in messages) {
-            //            var request = new MailComposition {
-            //                Date = DateTime.Now,
-            //                ToName = message.To.First().DisplayName,
-            //                ToAddress = message.To.First().Address,
-            //                Subject = message.Subject
-            //            };
-            //            var mime = await message.ToMimeAsync();
-            //            request.Mime = Encoding.UTF8.GetBytes(mime);
-
-            //            account.Compositions.Add(request);
-            //        }
-
-            //        await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
-            //    }
-            //});
         }
 
         public async Task DetectSettingsAsync() {

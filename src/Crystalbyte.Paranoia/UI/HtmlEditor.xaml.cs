@@ -88,18 +88,18 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Events
 
-        public event EventHandler BrowserInitialized;
+        public event EventHandler Ready;
 
-        protected void OnBrowserInitialized() {
-            var handler = BrowserInitialized;
+        protected void OnReady() {
+            var handler = Ready;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
 
-        public event EventHandler ContentReady;
+        public event EventHandler EditorReady;
 
-        internal void OnContentReady() {
-            var handler = ContentReady;
+        internal void OnEditorReady() {
+            var handler = EditorReady;
             if (handler != null)
                 handler(this, EventArgs.Empty);
         }
@@ -499,7 +499,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
             try {
-                OnBrowserInitialized();
+                OnReady();
                 if (!string.IsNullOrEmpty(Source)) {
                     Navigate(new Uri(Source, UriKind.RelativeOrAbsolute));
                 }

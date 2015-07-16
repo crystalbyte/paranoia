@@ -28,7 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Windows.Documents;
+using Crystalbyte.Paranoia.Data.SQLite;
 
 #endregion
 
@@ -36,31 +36,43 @@ namespace Crystalbyte.Paranoia.Data {
     [Table("mail_composition")]
     internal class MailComposition {
 
-        private List<MailMessageContact> _contacts;
+        private List<MailCompositionAddress> _addresses;
+        private List<MailCompositionAttachment> _attachments;
 
         public MailComposition() {
-            _contacts = new 
+            _addresses = new List<MailCompositionAddress>();
+            _attachments = new List<MailCompositionAttachment>();
         }
 
         [Key]
-        [Index]
         [Column("id")]
         public Int64 Id { get; set; }
 
-        [Index]
         [Column("account_id")]
         public Int64 AccountId { get; set; }
 
-        [Column("mime")]
-        public byte[] Mime { get; set; }
+        [Column("created")]
+        [Default(DatabaseFunction.CurrentTimestamp)]
+        public DateTime Created { get; set; }
 
         [Column("subject")]
         public string Subject { get; set; }
 
-        [Column("date")]
-        public DateTime Date { get; set; }
+        [Column("last_change")]
+        [Default(DatabaseFunction.CurrentTimestamp)]
+        public DateTime LastChange { get; set; }
 
-        [ForeignKey("AccountId")]
-        public MailAccount Account { get; set; }
+        [Column("content")]
+        public string Content { get; set; }
+
+        public virtual List<MailCompositionAddress> Addresses {
+            get { return _addresses; }
+            set { _addresses = value; }
+        }
+
+        public virtual List<MailCompositionAttachment> Attachments {
+            get { return _attachments; }
+            set { _attachments = value; }
+        }
     }
 }

@@ -58,14 +58,15 @@ namespace Crystalbyte.Paranoia.Themes {
         // Window Scope
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
         public static string WindowSecondaryBackgroundBrushKey = "WindowSecondaryBackgroundBrushKey";
-
         public static string WindowHeaderForegroundBrushKey = "WindowHeaderForegroundBrushKey";
         public static string WindowHeaderSecondaryForegroundBrushKey = "WindowHeaderSecondaryForegroundBrushKey";
         public static string WindowHeaderMouseOverBackgroundBrushKey = "WindowHeaderMouseOverBackgroundBrushKey";
+        public static string WindowHeaderBackgroundBrushKey = "WindowHeaderBackgroundBrushKey";
         public static string WindowHeaderPressedForegroundBrushKey = "WindowHeaderPressedForegroundBrushKey";
         public static string WindowHeaderPressedBackgroundBrushKey = "WindowHeaderPressedBackgroundBrushKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";
         public static string SplitterForegroundBrushKey = "SplitterForegroundBrushKey";
+        public static string StatusBarBackgroundBrushKey = "StatusBarBackgroundBrushKey";
 
         // Composition Scope
         public static string CompositionEditorBackgroundBrushKey = "CompositionEditorBackgroundBrushKey";

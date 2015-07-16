@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 using Crystalbyte.Paranoia.UI;
 
 namespace Crystalbyte.Paranoia {
-    interface IMailDataSource : IDocumentProvider, IRecipientProvider { }
+    interface ICompositionView : IDocumentView, IRecipientView { }
 }

@@ -217,16 +217,21 @@
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="CompositionSchemeHandler.cs" />
+    <Compile Include="Contexts\AttachmentBase.cs" />
     <Compile Include="Contexts\FileAttachmentContext.cs" />
     <Compile Include="Contexts\HtmlEditorCommandContext.cs" />
     <Compile Include="Contexts\InsertLinkContext.cs" />
     <Compile Include="Contexts\MailAddressContext.cs" />
     <Compile Include="Contexts\MailCompositionContext.cs" />
     <Compile Include="Contexts\MailNavigationContext.cs" />
+    <Compile Include="Contexts\StreamAttachmentContext.cs" />
     <Compile Include="Data\AddressRole.cs" />
+    <Compile Include="Data\MailCompositionAddress.cs" />
+    <Compile Include="Data\MailCompositionAttachment.cs" />
     <Compile Include="Data\DbDataReaderExtension.cs" />
     <Compile Include="Data\MailAttachment.cs" />
     <Compile Include="Data\MailboxFlag.cs" />
+    <Compile Include="Data\MailComposition.cs" />
     <Compile Include="Data\MailMessageContent.cs" />
     <Compile Include="Data\MailAddress.cs" />
     <Compile Include="Data\MailMessageFlag.cs" />
@@ -242,13 +247,13 @@
     <Compile Include="IAuthenticatable.cs" />
     <Compile Include="IBlockable.cs" />
     <Compile Include="IDecryptor.cs" />
-    <Compile Include="IMailDataSource.cs" />
+    <Compile Include="ICompositionView.cs" />
     <Compile Include="IMailMessage.cs" />
-    <Compile Include="IRecipientProvider.cs" />
+    <Compile Include="IRecipientView.cs" />
     <Compile Include="LocalMailboxes.cs" />
     <Compile Include="LoggerExtensions.cs" />
-    <Compile Include="MailMessageExtension.cs" />
     <Compile Include="Data\Authenticity.cs" />
+    <Compile Include="MailMessageExtensions.cs" />
     <Compile Include="MailMessageReaderExtension.cs" />
     <Compile Include="MessageHeaders.cs" />
     <Compile Include="MissingContactException.cs" />
@@ -263,13 +268,14 @@
     </Compile>
     <Compile Include="UI\Converters\CollectionIndexer.cs" />
     <Compile Include="UI\Converters\ConverterSequence.cs" />
+    <Compile Include="UI\RoutedCommands\CompositionCommands.cs" />
     <Compile Include="UI\RoutedCommands\InspectionCommands.cs" />
     <Compile Include="UI\SpamNoticeControl.xaml.cs">
       <DependentUpon>SpamNoticeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Converters\ColorToBrushConverter.cs" />
     <Compile Include="FormatChangedEventArgs.cs" />
-    <Compile Include="UI\IDocumentProvider.cs" />
+    <Compile Include="UI\IDocumentView.cs" />
     <Compile Include="UI\InsertLinkModalPage.xaml.cs">
       <DependentUpon>InsertLinkModalPage.xaml</DependentUpon>
     </Compile>

@@ -110,16 +110,14 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Style x:Key="AppMenuButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMenuBackgroundBrushKey}}" />
             <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid Background="Transparent">
-                            <Polygon Fill="{TemplateBinding Background}" Points="0,0 80,0 55,48 0,42" />
                             <Image Width="24"
-                                   Margin="20,0,0,4"
-                                   HorizontalAlignment="Left"
+                                   Margin="16,0"
+                                   HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Source="/Assets/logo.window.png" />
                         </Grid>
@@ -138,7 +136,8 @@
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="HeaderRow" Height="42" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -147,20 +146,13 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Rectangle Grid.Row="0"
+                   Grid.RowSpan="2"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
                    Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                    RenderOptions.EdgeMode="Aliased" />
-        <Button Grid.Row="0"
-                Grid.RowSpan="2"
-                Grid.Column="0"
-                Margin="0,0,3,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"
-                Panel.ZIndex="100001"
-                Command="ui:AppCommands.Settings"
-                Style="{StaticResource AppMenuButtonStyle}" />
         <Grid Grid.Row="0"
+              Grid.RowSpan="2"
               Grid.Column="0"
               Grid.ColumnSpan="2"
               HorizontalAlignment="Right"
@@ -198,7 +190,7 @@
         </Grid>
         <Grid x:Name="FlyoutOverlay"
               Grid.Row="0"
-              Grid.RowSpan="3"
+              Grid.RowSpan="4"
               Grid.Column="0"
               Grid.ColumnSpan="2"
               Panel.ZIndex="1000"
@@ -304,7 +296,7 @@
         </Grid>
         <Grid x:Name="ModalOverlay"
               Grid.Row="0"
-              Grid.RowSpan="3"
+              Grid.RowSpan="4"
               Grid.Column="0"
               Grid.ColumnSpan="2"
               Visibility="{Binding IsPopupVisible,
@@ -351,14 +343,21 @@
                        Opacity="{StaticResource FlyoutOverlayOpacityKey}"
                        RenderOptions.EdgeMode="Aliased" />
         </Grid>
+        <Button Grid.Row="1"
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Panel.ZIndex="100001"
+                Command="ui:AppCommands.Settings"
+                Style="{StaticResource AppMenuButtonStyle}" />
         <ListView x:Name="NavigationMenu"
-                  Grid.Row="0"
+                  Grid.Row="1"
                   Grid.Column="1"
                   Height="{StaticResource NavigationPaneHeight}"
                   Margin="0"
-                  HorizontalAlignment="Left"
-                  VerticalAlignment="Bottom"
-                  Background="Transparent"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                   BorderThickness="0"
                   ItemsSource="{Binding NavigationOptions}"
                   KeyboardNavigation.ControlTabNavigation="None"
@@ -419,7 +418,7 @@
                         <TextBlock x:Name="Text"
                                    Margin="12,3"
                                    VerticalAlignment="Center"
-                                   FontSize="17.5"
+                                   FontSize="12"
                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                    Text="{Binding Title}" />
                     </StackPanel>
@@ -432,11 +431,16 @@
             </ListView.ItemTemplate>
         </ListView>
         <Frame x:Name="MainFrame"
-               Grid.Row="1"
+               Grid.Row="2"
                Grid.Column="0"
                Grid.ColumnSpan="2"
                NavigationUIVisibility="Hidden"
                RenderTransformOrigin="0.5,0.5"
                Source="/UI/MailPage.xaml" />
+        <StatusBar Grid.Row="3"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Height="27"
+                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.StatusBarBackgroundBrushKey}}" />
     </Grid>
 </controls:MetroWindow>

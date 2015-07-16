@@ -53,13 +53,15 @@ namespace Crystalbyte.Paranoia.UI {
             DataContext = message;
             message.IsExternalContentAllowedChanged += OnIsExternalContentAllowedChanged;
             message.DownloadCompleted += OnDownloadCompleted;
-            Loaded += (sender, e) => ViewMessage(message);
+
+            HtmlViewer.Ready += (sender, e) => ViewMessage(message);
         }
 
         public InspectionWindow(FileMessageContext file) {
             InitializeComponent();
             DataContext = file;
-            Loaded += (sender, e) => {
+
+            HtmlViewer.Ready += (sender, e) => {
                 HtmlViewer.Source = string.Format("file:///local?path={0}", Uri.EscapeDataString(file.FullName));
             };
         }

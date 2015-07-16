@@ -27,7 +27,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows.Input;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
@@ -35,7 +34,7 @@ using NLog;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public sealed class FileAttachmentContext {
+    public sealed class FileAttachmentContext : AttachmentBase {
 
         #region Private Fields
 
@@ -79,23 +78,20 @@ namespace Crystalbyte.Paranoia {
             get { return _info.FullName; }
         }
 
-        public bool IsImage {
-            get {
-                return _info.Exists &&
-                       Regex.IsMatch(FullName, ".jpg|.png|.jpeg|.tiff|.gif", RegexOptions.IgnoreCase);
-            }
+        public ICommand OpenCommand {
+            get { return _openCommand; }
         }
 
-        public byte[] Bytes {
-            get { return File.ReadAllBytes(_info.FullName); }
-        }
+        #endregion
 
-        public string Name {
+        #region Class Overrides
+
+        public override string Name {
             get { return _info.Name; }
         }
 
-        public ICommand OpenCommand {
-            get { return _openCommand; }
+        public override byte[] GetBytes() {
+            return Bytes;
         }
 
         #endregion
