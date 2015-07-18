@@ -748,4 +748,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="CopyAddress" xml:space="preserve">
     <value>Copy Address</value>
   </data>
+  <data name="ApplicationNameUpperCase" xml:space="preserve">
+    <value>PARANOIA</value>
+  </data>
 </root>

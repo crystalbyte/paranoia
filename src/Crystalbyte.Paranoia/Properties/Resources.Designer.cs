@@ -169,6 +169,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PARANOIA.
+        /// </summary>
+        public static string ApplicationNameUpperCase {
+            get {
+                return ResourceManager.GetString("ApplicationNameUpperCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ascending.
         /// </summary>
         public static string Ascending {

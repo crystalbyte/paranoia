@@ -6,7 +6,6 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
                       xmlns:properties="clr-namespace:Crystalbyte.Paranoia.Properties"
-                      xmlns:system="clr-namespace:System;assembly=mscorlib"
                       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
                       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                       x:Name="Window"
@@ -22,7 +21,6 @@
                       d:DataContext="{d:DesignInstance paranoia:AppContext}"
                       mc:Ignorable="d">
     <controls:MetroWindow.Resources>
-        <system:Double x:Key="NavigationPaneHeight">30</system:Double>
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <Storyboard x:Key="FlyoutSlideInStoryboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FlyoutOverlay"
@@ -114,13 +112,30 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid Background="Transparent">
-                            <Image Width="24"
-                                   Margin="16,0"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Source="/Assets/logo.window.png" />
-                        </Grid>
+                        <Border x:Name="Border"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="Transparent"
+                                IsHitTestVisible="True">
+                            <StackPanel Margin="6" Orientation="Horizontal">
+                                <Image Width="20"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Source="/Assets/logo.window.png" />
+                                <TextBlock Margin="6,0"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                                           Text="{x:Static properties:Resources.ApplicationNameUpperCase}" />
+                            </StackPanel>
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
+                                <Setter TargetName="Border" Property="TextOptions.TextRenderingMode" Value="Grayscale" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -136,8 +151,7 @@
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition Height="6" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="32" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -190,7 +204,7 @@
         </Grid>
         <Grid x:Name="FlyoutOverlay"
               Grid.Row="0"
-              Grid.RowSpan="4"
+              Grid.RowSpan="3"
               Grid.Column="0"
               Grid.ColumnSpan="2"
               Panel.ZIndex="1000"
@@ -296,7 +310,7 @@
         </Grid>
         <Grid x:Name="ModalOverlay"
               Grid.Row="0"
-              Grid.RowSpan="4"
+              Grid.RowSpan="3"
               Grid.Column="0"
               Grid.ColumnSpan="2"
               Visibility="{Binding IsPopupVisible,
@@ -343,7 +357,7 @@
                        Opacity="{StaticResource FlyoutOverlayOpacityKey}"
                        RenderOptions.EdgeMode="Aliased" />
         </Grid>
-        <Button Grid.Row="1"
+        <Button Grid.Row="0"
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -351,9 +365,8 @@
                 Command="ui:AppCommands.Settings"
                 Style="{StaticResource AppMenuButtonStyle}" />
         <ListView x:Name="NavigationMenu"
-                  Grid.Row="1"
+                  Grid.Row="0"
                   Grid.Column="1"
-                  Height="{StaticResource NavigationPaneHeight}"
                   Margin="0"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
@@ -383,13 +396,17 @@
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="0">
-                                    <ContentPresenter Margin="{TemplateBinding Padding}"
-                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    <Grid>
+                                        <Rectangle x:Name="OuterOverlay" />
+                                        <Rectangle x:Name="InnerOverlay" Margin="0,3,0,0" />
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    </Grid>
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}}" />
+                                        <Setter TargetName="InnerOverlay" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}}" />
+                                        <Setter TargetName="OuterOverlay" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}}" />
+                                        <Setter TargetName="OuterOverlay" Property="Opacity" Value=".5" />
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="False">
                                         <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
@@ -400,6 +417,7 @@
                                             <Condition Property="IsSelected" Value="False" />
                                         </MultiTrigger.Conditions>
                                         <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
+                                        <Setter TargetName="Border" Property="TextOptions.TextRenderingMode" Value="Grayscale" />
                                     </MultiTrigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -416,9 +434,8 @@
                 <DataTemplate DataType="paranoia:NavigationContext">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock x:Name="Text"
-                                   Margin="12,3"
+                                   Margin="14,0"
                                    VerticalAlignment="Center"
-                                   FontSize="12"
                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                    Text="{Binding Title}" />
                     </StackPanel>
@@ -431,16 +448,16 @@
             </ListView.ItemTemplate>
         </ListView>
         <Frame x:Name="MainFrame"
-               Grid.Row="2"
+               Grid.Row="1"
                Grid.Column="0"
                Grid.ColumnSpan="2"
                NavigationUIVisibility="Hidden"
                RenderTransformOrigin="0.5,0.5"
                Source="/UI/MailPage.xaml" />
-        <StatusBar Grid.Row="3"
+        <StatusBar Grid.Row="2"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Height="27"
+                   Height="24"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.StatusBarBackgroundBrushKey}}" />
     </Grid>
 </controls:MetroWindow>
