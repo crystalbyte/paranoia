@@ -135,7 +135,7 @@
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="32" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Rectangle Grid.Row="0"
@@ -143,8 +143,7 @@
                    VerticalAlignment="Stretch"
                    Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
         <Border Grid.Row="0">
-            <StackPanel Height="36"
-                        HorizontalAlignment="Left"
+            <StackPanel HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
                 <Image Width="20"

@@ -47,9 +47,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0"
-                Grid.ColumnSpan="2"
-                BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}">
+        <Border Grid.Row="0" BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}">
             <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}">
                 <StackPanel HorizontalAlignment="Left"
                             VerticalAlignment="Center"
