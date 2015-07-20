@@ -121,7 +121,7 @@
     <value>Anhang hinzufügen</value>
   </data>
   <data name="IdentityNameWatermark" xml:space="preserve">
-    <value>Name</value>
-    <comment>IdentityScreen -&gt; TextBlock -&gt; NameTextBlock</comment>
+    <value>Filename</value>
+    <comment>IdentityScreen -&gt; TextBlock -&gt; FilenameTextBlock</comment>
   </data>
 </root>

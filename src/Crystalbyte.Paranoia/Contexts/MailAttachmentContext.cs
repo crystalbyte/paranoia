@@ -152,7 +152,7 @@ namespace Crystalbyte.Paranoia {
 
         #region Class Override
 
-        public override string Name {
+        public override string Filename {
             get { return _attachment.Filename; }
         }
 

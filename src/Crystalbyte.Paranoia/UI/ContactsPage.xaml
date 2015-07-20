@@ -22,7 +22,7 @@
             </CollectionViewSource.GroupDescriptions>
             <CollectionViewSource.SortDescriptions>
                 <componentModel:SortDescription Direction="Ascending" PropertyName="Letter" />
-                <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
+                <componentModel:SortDescription Direction="Ascending" PropertyName="Filename" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </Page.Resources>

@@ -92,8 +92,8 @@ namespace Crystalbyte.Paranoia {
 
                 //var messageTableAttribute = typeof(MailMessage).GetCustomAttribute<TableAttribute>();
                 //var messageTableName = messageTableAttribute == null
-                //    ? typeof(MailMessage).Name
-                //    : messageTableAttribute.Name;
+                //    ? typeof(MailMessage).Filename
+                //    : messageTableAttribute.Filename;
 
                 var messages = await context.MailMessages
                     .Include(x => x.Attachments)

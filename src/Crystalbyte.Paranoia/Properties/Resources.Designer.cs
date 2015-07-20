@@ -79,7 +79,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name.
+        ///   Looks up a localized string similar to Filename.
         /// </summary>
         public static string AccountName {
             get {
@@ -1136,7 +1136,7 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name.
+        ///   Looks up a localized string similar to Filename.
         /// </summary>
         public static string Name {
             get {

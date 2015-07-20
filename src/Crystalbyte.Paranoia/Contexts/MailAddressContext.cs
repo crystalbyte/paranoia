@@ -7,7 +7,7 @@ using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 
 namespace Crystalbyte.Paranoia {
-    [DebuggerDisplay("Name = {Name}, MailAddress = {MailAddress}")]
+    [DebuggerDisplay("Filename = {Filename}, MailAddress = {MailAddress}")]
     public sealed class MailAddressContext {
 
         #region Private Fields

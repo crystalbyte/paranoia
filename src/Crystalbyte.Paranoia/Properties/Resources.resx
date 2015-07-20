@@ -121,7 +121,7 @@
     <value>Accept</value>
   </data>
   <data name="AccountName" xml:space="preserve">
-    <value>Name</value>
+    <value>Filename</value>
   </data>
   <data name="AllMailbox" xml:space="preserve">
     <value>All</value>
@@ -375,7 +375,7 @@ Once your password is lost you're screwed.</value>
     <value>Outbox</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Filename</value>
   </data>
   <data name="RegisterKeyTitle" xml:space="preserve">
     <value>Registering Keys</value>

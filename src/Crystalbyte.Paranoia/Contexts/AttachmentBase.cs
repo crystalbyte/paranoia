@@ -6,7 +6,7 @@ namespace Crystalbyte.Paranoia {
 
         #region Abstract Methods & Properties
 
-        public abstract string Name { get; }
+        public abstract string Filename { get; }
 
         public abstract byte[] GetBytes();
 
@@ -31,7 +31,7 @@ namespace Crystalbyte.Paranoia {
 
         public bool IsImage {
             get {
-                return Regex.IsMatch(Name, ".jpg|.png|.jpeg|.tiff|.gif", RegexOptions.IgnoreCase);
+                return Regex.IsMatch(Filename, ".jpg|.png|.jpeg|.tiff|.gif", RegexOptions.IgnoreCase);
             }
         }
 

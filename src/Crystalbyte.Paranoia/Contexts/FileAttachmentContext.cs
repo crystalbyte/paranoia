@@ -86,7 +86,7 @@ namespace Crystalbyte.Paranoia {
 
         #region Class Overrides
 
-        public override string Name {
+        public override string Filename {
             get { return _info.Name; }
         }
 

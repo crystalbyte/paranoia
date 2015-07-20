@@ -1093,7 +1093,7 @@ namespace Crystalbyte.Paranoia {
                 //        Subject = Subject,
                 //        BodyEncoding = Encoding.UTF8,
                 //        BodyTransferEncoding = TransferEncoding.Base64,
-                //        From = new MailAddress(account.Address, account.Name),
+                //        From = new MailAddress(account.Address, account.Filename),
                 //        Body = await document
                 //    };
 

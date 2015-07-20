@@ -124,7 +124,9 @@
                                        Source="/Assets/logo.window.png" />
                                 <TextBlock Margin="6,0"
                                            VerticalAlignment="Center"
-                                           FontWeight="Bold"
+                                           FontFamily="Paranoia"
+                                           FontSize="14"
+                                           FontStretch="Expanded"
                                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                            Text="{x:Static properties:Resources.ApplicationNameUpperCase}" />
                             </StackPanel>

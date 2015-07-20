@@ -6,15 +6,15 @@ namespace Crystalbyte.Paranoia {
 
         #region Private Fields
 
-        private readonly string _name;
+        private readonly string _filename;
         private readonly byte[] _bytes;
 
         #endregion
 
         #region Construction
 
-        public StreamAttachmentContext(string name, byte[] bytes) {
-            _name = name;
+        public StreamAttachmentContext(string filename, byte[] bytes) {
+            _filename = filename;
             _bytes = bytes;
         }
 
@@ -22,8 +22,8 @@ namespace Crystalbyte.Paranoia {
 
         #region Class Overrides
 
-        public override string Name {
-            get { return _name; }
+        public override string Filename {
+            get { return _filename; }
         }
 
         public override byte[] GetBytes() {

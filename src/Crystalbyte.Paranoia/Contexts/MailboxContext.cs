@@ -45,7 +45,7 @@ using NLog;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    [DebuggerDisplay("Name = {Name}")]
+    [DebuggerDisplay("Filename = {Filename}")]
     public sealed class MailboxContext : HierarchyContext, IMessageSource, IMailboxCreator {
 
         #region Private Fields
