@@ -217,7 +217,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private async void OnSyncMailbox(object sender, ExecutedRoutedEventArgs e) {
             try {
-                if (e.Parameter == null) {
+                if (!(e.Parameter is MailboxContext)) {
                     return;
                 }
 
