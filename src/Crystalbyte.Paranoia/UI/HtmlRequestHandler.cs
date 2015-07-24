@@ -113,6 +113,10 @@ namespace Crystalbyte.Paranoia.UI {
             Logger.Debug(Resources.RenderProcessTerminatedTemplate, status);
         }
 
+        CefReturnValue IRequestHandler.OnBeforeResourceLoad(IWebBrowser browser, IRequest request, bool isMainFrame) {
+            return CefReturnValue.Continue;
+        }
+
         #endregion
     }
 }

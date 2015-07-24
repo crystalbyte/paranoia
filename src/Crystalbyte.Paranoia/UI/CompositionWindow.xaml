@@ -104,7 +104,7 @@
                                         IsAsync=True,
                                         Converter={StaticResource GravatarImageConverter},
                                         ConverterParameter=24}"
-                       Stretch="UniformToFill" />
+                       Stretch="Uniform" />
                 <TextBlock MaxWidth="140"
                            Margin="3,0"
                            VerticalAlignment="Center"

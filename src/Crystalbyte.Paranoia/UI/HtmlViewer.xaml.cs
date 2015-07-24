@@ -146,16 +146,16 @@ namespace Crystalbyte.Paranoia.UI {
             _browser.RequestHandler = new HtmlRequestHandler(this);
             _browser.BrowserSettings = new BrowserSettings {
                 DefaultEncoding = Encoding.UTF8.WebName,
-                ApplicationCacheDisabled = true,
-                JavaDisabled = true,
-                WebSecurityDisabled = true,
-                WebGlDisabled = true,
-                UniversalAccessFromFileUrlsAllowed = true,
-                FileAccessFromFileUrlsAllowed = true,
-                PluginsDisabled = true,
-                JavaScriptOpenWindowsDisabled = true,
-                JavaScriptCloseWindowsDisabled = true,
-                JavascriptDisabled = true
+                //ApplicationCacheDisabled = true,
+                //JavaDisabled = true,
+                //WebSecurityDisabled = true,
+                //WebGlDisabled = true,
+                //UniversalAccessFromFileUrlsAllowed = true,
+                //FileAccessFromFileUrlsAllowed = true,
+                //PluginsDisabled = true,
+                //JavaScriptOpenWindowsDisabled = true,
+                //JavaScriptCloseWindowsDisabled = true,
+                //JavascriptDisabled = true
             };
 
             _browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
