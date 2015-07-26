@@ -101,7 +101,7 @@ namespace Crystalbyte.Paranoia.Mail.Mime.Decode {
         /// </summary>
         internal static void Reset() {
             EncodingMap = new Dictionary<string, Encoding>();
-            FallbackDecoder = null;
+            FallbackDecoder = (c) => Encoding.UTF8;
 
             // Some emails incorrectly specify the encoding as utf8, but it should have been utf-8.
             AddMapping("utf8", Encoding.UTF8);
