@@ -61,7 +61,6 @@ namespace Crystalbyte.Paranoia.Themes {
         public static string WindowHeaderForegroundBrushKey = "WindowHeaderForegroundBrushKey";
         public static string WindowHeaderSecondaryForegroundBrushKey = "WindowHeaderSecondaryForegroundBrushKey";
         public static string WindowHeaderMouseOverBackgroundBrushKey = "WindowHeaderMouseOverBackgroundBrushKey";
-        public static string WindowHeaderBackgroundBrushKey = "WindowHeaderBackgroundBrushKey";
         public static string WindowHeaderPressedForegroundBrushKey = "WindowHeaderPressedForegroundBrushKey";
         public static string WindowHeaderPressedBackgroundBrushKey = "WindowHeaderPressedBackgroundBrushKey";
         public static string WindowShadowBrushKey = "WindowShadowBrushKey";

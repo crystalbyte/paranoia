@@ -40,7 +40,7 @@
                        VerticalAlignment="Center"
                        Background="Transparent"
                        Focusable="False"
-                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                        FontStyle="Italic"
                        Foreground="{x:Static SystemColors.GrayTextBrush}"
                        IsHitTestVisible="False"
@@ -68,48 +68,34 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="StringTokenTemplate" DataType="system:String">
-            <Grid Margin="0,3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Image Width="18"
-                       Margin="0,0,3,0"
-                       VerticalAlignment="Stretch"
-                       RenderOptions.BitmapScalingMode="Linear"
-                       Source="{Binding IsAsync=True,
-                                        Converter={StaticResource GravatarImageConverter},
-                                        ConverterParameter=24}"
-                       Stretch="UniformToFill" />
+            <StackPanel Margin="0,0,2,0"
+                        Orientation="Horizontal"
+                        Cursor="Arrow"
+                        SnapsToDevicePixels="True">
                 <TextBlock x:Name="AddressBlock"
                            Grid.Column="1"
-                           Margin="0,3"
+                           TextDecorations="Underline"
+                           MaxWidth="140"
+                           Margin="3,0"
+                           TextTrimming="CharacterEllipsis"
+                           TextWrapping="NoWrap"
                            VerticalAlignment="Center"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                            Text="{Binding}" />
-            </Grid>
+            </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="ContactTokenTemplate" DataType="paranoia:MailContactContext">
-            <StackPanel Height="18"
-                        Margin="0,0,2,0"
-                        Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
+            <StackPanel Margin="0,0,2,0"
                         Orientation="Horizontal"
+                        Cursor="Arrow"
                         SnapsToDevicePixels="True">
-                <Image Width="18"
-                       Margin="0,0,3,0"
-                       VerticalAlignment="Stretch"
-                       RenderOptions.BitmapScalingMode="Linear"
-                       Source="{Binding Address,
-                                        IsAsync=True,
-                                        Converter={StaticResource GravatarImageConverter},
-                                        ConverterParameter=24}"
-                       Stretch="Uniform" />
                 <TextBlock MaxWidth="140"
                            Margin="3,0"
+                           TextDecorations="Underline"
                            VerticalAlignment="Center"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
-                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}}"
+                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                            Text="{Binding NameOrAddress}"
                            TextTrimming="CharacterEllipsis"
                            TextWrapping="NoWrap" />

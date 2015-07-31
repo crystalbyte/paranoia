@@ -100,6 +100,7 @@ namespace Crystalbyte.Paranoia.Mail.Mime {
     ///     - text/plain</code>
     /// </example>
     public class MessagePart {
+
         #region Public properties
 
         /// <summary>
@@ -276,7 +277,6 @@ namespace Crystalbyte.Paranoia.Mail.Mime {
             // set describes, and use that one instead
             if (!string.IsNullOrEmpty(characterSet))
                 encoding = EncodingFinder.FindEncoding(characterSet);
-
             return encoding;
         }
 
@@ -316,8 +316,7 @@ namespace Crystalbyte.Paranoia.Mail.Mime {
             if (IsMultiPart) {
                 // Parses a MultiPart message
                 ParseMultiPartBody(rawBody);
-            }
-            else {
+            } else {
                 // Parses a non MultiPart message
                 // Decode the body accodingly and set the Body property
                 Body = DecodeBody(rawBody, ContentTransferEncoding);
@@ -408,7 +407,7 @@ namespace Crystalbyte.Paranoia.Mail.Mime {
                     // we will consider the rest of the bytes as contained in a last message part.
                     if (stopLocation <= -1) {
                         // Include everything except the last CRLF.
-                        stopLocation = (int) stream.Length - "\r\n".Length;
+                        stopLocation = (int)stream.Length - "\r\n".Length;
 
                         // We consider this as the last part
                         lastMultipartBoundaryEncountered = true;
@@ -468,7 +467,7 @@ namespace Crystalbyte.Paranoia.Mail.Mime {
             while (true) {
                 // Get the current position. This is the first position on the line - no characters of the line will
                 // have been read yet
-                var currentPos = (int) stream.Position;
+                var currentPos = (int)stream.Position;
 
                 // Read the line
                 var line = StreamUtility.ReadLineAsAscii(stream);

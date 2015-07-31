@@ -371,7 +371,7 @@
                   Grid.Column="1"
                   Margin="0"
                   HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch"
+                  VerticalAlignment="Bottom"
                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                   BorderThickness="0"
                   ItemsSource="{Binding NavigationOptions}"
@@ -389,7 +389,6 @@
                     <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
                     <Setter Property="VerticalContentAlignment" Value="Center" />
-                    <Setter Property="Padding" Value="0" />
                     <Setter Property="SnapsToDevicePixels" Value="True" />
                     <Setter Property="Template">
                         <Setter.Value>
@@ -400,7 +399,7 @@
                                         BorderThickness="0">
                                     <Grid>
                                         <Rectangle x:Name="OuterOverlay" />
-                                        <Rectangle x:Name="InnerOverlay" Margin="0,3,0,0" />
+                                        <Rectangle x:Name="InnerOverlay" Margin="0,0,0,0" />
                                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                     </Grid>
                                 </Border>
@@ -436,7 +435,7 @@
                 <DataTemplate DataType="paranoia:NavigationContext">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock x:Name="Text"
-                                   Margin="14,0"
+                                   Margin="14,5.5"
                                    VerticalAlignment="Center"
                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                    Text="{Binding Title}" />

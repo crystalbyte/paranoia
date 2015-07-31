@@ -1038,7 +1038,7 @@ namespace Crystalbyte.Paranoia {
             Application.Current.AssertBackgroundThread();
 
             MailMessage[] messages = null;
-            var t1 = Environment.TickCount & Int32.MaxValue;
+            var t1 = Environment.TickCount & int.MaxValue;
 
             try {
                 using (var context = new DatabaseContext()) {

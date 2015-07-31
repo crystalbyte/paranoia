@@ -91,7 +91,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         public override byte[] GetBytes() {
-            return Bytes;
+            return File.ReadAllBytes(_info.FullName);
         }
 
         #endregion

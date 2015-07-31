@@ -112,7 +112,7 @@
             <Button Grid.Column="4" Style="{DynamicResource CloseButtonStyle}" />
         </Grid>
         <Border Grid.Row="1"
-                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
+                Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
                 Padding="6">
             <DockPanel LastChildFill="True">
                 <StackPanel HorizontalAlignment="Right"
