@@ -307,7 +307,6 @@ namespace Crystalbyte.Paranoia {
                     .Trim(new[] { '"' })
                     .Replace("asset://tempImage/", string.Empty);
 
-                AttachmentBase attachment;
                 string name;
 
                 var arguments = result.ToPageArguments();
