@@ -118,10 +118,6 @@
                                 Background="Transparent"
                                 IsHitTestVisible="True">
                             <StackPanel Margin="6" Orientation="Horizontal">
-                                <Image Width="20"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Source="/Assets/logo.window.png" />
                                 <TextBlock Margin="6,0"
                                            VerticalAlignment="Center"
                                            FontFamily="Paranoia"
@@ -371,7 +367,7 @@
                   Grid.Column="1"
                   Margin="0"
                   HorizontalAlignment="Stretch"
-                  VerticalAlignment="Bottom"
+                  VerticalAlignment="Stretch"
                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                   BorderThickness="0"
                   ItemsSource="{Binding NavigationOptions}"

@@ -61,17 +61,6 @@ namespace Crystalbyte.Paranoia {
             var id = long.Parse(uri.LocalPath.Split('/')[1]);
 
             throw new NotImplementedException();
-
-            //using (var database = new DatabaseContext()) {
-            //    var smtp = database.Compositions.Find(id);
-            //    if (smtp == null) {
-            //        throw new MessageNotFoundException(id);
-            //    }
-
-            //    response.MimeType = "text/html";
-            //    response.ContentLength = smtp.Mime.Length;
-            //    response.ResponseStream = new MemoryStream(smtp.Mime);
-            //}
         }
     }
 }

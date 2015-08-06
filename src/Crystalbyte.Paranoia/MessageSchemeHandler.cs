@@ -187,11 +187,6 @@ namespace Crystalbyte.Paranoia {
 
                 var header = string.Format(Resources.HtmlResponseHeader, reader.Headers.DateSent,
                     reader.Headers.From.DisplayName);
-                const string rule =
-                    "<hr style='border-right: medium none; border-top: #CCCCCC 1px solid; border-left: medium none; border-bottom: medium none; height: 1px'>";
-                variables.Add("separator",
-                    string.Format("{0}{1}{2}{3}{4}", "<div style=\"margin:20px 0; font-family: Trebuchet MS;\">", header,
-                        "<br/>", rule, "</div>"));
 
                 var text = HtmlSupport.FindBestSupportedBody(reader);
                 text = HtmlSupport.ModifyEmbeddedParts(text, messageId);
@@ -247,8 +242,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         private static void ComposeBlankCompositionResponse(ISchemeHandlerResponse response) {
-            var variables = new Dictionary<string, string>
-            {
+            var variables = new Dictionary<string, string> {
                 {"quote", string.Empty},
             };
 

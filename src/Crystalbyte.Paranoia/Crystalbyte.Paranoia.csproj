@@ -4,6 +4,7 @@
   <Import Project="..\packages\CefSharp.Common.41.0.0\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.41.0.0\build\CefSharp.Common.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A0762E18-FAC3-4624-8B65-9D1AF8E4F366}</ProjectGuid>
@@ -20,6 +21,8 @@
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -34,8 +37,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -61,7 +62,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\logo.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -670,8 +671,8 @@
     </None>
     <AppDesigner Include="Properties\" />
     <Resource Include="Resources\storage.db" />
-    <Resource Include="Resources\inspection.less" />
-    <Resource Include="Resources\composition.less" />
+    <Resource Include="Styles\inspection.less" />
+    <Resource Include="Styles\composition.less" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -764,7 +765,7 @@
     <Resource Include="Assets\open.png" />
     <Resource Include="Assets\logo.window.png" />
     <Resource Include="Assets\save.png" />
-    <Resource Include="Resources\logo.ico" />
+    <Resource Include="Assets\logo.ico" />
     <Resource Include="Assets\reply.png" />
     <Resource Include="Assets\forward.png" />
     <Resource Include="Assets\forward.small.png" />
@@ -783,11 +784,10 @@
     <Resource Include="Assets\picture.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\jquery-2.1.1.min.js" />
-    <Resource Include="Resources\quill.js" />
+    <Resource Include="Scripts\jquery-2.1.1.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\lodash-3.2.0.min.js" />
+    <Resource Include="Scripts\lodash.min.js" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\align.center.png" />
@@ -799,15 +799,15 @@
     <Resource Include="Resources\inspection.html" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\scrollbar.arrow.down.jpg" />
-    <Resource Include="Resources\scrollbar.arrow.up.jpg" />
+    <Resource Include="Assets\scrollbar.arrow.down.jpg" />
+    <Resource Include="Assets\scrollbar.arrow.up.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\scrollbar.arrow.left.jpg" />
-    <Resource Include="Resources\scrollbar.arrow.right.jpg" />
+    <Resource Include="Assets\scrollbar.arrow.left.jpg" />
+    <Resource Include="Assets\scrollbar.arrow.right.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\message.facade.html" />
+    <Resource Include="Resources\facade.html" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\warning.png" />
@@ -818,6 +818,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\address.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Scripts\composition.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Scripts\quill.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\composition.ts.s" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -25,6 +25,7 @@
 #region Using Directives
 
 using System;
+using System.Linq;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -53,22 +54,20 @@ namespace Crystalbyte.Paranoia {
         public bool ProcessRequestAsync(IRequest request, ISchemeHandlerResponse response,
             OnRequestCompletedHandler requestCompletedCallback) {
             Task.Run(() => {
-                         try {
-                             ComposeResourceResponse(request, response);
-                             requestCompletedCallback();
-                         }
-                         catch (Exception ex) {
-                             Logger.ErrorException(ex.Message, ex);
-                         }
-                     });
+                try {
+                    ComposeResourceResponse(request, response);
+                    requestCompletedCallback();
+                } catch (Exception ex) {
+                    Logger.ErrorException(ex.Message, ex);
+                }
+            });
 
             return true;
         }
 
         private static void ComposeResourceResponse(IRequest request, ISchemeHandlerResponse response) {
             var uri = new Uri(request.Url);
-            var name = uri.Segments[1].Trim('/');
-            var resource = new Uri(string.Format("/Resources/{0}", name), UriKind.RelativeOrAbsolute);
+            var resource = new Uri(uri.LocalPath, UriKind.RelativeOrAbsolute);
 
             // BUG: Occasionally throws ExecutionEngineException if not locked, so sad ... :(
             StreamResourceInfo info;
@@ -80,19 +79,19 @@ namespace Crystalbyte.Paranoia {
             }
 
             response.CloseStream = true;
-            if (name.EndsWith("less")) {
+            if (uri.LocalPath.EndsWith("less")) {
                 using (var reader = new StreamReader(info.Stream)) {
                     var less = reader.ReadToEnd();
 
                     less = Regex.Replace(less, "::[A-Za-z0-9]+::", m => {
-                                                                       var key = m.Value.Trim(':');
-                                                                       var brush =
-                                                                           Application.Current.Resources[key] as
-                                                                               SolidColorBrush;
-                                                                       return brush != null
-                                                                           ? brush.Color.ToHex(false)
-                                                                           : "Fuchsia";
-                                                                   });
+                        var key = m.Value.Trim(':');
+                        var brush =
+                            Application.Current.Resources[key] as
+                                SolidColorBrush;
+                        return brush != null
+                            ? brush.Color.ToHex(false)
+                            : "Fuchsia";
+                    });
 
                     var css = Less.Parse(less);
 

@@ -113,13 +113,13 @@ namespace Crystalbyte.Paranoia.UI {
         ///     Check formats: http://quilljs.com/docs/formats/
         /// </summary>
         public void Undo() {
-            const string script = "(function() { quill.modules['undo-manager'].undo(); })();";
+            const string script = "(function() { Composition.editor.modules['undo-manager'].undo(); })();";
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
 
         public void Redo() {
-            const string script = "(function() { quill.modules['undo-manager'].redo(); })();";
+            const string script = "(function() { Composition.editor.modules['undo-manager'].redo(); })();";
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
@@ -170,36 +170,36 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void SetText(string text) {
-            var script = string.Format("(function() {{ quill.setText('{0}'); }})();", text);
+            var script = string.Format("(function() {{ Composition.editor.setText('{0}'); }})();", text);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
 
         public void SetHtml(string html) {
-            var script = string.Format("(function() {{ quill.setHtml('{0}'); }})();", html);
+            var script = string.Format("(function() {{ Composition.editor.setHtml('{0}'); }})();", html);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
 
         public void SetContents(string content) {
-            var script = string.Format("(function() {{ quill.setContent('{0}'); }})();", content);
+            var script = string.Format("(function() {{ Composition.editor.setContent('{0}'); }})();", content);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
 
         private void SetFocus() {
-            var script = string.Format("(function() {{ quill.focus(); }})();");
+            var script = string.Format("(function() {{ Composition.editor.focus(); }})();");
             _browser.ExecuteScriptAsync(script);
         }
 
         public void InsertText(int index, string text) {
-            var script = string.Format("(function() {{ quill.insertText({0}, '{1}'); }})();", index, text);
+            var script = string.Format("(function() {{ Composition.editor.insertText({0}, '{1}'); }})();", index, text);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
 
         public void InsertEmbed(int index, string type, string url) {
-            var script = string.Format("(function() {{ quill.insertEmbed({0}, '{1}', '{2}'); }})();", index, type, url);
+            var script = string.Format("(function() {{ Composition.editor.insertEmbed({0}, '{1}', '{2}'); }})();", index, type, url);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
@@ -210,7 +210,7 @@ namespace Crystalbyte.Paranoia.UI {
             } else {
                 value = value.ToString().ToLower();
             }
-            var script = string.Format("(function() {{ quill.formatText({0}, {1}, '{2}', {3}); }})();", start, end, name,
+            var script = string.Format("(function() {{ Composition.editor.formatText({0}, {1}, '{2}', {3}); }})();", start, end, name,
                 value);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
@@ -222,19 +222,19 @@ namespace Crystalbyte.Paranoia.UI {
             } else {
                 value = value.ToString().ToLower();
             }
-            var script = string.Format("(function() {{ quill.prepareFormat('{0}', {1}); }})();", format, value);
+            var script = string.Format("(function() {{ Composition.editor.prepareFormat('{0}', {1}); }})();", format, value);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
 
         public void InsertHtml(int index, string text) {
-            var script = string.Format("(function() {{ return quill.insertHtml({0}, '{1}'); }})();", index, text);
+            var script = string.Format("(function() {{ return Composition.editor.insertHtml({0}, '{1}'); }})();", index, text);
             _browser.ExecuteScriptAsync(script);
             _browser.Focus();
         }
 
         public async Task<int> GetLengthAsync() {
-            const string script = "(function() { return quill.getLength(); })();";
+            const string script = "(function() { return Composition.editor.getLength(); })();";
             var response = await _browser.EvaluateScriptAsync(script);
 
             if (!response.Success) {
@@ -256,7 +256,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public async Task<TextRange> GetSelectionAsync() {
-            const string script = "(function() { var s = quill.getSelection(); return JSON.stringify(s); })();";
+            const string script = "(function() { var s = Composition.editor.getSelection(); return JSON.stringify(s); })();";
             var response = await _browser.EvaluateScriptAsync(script);
 
             if (!response.Success) {
@@ -270,7 +270,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public async Task<string> GetHtmlAsync() {
-            const string script = "(function() { return quill.getHTML(); })();";
+            const string script = "(function() { return Composition.editor.getHTML(); })();";
             var response = await _browser.EvaluateScriptAsync(script);
 
             if (!response.Success) {
@@ -281,7 +281,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public async Task<string> GetContentsAsync() {
-            const string script = "(function() { return quill.getContents(); })();";
+            const string script = "(function() { return Composition.editor.getContents(); })();";
             var response = await _browser.EvaluateScriptAsync(script);
 
             if (!response.Success) {
@@ -292,7 +292,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public async Task<IDictionary<string, object>> GetContentsAsync(int start, int end) {
-            var script = string.Format("(function() {{ return quill.getContents({0}, {1}); }})();", start, end);
+            var script = string.Format("(function() {{ return Composition.editor.getContents({0}, {1}); }})();", start, end);
             var response = await _browser.EvaluateScriptAsync(script);
 
             if (!response.Success) {
@@ -303,7 +303,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public async Task<string> GetTextAsync() {
-            const string script = "(function() { return quill.getText(); })();";
+            const string script = "(function() { return Composition.editor.getText(); })();";
             var response = await _browser.EvaluateScriptAsync(script);
 
             if (!response.Success) {
@@ -490,7 +490,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             _browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
             _browser.GotKeyboardFocus += (sender, e) => SetFocus();
-            _browser.RegisterJsObject("extern", new ScriptingObject(this));
+            _browser.RegisterJsObject("Extern", new ScriptingObject(this));
         }
 
         public void FocusEditor() {
@@ -517,7 +517,7 @@ namespace Crystalbyte.Paranoia.UI {
             set { SetValue(ContentProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc..
         public static readonly DependencyProperty ContentProperty =
             DependencyProperty.Register("Content", typeof(string), typeof(HtmlEditor),
                 new PropertyMetadata(string.Empty));
@@ -527,7 +527,7 @@ namespace Crystalbyte.Paranoia.UI {
             set { SetValue(SelectionProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Selection.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for Selection.  This enables animation, styling, binding, etc..
         public static readonly DependencyProperty SelectionProperty =
             DependencyProperty.Register("Selection", typeof(TextRange?), typeof(HtmlEditor),
                 new PropertyMetadata(null));
@@ -537,7 +537,7 @@ namespace Crystalbyte.Paranoia.UI {
             set { SetValue(SourceProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc..
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(string), typeof(HtmlEditor),
                 new PropertyMetadata(OnSourcePropertyChanged));
@@ -558,7 +558,7 @@ namespace Crystalbyte.Paranoia.UI {
             set { SetValue(ZoomProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Zoom.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for Zoom.  This enables animation, styling, binding, etc..
         public static readonly DependencyProperty ZoomProperty =
             DependencyProperty.Register("Zoom", typeof(double), typeof(HtmlEditor),
                 new PropertyMetadata(0.0d, OnZoomChanged));

@@ -706,6 +706,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 <controls:ProgressRing Width="30"
+                                       d:Hidden="True"
                                        Height="30"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -715,6 +716,7 @@
                                                           Mode=OneWay}"
                                        IsLarge="False" />
                 <TextBlock Margin="12"
+                           d:Hidden="True"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
