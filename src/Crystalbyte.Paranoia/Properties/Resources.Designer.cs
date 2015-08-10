@@ -376,11 +376,20 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contacts.
+        /// </summary>
+        public static string Contacts {
+            get {
+                return ResourceManager.GetString("Contacts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CONTACTS.
         /// </summary>
-        public static string ContactsTitle {
+        public static string ContactsUpper {
             get {
-                return ResourceManager.GetString("ContactsTitle", resourceCulture);
+                return ResourceManager.GetString("ContactsUpper", resourceCulture);
             }
         }
         
@@ -1063,11 +1072,20 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Messages.
+        /// </summary>
+        public static string Messages {
+            get {
+                return ResourceManager.GetString("Messages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MESSAGES.
         /// </summary>
-        public static string MessagesTitle {
+        public static string MessagesUpper {
             get {
-                return ResourceManager.GetString("MessagesTitle", resourceCulture);
+                return ResourceManager.GetString("MessagesUpper", resourceCulture);
             }
         }
         

@@ -33,7 +33,10 @@ namespace Crystalbyte.Paranoia {
         private int _counter;
 
         public string Title { get; set; }
+
         public Uri TargetUri { get; set; }
+
+        public Uri IconUri { get; set; }
 
         public int Counter {
             get { return _counter; }

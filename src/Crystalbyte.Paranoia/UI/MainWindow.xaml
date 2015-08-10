@@ -429,9 +429,14 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate DataType="paranoia:NavigationContext">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="12,4">
+                        <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Width="16">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="{Binding IconUri}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
                         <TextBlock x:Name="Text"
-                                   Margin="14,5.5"
+                                   Margin="6,0,0,0"
                                    VerticalAlignment="Center"
                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                    Text="{Binding Title}" />

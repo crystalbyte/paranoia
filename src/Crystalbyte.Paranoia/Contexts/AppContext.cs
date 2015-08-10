@@ -99,13 +99,15 @@ namespace Crystalbyte.Paranoia {
 
             _navigationOptions = new ObservableCollection<NavigationContext> {
                 new MailNavigationContext {
-                    Title = Resources.MessagesTitle,
+                    Title = Resources.MessagesUpper,
                     TargetUri = typeof (MailPage).ToPageUri(),
+                    IconUri = new Uri("/Assets/paper.png", UriKind.Relative),
                     IsSelected = true
                 },
                 new NavigationContext {
-                    Title = Resources.ContactsTitle, 
-                    TargetUri = typeof (ContactsPage).ToPageUri(), 
+                    Title = Resources.ContactsUpper, 
+                    TargetUri = typeof (ContactsPage).ToPageUri(),
+                    IconUri = new Uri("/Assets/address.png", UriKind.Relative),
                     Counter = 0
                 }
             };
