@@ -271,6 +271,7 @@
     </Compile>
     <Compile Include="UI\Converters\CollectionIndexer.cs" />
     <Compile Include="UI\Converters\ConverterSequence.cs" />
+    <Compile Include="UI\HtmlFocusHandler.cs" />
     <Compile Include="UI\RoutedCommands\CompositionCommands.cs" />
     <Compile Include="UI\RoutedCommands\InspectionCommands.cs" />
     <Compile Include="UI\SpamNoticeControl.xaml.cs">

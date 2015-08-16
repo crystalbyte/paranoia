@@ -121,7 +121,7 @@
     <value>Accept</value>
   </data>
   <data name="AccountName" xml:space="preserve">
-    <value>Filename</value>
+    <value>Name</value>
   </data>
   <data name="AllMailbox" xml:space="preserve">
     <value>All</value>

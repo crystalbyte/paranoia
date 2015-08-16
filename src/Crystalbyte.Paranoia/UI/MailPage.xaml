@@ -852,6 +852,7 @@
                 <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsDownloading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
                     <ui:HtmlViewer x:Name="MessageViewer"
                                    BorderThickness="0"
+                                   IsBrowserFocusDisabled="True"
                                    DataContext="{Binding DataContext,
                                                          RelativeSource={RelativeSource FindAncestor,
                                                                                         AncestorType=Page}}"

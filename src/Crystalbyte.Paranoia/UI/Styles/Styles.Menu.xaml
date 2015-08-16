@@ -43,7 +43,7 @@
                             BorderThickness="{StaticResource MenuBorderThicknessKey}"
                             Padding="0,3">
                         <Border.Effect>
-                            <DropShadowEffect ShadowDepth="2" Color="Black" />
+                            <DropShadowEffect ShadowDepth="2" Opacity=".8" Color="Black" />
                         </Border.Effect>
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                     </Border>
@@ -215,7 +215,7 @@
                             BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}}"
                             BorderThickness="{StaticResource MenuBorderThicknessKey}">
                         <Border.Effect>
-                            <DropShadowEffect ShadowDepth="2" Color="Black" />
+                            <DropShadowEffect ShadowDepth="2" Opacity=".8" Color="Black" />
                         </Border.Effect>
                         <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuScrollViewer}">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
@@ -373,7 +373,7 @@
                             BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.MenuBorderBrushKey}}"
                             BorderThickness="{StaticResource MenuBorderThicknessKey}">
                         <Border.Effect>
-                            <DropShadowEffect ShadowDepth="2" Color="Black" />
+                            <DropShadowEffect ShadowDepth="2" Opacity=".8" Color="Black" />
                         </Border.Effect>
                         <ScrollViewer CanContentScroll="True" Style="{StaticResource MenuScrollViewer}">
                             <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
