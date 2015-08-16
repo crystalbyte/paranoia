@@ -105,7 +105,7 @@ namespace Crystalbyte.Paranoia {
                     IsSelected = true
                 },
                 new NavigationContext {
-                    Title = Resources.ContactsUpper, 
+                    Title = Resources.ContactsUpper,
                     TargetUri = typeof (ContactsPage).ToPageUri(),
                     IconUri = new Uri("/Assets/address.png", UriKind.Relative),
                     Counter = 0
@@ -889,7 +889,7 @@ namespace Crystalbyte.Paranoia {
                     await message.FetchAndDecryptAsync();
                 }
 
-                await message.DetailAsync();
+                await message.LoadDetailsAsync();
 
                 // We need to check after all awaits whether the selected message is still the same.
                 if (SelectedMessage != null && SelectedMessage.Id == message.Id) {
@@ -1051,80 +1051,6 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        private async Task ProcessOutboxAsync() {
-            var getCompositions = Task.Run(async () => {
-                using (var context = new DatabaseContext()) {
-                    return await context.MailCompositions.Include(x => x.Addresses)
-                                .Include(x => x.Attachments)
-                                .ToArrayAsync();
-                }
-            });
-
-            var getKeyPairs = Task.Run(async () => {
-                using (var context = new DatabaseContext()) {
-                    return await context.KeyPairs
-                        .OrderByDescending(x => x.Date)
-                        .ToArrayAsync();
-                }
-            });
-
-            var keyPairs = await getKeyPairs;
-            var compositions = await getCompositions;
-
-            foreach (var composition in compositions.OrderBy(x => x.Created)) {
-                var addresses = composition.Addresses.Select(x => x.Address).ToArray();
-                var contacts = await Task.Run(async () => {
-                    using (var context = new DatabaseContext()) {
-                        return await context.MailContacts
-                                .Include(x => x.Keys)
-                                .Where(x => addresses.Contains(x.Address))
-                                .ToDictionaryAsync(z => z.Address.ToLower());
-                    }
-                });
-
-                //var message = new 
-
-                // TODO: @Sebastian ...
-
-                //var from = composition.Addresses.First(x => x.Role == AddressRole.From);
-                //var message = new System.Net.Mail.MailMessage {
-                //    From = from.
-                //};
-                //    var message = new MailMessage {
-                //        IsBodyHtml = true,
-                //        Subject = Subject,
-                //        BodyEncoding = Encoding.UTF8,
-                //        BodyTransferEncoding = TransferEncoding.Base64,
-                //        From = new MailAddress(account.Address, account.Filename),
-                //        Body = await document
-                //    };
-
-                //    var signet = string.Format("pkey={0};", Convert.ToBase64String(current.PublicKey));
-                //    message.Headers.Add(MessageHeaders.Signet, signet);
-
-                //    message.To.Add(new MailAddress(address));
-                //    foreach (var a in Attachments) {
-                //        message.Attachments.Add(new Attachment(a.FullName));
-                //    }
-
-                //    // IO heavy operation, needs to run in background thread.
-                //    var m = message;
-                //    await Task.Run(() => m.PackageEmbeddedContent());
-
-                //    if (key == null) {
-                //        messages.Add(message);
-                //    } else {
-                //        var nonce = PublicKeyCrypto.GenerateNonce();
-                //        var payload = await EncryptMessageAsync(message, current, key, nonce);
-                //        message = GenerateDeliveryMessage(account, current.PublicKey, address, nonce);
-                //        message.AlternateViews.Add(new AlternateView(new MemoryStream(payload),
-                //            new ContentType(MediaTypes.EncryptedMime)));
-                //        messages.Add(message);
-                //    }
-                //}
-            }
-        }
-
         internal async Task RestoreSelectedMessagesAsync() {
             try {
                 var messages = SelectedMessages.ToArray();
@@ -1146,8 +1072,53 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        internal void NotifyOutboxNotEmpty() {
+        private async Task SendCompositionAsync(MailComposition composition) {
+            var account = await Task.Run(() => {
+                using (var context = new DatabaseContext()) {
+                    var accounts = context.Set<MailAccount>();
+                    return accounts.FirstOrDefaultAsync(x => x.Id == composition.AccountId);
+                }
+            });
 
+            // TODO: Add encryption here.
+            if (account == null) {
+                throw new MissingAccountException();
+            }
+
+            var message = new System.Net.Mail.MailMessage();
+            message.To.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.To).Select(x => new System.Net.Mail.MailAddress(x.Address)));
+            message.CC.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.Cc).Select(x => new System.Net.Mail.MailAddress(x.Address)));
+            message.Bcc.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.Bcc).Select(x => new System.Net.Mail.MailAddress(x.Address)));
+            message.Subject = composition.Subject;
+
+            message.From = new System.Net.Mail.MailAddress(account.Address);
+            message.Body = composition.Content;
+            message.IsBodyHtml = true;
+
+            using (var connection = new SmtpConnection()) {
+                using (var auth = await connection.ConnectAsync(account.SmtpHost, account.SmtpPort)) {
+                    using (var session = await auth.LoginAsync(account.SmtpUsername, account.SmtpPassword)) {
+                        await session.SendAsync(message);
+                    }
+                }
+            }
+        }
+
+        internal async Task ProcessOutboxAsync() {
+            try {
+                using (var context = new DatabaseContext()) {
+                    var compositions = await context.Set<MailComposition>()
+                        .Include(x => x.Addresses)
+                        .Include(x => x.Attachments)
+                        .ToArrayAsync();
+
+                    foreach (var composition in compositions) {
+                        await SendCompositionAsync(composition);
+                    }
+                }
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
         }
 
         internal void NotifyContactsCreated(ICollection<MailContactContext> contacts) {

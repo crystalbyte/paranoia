@@ -258,6 +258,7 @@
     <Compile Include="MailMessageExtensions.cs" />
     <Compile Include="MailMessageReaderExtension.cs" />
     <Compile Include="MessageHeaders.cs" />
+    <Compile Include="MissingAccountException.cs" />
     <Compile Include="MissingContactException.cs" />
     <Compile Include="MissingKeyException.cs" />
     <Compile Include="ProgressChangedEventArgs.cs" />

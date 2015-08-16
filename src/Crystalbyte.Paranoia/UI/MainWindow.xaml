@@ -140,12 +140,12 @@
         </Style>
     </controls:MetroWindow.Resources>
     <controls:MetroWindow.CommandBindings>
-        <CommandBinding Command="ui:MessageCommands.Compose" Executed="OnCompose" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.Compose}" Executed="OnCompose" />
     </controls:MetroWindow.CommandBindings>
     <controls:MetroWindow.InputBindings>
         <KeyBinding Key="Print" Command="ApplicationCommands.Print" />
-        <KeyBinding Key="Escape" Command="ui:FlyoutCommands.Cancel" />
-        <KeyBinding Key="F12" Command="ui:AppCommands.Settings" />
+        <KeyBinding Key="Escape" Command="{x:Static ui:FlyoutCommands.Cancel}" />
+        <KeyBinding Key="F12" Command="{x:Static ui:AppCommands.Settings}" />
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
@@ -253,7 +253,7 @@
                                 Orientation="Horizontal">
                         <controls:MetroButton x:Name="Button"
                                               Margin="0,0,12,0"
-                                              Command="ui:FlyoutCommands.Back"
+                                              Command="{x:Static ui:FlyoutCommands.Back}"
                                               Focusable="False"
                                               ImageSource="/Assets/back.png">
                             <Button.RenderTransform>
@@ -360,7 +360,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Panel.ZIndex="100001"
-                Command="ui:AppCommands.Settings"
+                Command="{x:Static ui:AppCommands.Settings}"
                 Style="{StaticResource AppMenuButtonStyle}" />
         <ListView x:Name="NavigationMenu"
                   Grid.Row="0"
@@ -394,16 +394,12 @@
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="0">
                                     <Grid>
-                                        <Rectangle x:Name="OuterOverlay" />
-                                        <Rectangle x:Name="InnerOverlay" Margin="0,0,0,0" />
                                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                     </Grid>
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="InnerOverlay" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}}" />
-                                        <Setter TargetName="OuterOverlay" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}}" />
-                                        <Setter TargetName="OuterOverlay" Property="Opacity" Value=".5" />
+                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}}" />
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="False">
                                         <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
@@ -430,13 +426,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate DataType="paranoia:NavigationContext">
                     <StackPanel Orientation="Horizontal" Margin="12,4">
-                        <Rectangle Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Width="16">
-                            <Rectangle.OpacityMask>
-                                <ImageBrush ImageSource="{Binding IconUri}" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
                         <TextBlock x:Name="Text"
-                                   Margin="6,0,0,0"
                                    VerticalAlignment="Center"
                                    Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                    Text="{Binding Title}" />

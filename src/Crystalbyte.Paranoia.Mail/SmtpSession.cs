@@ -65,7 +65,7 @@ namespace Crystalbyte.Paranoia.Mail {
             return SendAsync(new[] {message});
         }
 
-        public async Task SendAsync(byte[] mime) {
+        private async Task SendAsync(byte[] mime) {
             var message = new MailMessageReader(mime);
 
             var from = message.Headers.From;
@@ -128,19 +128,8 @@ namespace Crystalbyte.Paranoia.Mail {
         }
 
         private async Task SendDataAsync(MailMessage message) {
-            await _connection.WriteAsync(SmtpCommands.Data);
-            var response = await _connection.ReadAsync();
-            if (!response.IsContinuationRequest) {
-                throw new SmtpException(response.Content);
-            }
-
             var mime = await message.ToMimeAsync();
             await SendDataAsync(mime);
-
-            response = await _connection.ReadAsync();
-            if (!response.IsOk) {
-                throw new SmtpException(response.Content);
-            }
         }
 
         private async Task SendDataAsync(byte[] mime) {

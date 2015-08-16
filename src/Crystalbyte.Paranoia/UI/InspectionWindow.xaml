@@ -238,7 +238,6 @@
         <ui:BlockNoticeControl Grid.Row="5" Blockable="{Binding}" />
         <ListView Grid.Row="6"
                   Margin="0"
-                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentListBackgroundBrushKey}}"
                   ItemTemplate="{StaticResource ThumbnailTemplate}"
                   ItemsSource="{Binding Attachments}"
                   Padding="3"
@@ -253,7 +252,6 @@
             </ListView.ItemContainerStyle>
             <ListView.Style>
                 <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
-                    <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
                     <Style.Triggers>
                         <Trigger Property="HasItems" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" />

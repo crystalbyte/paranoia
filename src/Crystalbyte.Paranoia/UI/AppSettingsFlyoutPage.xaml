@@ -86,24 +86,23 @@
                                     <StackPanel Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
-                            <Color>#f44336</Color>
-                            <Color>#e91e63</Color>
-                            <Color>#9c27b0</Color>
-                            <Color>#673ab7</Color>
-                            <Color>#3f51b5</Color>
-                            <Color>#2196f3</Color>
-                            <Color>#03a9f4</Color>
-                            <Color>#00bcd4</Color>
-                            <Color>#009688</Color>
-                            <Color>#4caf50</Color>
-                            <Color>#8bc34a</Color>
-                            <Color>#cddc39</Color>
-                            <Color>#ffeb3b</Color>
-                            <Color>#ffc107</Color>
-                            <Color>#ff9800</Color>
-                            <Color>#ff5722</Color>
-                            <Color>#795548</Color>
-                            <Color>#607d8b</Color>
+                            <Color>Green</Color>
+                            <Color>#008A00</Color>
+                            <Color>Teal</Color>
+                            <Color>Steelblue</Color>
+                            <Color>Dodgerblue</Color>
+                            <Color>Royalblue</Color>
+                            <Color>Violet</Color>
+                            <Color>Fuchsia</Color>
+                            <Color>Crimson</Color>
+                            <Color>Red</Color>
+                            <Color>Orange</Color>
+                            <Color>#F0A30A</Color>
+                            <Color>Brown</Color>
+                            <Color>Olive</Color>
+                            <Color>#647687</Color>
+                            <Color>#76608A</Color>
+                            <Color>#87794E</Color>
                         </ListView>
                     </StackPanel>
                 </StackPanel>

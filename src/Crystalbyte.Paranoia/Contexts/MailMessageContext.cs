@@ -355,7 +355,7 @@ namespace Crystalbyte.Paranoia {
         /// This method is invoked after a message is being selected to limit database calls.
         /// </summary>
         /// <returns>The state task.</returns>
-        public async Task DetailAsync() {
+        public async Task LoadDetailsAsync() {
             Logger.Enter();
 
             Application.Current.AssertUIThread();

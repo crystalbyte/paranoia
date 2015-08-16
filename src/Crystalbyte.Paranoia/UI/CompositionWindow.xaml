@@ -22,15 +22,15 @@
                       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
                       mc:Ignorable="d">
     <controls:MetroWindow.CommandBindings>
-        <CommandBinding Command="ui:EditingCommands.InsertLink" Executed="OnLink" />
-        <CommandBinding Command="ui:EditingCommands.InsertAttachment" Executed="OnAttachment" />
-        <CommandBinding Command="ui:FlyoutCommands.Cancel" Executed="OnCancel" />
-        <CommandBinding Command="ui:WindowCommands.Maximize" Executed="OnMaximize" />
-        <CommandBinding Command="ui:WindowCommands.Minimize" Executed="OnMinimize" />
-        <CommandBinding Command="ui:WindowCommands.RestoreDown" Executed="OnRestoreDown" />
-        <CommandBinding Command="ui:CompositionCommands.SendToOutbox" Executed="OnSendToOutbox" />
-        <CommandBinding Command="ui:CompositionCommands.SaveAsDraft" Executed="OnSaveAsDraft" />
-        <CommandBinding Command="ui:WindowCommands.RestoreDown" Executed="OnRestoreDown" />
+        <CommandBinding Command="{x:Static ui:EditingCommands.InsertLink}" Executed="OnLink" />
+        <CommandBinding Command="{x:Static ui:EditingCommands.InsertAttachment}" Executed="OnAttachment" />
+        <CommandBinding Command="{x:Static ui:FlyoutCommands.Cancel}" Executed="OnCancel" />
+        <CommandBinding Command="{x:Static ui:WindowCommands.Maximize}" Executed="OnMaximize" />
+        <CommandBinding Command="{x:Static ui:WindowCommands.Minimize}" Executed="OnMinimize" />
+        <CommandBinding Command="{x:Static ui:WindowCommands.RestoreDown}" Executed="OnRestoreDown" />
+        <CommandBinding Command="{x:Static ui:CompositionCommands.SendToOutbox}" Executed="OnSendToOutbox" />
+        <CommandBinding Command="{x:Static ui:CompositionCommands.SaveAsDraft}" Executed="OnSaveAsDraft" />
+        <CommandBinding Command="{x:Static ui:WindowCommands.RestoreDown}" Executed="OnRestoreDown" />
         <CommandBinding Command="ApplicationCommands.Close" Executed="OnClose" />
         <CommandBinding Command="ApplicationCommands.Help" Executed="OnHelp" />
     </controls:MetroWindow.CommandBindings>
@@ -104,11 +104,11 @@
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="Enter"
-                    Command="ui:CompositionCommands.SendToOutbox"
+                    Command="{x:Static ui:CompositionCommands.SendToOutbox}"
                     Modifiers="Control" />
-        <KeyBinding Key="Escape" Command="ui:FlyoutCommands.Cancel" />
+        <KeyBinding Key="Escape" Command="{x:Static ui:FlyoutCommands.Cancel}" />
         <KeyBinding Key="M"
-                    Command="ui:EditingCommands.InsertAttachment"
+                    Command="{x:Static ui:EditingCommands.InsertAttachment}"
                     Modifiers="Control" />
     </Window.InputBindings>
     <Grid>
@@ -240,7 +240,7 @@
                     Width="40"
                     Margin="4,4,0,4"
                     VerticalAlignment="Stretch"
-                    Command="ui:CompositionCommands.SendToOutbox"
+                    Command="{x:Static ui:CompositionCommands.SendToOutbox}"
                     IsEnabled="False"
                     IsTabStop="False">
                 <Rectangle Width="16"
@@ -374,7 +374,7 @@
             <ListView Grid.Row="2"
                       Grid.Column="0"
                       Grid.ColumnSpan="4"
-                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentListBackgroundBrushKey}}"
+                      BorderThickness="0,1,0,0"
                       IsTabStop="False"
                       ItemTemplate="{StaticResource FileThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
@@ -398,9 +398,8 @@
                 </ListView.Style>
                 <ListView.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                        <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClick" />
                         <Setter Property="BorderBrush" Value="Transparent" />
-                        <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}}" />
+                        <Setter Property="Background" Value="Transparent" />
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemsPanel>

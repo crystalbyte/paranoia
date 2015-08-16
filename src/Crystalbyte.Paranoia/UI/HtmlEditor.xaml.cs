@@ -244,17 +244,6 @@ namespace Crystalbyte.Paranoia.UI {
             return (int)response.Result;
         }
 
-        public async Task<string> GetAppendixAsync() {
-            const string script = "(function() { return getAppendix(); })();";
-            var response = await _browser.EvaluateScriptAsync(script);
-
-            if (!response.Success) {
-                throw new ScriptingException(response.Message);
-            }
-
-            return (string)response.Result;
-        }
-
         public async Task<TextRange> GetSelectionAsync() {
             const string script = "(function() { var s = Composition.editor.getSelection(); return JSON.stringify(s); })();";
             var response = await _browser.EvaluateScriptAsync(script);
@@ -476,7 +465,7 @@ namespace Crystalbyte.Paranoia.UI {
             _browser.BrowserSettings = new BrowserSettings {
                 DefaultEncoding = Encoding.UTF8.WebName,
                 //ApplicationCacheDisabled = true,
-                //JavaDisabled = true,
+                //JavaDisabled = true
                 //WebSecurityDisabled = true,
                 //WebGlDisabled = true,
                 //UniversalAccessFromFileUrlsAllowed = true,

@@ -220,7 +220,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private async void OnSendToOutbox(object sender, ExecutedRoutedEventArgs e) {
             try {
-                await _mailComposition.SendToOutboxAsync();
+                await _mailComposition.SaveToOutboxAsync();
                 Close();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
@@ -388,8 +388,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         public async Task<string> GetDocumentAsync() {
             var content = await HtmlEditor.GetHtmlAsync();
-            var appendix = await HtmlEditor.GetAppendixAsync();
-            return string.Format("<div>{0}{1}</div>", content, appendix);
+            return string.Format("<div>{0}</div>", content);
         }
 
         void IRecipientView.SetAddresses(MailCompositionAddress[] addresses) {

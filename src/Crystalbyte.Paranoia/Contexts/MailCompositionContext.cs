@@ -141,69 +141,13 @@ namespace Crystalbyte.Paranoia {
 
         #region Methods
 
-        public async Task SendToOutboxAsync() {
+        public async Task SaveToOutboxAsync() {
             try {
-                //KeyPair current = null;
-
-                //var contacts = await Task.Run(() => {
-                //    using (var context = new DatabaseContext()) {
-                //        current = context.KeyPairs.OrderByDescending(x => x.Date).First();
-                //        return Addresses
-                //            .Select(x => context.MailContacts
-                //                .Include("Keys")
-                //                .FirstOrDefault(y => y.Address == x))
-                //            .Where(w => w != null)
-                //            .ToDictionary(z => z.Address);
-                //    }
-                //});
-
-                //var messages = new List<MailMessage>();
-
-
-                //    PublicKey key = null;
-                //    if (contacts.ContainsKey(address)) {
-                //        var contact = contacts[address];
-                //        key = contact.Keys.FirstOrDefault();
-                //    }
-
-                //    var message = new MailMessage {
-                //        IsBodyHtml = true,
-                //        Subject = Subject,
-                //        BodyEncoding = Encoding.UTF8,
-                //        BodyTransferEncoding = TransferEncoding.Base64,
-                //        From = new MailAddress(account.Address, account.Filename),
-                //        Body = await document
-                //    };
-
-                //    var signet = string.Format("pkey={0};", Convert.ToBase64String(current.PublicKey));
-                //    message.Headers.Add(MessageHeaders.Signet, signet);
-
-                //    message.To.Add(new MailAddress(address));
-                //    foreach (var a in Attachments) {
-                //        message.Attachments.Add(new Attachment(a.FullName));
-                //    }
-
-                //    // IO heavy operation, needs to run in background thread.
-                //    var m = message;
-                //    await Task.Run(() => m.PackageEmbeddedContent());
-
-                //    if (key == null) {
-                //        messages.Add(message);
-                //    } else {
-                //        var nonce = PublicKeyCrypto.GenerateNonce();
-                //        var payload = await EncryptMessageAsync(message, current, key, nonce);
-                //        message = GenerateDeliveryMessage(account, current.PublicKey, address, nonce);
-                //        message.AlternateViews.Add(new AlternateView(new MemoryStream(payload),
-                //            new ContentType(MediaTypes.EncryptedMime)));
-                //        messages.Add(message);
-                //    }
-                //}
-
                 var account = SelectedAccount;
-                
                 var composition = new MailComposition {
                     AccountId = account.Id,
                     Subject = Subject,
+                    Content = await _source.GetDocumentAsync()
                 };
 
                 composition.Addresses.AddRange(_source.GetAddresses());
@@ -224,45 +168,11 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
 
-                App.Context.NotifyOutboxNotEmpty();
+                await App.Context.ProcessOutboxAsync();
 
             } catch (Exception ex) {
                 Logger.Error(ex);
             }
-        }
-
-        private static MailMessage GenerateDeliveryMessage(MailAccountContext account, byte[] pKey, string address,
-            byte[] nonce) {
-            var message = new MailMessage {
-                Subject = "BAZINGA !!",
-                BodyEncoding = Encoding.UTF8,
-                BodyTransferEncoding = TransferEncoding.Base64,
-                From = new MailAddress(account.Address, account.Name),
-            };
-
-            message.To.Add(address);
-
-            const string path = "/Resources/message.facade.html";
-            var info = Application.GetResourceStream(new Uri(path, UriKind.Relative));
-            if (info == null) {
-                throw new ResourceNotFoundException(path);
-            }
-
-            var html = AlternateView.CreateAlternateViewFromString(info.Stream.ToUtf8String());
-            html.ContentType = new ContentType("text/html");
-            message.AlternateViews.Add(html);
-
-            var signet = string.Format("pkey={0};", Convert.ToBase64String(pKey));
-            message.Headers.Add(MessageHeaders.Signet, signet);
-            message.Headers.Add(MessageHeaders.Nonce, Convert.ToBase64String(nonce));
-            return message;
-        }
-
-        private static async Task<byte[]> EncryptMessageAsync(MailMessage message, KeyPair pair,
-            PublicKey pKey, byte[] nonce) {
-            var mime = await message.ToMimeAsync();
-            var crypto = new PublicKeyCrypto(pair.PublicKey, pair.PrivateKey);
-            return crypto.EncryptWithPublicKey(mime, pKey.Bytes, nonce);
         }
 
         private void OnInsertAttachment(object obj) {

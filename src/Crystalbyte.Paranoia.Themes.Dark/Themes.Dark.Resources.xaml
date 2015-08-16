@@ -43,7 +43,6 @@
 
     <!--  Control Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SpamNoticeBackgroundBrushKey}" Color="#26262A" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AttachmentListBackgroundBrushKey}" Color="#2E2E30" />
 
     <!--  Input Scope  -->
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.InputFontFamilyKey}">Calibri</FontFamily>

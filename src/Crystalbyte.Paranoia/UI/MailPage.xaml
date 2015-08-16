@@ -820,7 +820,6 @@
             </Border>
             <ListView Grid.Row="3"
                       Margin="0"
-                      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AttachmentListBackgroundBrushKey}}"
                       DataContext="{Binding SelectedMessage}"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"
@@ -830,7 +829,6 @@
                       ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <ListView.Style>
                     <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
-                        <EventSetter Event="MouseDoubleClick" Handler="OnAttachmentMouseDoubleClicked" />
                         <Style.Triggers>
                             <Trigger Property="HasItems" Value="False">
                                 <Setter Property="Visibility" Value="Collapsed" />

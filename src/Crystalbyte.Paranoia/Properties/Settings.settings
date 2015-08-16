@@ -18,7 +18,7 @@
       <Value Profile="(Default)">Light</Value>
     </Setting>
     <Setting Name="Accent" Type="System.String" Scope="User">
-      <Value Profile="(Default)">#5299EA</Value>
+      <Value Profile="(Default)">Steelblue</Value>
     </Setting>
     <Setting Name="DefaultWebFont" Type="System.String" Scope="User">
       <Value Profile="(Default)">Trebuchet MS</Value>
