@@ -26,6 +26,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 #endregion
@@ -50,6 +51,16 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Class Overrides
 
+        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e) {
+            base.OnLostKeyboardFocus(e);
+            InvalidateWatermark();
+        }
+
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e) {
+            base.OnGotKeyboardFocus(e);
+            InvalidateWatermark();
+        }
+
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
@@ -65,7 +76,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         private void InvalidateWatermark() {
-            IsWatermarkVisible = string.IsNullOrEmpty(Text);
+            IsWatermarkVisible = string.IsNullOrEmpty(Text) && !IsKeyboardFocusWithin;
         }
 
         #endregion

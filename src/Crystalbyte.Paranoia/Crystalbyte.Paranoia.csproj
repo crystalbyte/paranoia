@@ -827,9 +827,6 @@
   <ItemGroup>
     <Resource Include="Scripts\quill.min.js" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Scripts\composition.ts.s" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

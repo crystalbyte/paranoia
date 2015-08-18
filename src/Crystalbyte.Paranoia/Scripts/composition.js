@@ -20,10 +20,11 @@ var Paranoia;
 
             this.container.append(editor);
             this.quill = new Quill("#" + this.editorId, {
-                'styles': {
-                    '.ql-editor': {
-                        'font-family': "Candara, Calibri, Segoe, 'Segoe UI', Optima, Arial, sans-serif",
-                        'font-size': "14px"
+                "styles": {
+                    ".ql-editor": {
+                        "background-color": "white",
+                        "font-family": "Candara, Calibri, Segoe, 'Segoe UI', Optima, Arial, sans-serif",
+                        "font-size": "16px"
                     }
                 }
             });

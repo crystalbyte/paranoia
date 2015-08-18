@@ -35,66 +35,60 @@
         <CommandBinding Command="ApplicationCommands.Help" Executed="OnHelp" />
     </controls:MetroWindow.CommandBindings>
     <Window.Resources>
-        <DataTemplate x:Key="LargeWatermarkTemplate">
+        <DataTemplate x:Key="WatermarkTemplate">
             <TextBlock Margin="3,0,0,0"
+                       Opacity=".4"
                        VerticalAlignment="Center"
                        Background="Transparent"
                        Focusable="False"
-                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                       FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType=RichTextBox}}"
+                       FontStyle="Italic"
+                       Foreground="{x:Static SystemColors.GrayTextBrush}"
+                       IsHitTestVisible="False"
+                       Text="{Binding}" />
+        </DataTemplate>
+        <DataTemplate x:Key="WatermarkTextBoxTemplate">
+            <TextBlock Margin="3,0,0,0"
+                       Opacity=".4"
+                       VerticalAlignment="Center"
+                       Background="Transparent"
+                       Focusable="False"
+                       FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType=TextBox}}"
                        FontStyle="Italic"
                        Foreground="{x:Static SystemColors.GrayTextBrush}"
                        IsHitTestVisible="False"
                        Text="{Binding}" />
         </DataTemplate>
         <DataTemplate x:Key="ContactSuggestionTemplate" DataType="paranoia:MailContactContext">
-            <Grid Margin="0,3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <TextBlock Margin="0,0,8,0"
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="3,2">
+                <TextBlock Margin="0,0,8,0"
                                VerticalAlignment="Center"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                                Text="{Binding Name}" />
-                    <TextBlock x:Name="AddressBlock"
+                <TextBlock x:Name="AddressBlock"
                                VerticalAlignment="Center"
                                FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                Text="{Binding Address,
                                               StringFormat=({0})}" />
-                </StackPanel>
-            </Grid>
+            </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="StringTokenTemplate" DataType="system:String">
-            <StackPanel Margin="0,0,2,0"
-                        Orientation="Horizontal"
-                        Cursor="Arrow"
-                        SnapsToDevicePixels="True">
+            <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="AddressBlock"
-                           Grid.Column="1"
                            TextDecorations="Underline"
-                           MaxWidth="140"
-                           Margin="3,0"
                            TextTrimming="CharacterEllipsis"
                            TextWrapping="NoWrap"
-                           VerticalAlignment="Center"
                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                            Text="{Binding}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="ContactTokenTemplate" DataType="paranoia:MailContactContext">
-            <StackPanel Margin="0,0,2,0"
-                        Orientation="Horizontal"
-                        Cursor="Arrow"
-                        SnapsToDevicePixels="True">
-                <TextBlock MaxWidth="140"
-                           Margin="3,0"
-                           TextDecorations="Underline"
-                           VerticalAlignment="Center"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+            <StackPanel Orientation="Horizontal">
+                <TextBlock TextDecorations="Underline"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                            Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}"
                            Text="{Binding NameOrAddress}"
                            TextTrimming="CharacterEllipsis"
@@ -270,7 +264,6 @@
                     <DataTemplate>
                         <Grid d:DataContext="{d:DesignInstance paranoia:MailAccountContext}">
                             <TextBlock x:Name="AddressBlock"
-                                       Margin="3"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
@@ -291,14 +284,14 @@
                                     VerticalAlignment="Center"
                                     AcceptsReturn="False"
                                     AcceptsTab="False"
-                                    FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                                    FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                     ItemTemplate="{StaticResource ContactSuggestionTemplate}"
                                     ItemsSourceRequested="OnItemsSourceRequested"
                                     SelectedValuesChanged="OnRecipientBoxSelectedValuesChanged"
                                     StringTokenTemplate="{StaticResource StringTokenTemplate}"
                                     TokenTemplate="{StaticResource ContactTokenTemplate}"
                                     Watermark="{x:Static properties:Resources.To}"
-                                    WatermarkTemplate="{StaticResource LargeWatermarkTemplate}">
+                                    WatermarkTemplate="{StaticResource WatermarkTemplate}">
                 <controls:SuggestionBox.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                         <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
@@ -340,7 +333,7 @@
                                                              ElementName=CarbonCopyToggleButton,
                                                              Converter={StaticResource BooleanToVisibilityConverter}}"
                                         Watermark="{x:Static properties:Resources.CarbonCopies}"
-                                        WatermarkTemplate="{StaticResource LargeWatermarkTemplate}">
+                                        WatermarkTemplate="{StaticResource WatermarkTemplate}">
                     <controls:SuggestionBox.ItemContainerStyle>
                         <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                             <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
@@ -362,7 +355,7 @@
                                                              ElementName=CarbonCopyToggleButton,
                                                              Converter={StaticResource BooleanToVisibilityConverter}}"
                                         Watermark="{x:Static properties:Resources.BlindCarbonCopies}"
-                                        WatermarkTemplate="{StaticResource LargeWatermarkTemplate}">
+                                        WatermarkTemplate="{StaticResource WatermarkTemplate}">
                     <controls:SuggestionBox.ItemContainerStyle>
                         <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                             <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
@@ -414,14 +407,14 @@
                                        AcceptsReturn="False"
                                        AcceptsTab="False"
                                        BorderThickness="0,1,0,1"
-                                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
                                        Padding="5"
                                        Text="{Binding Subject,
                                                       UpdateSourceTrigger=PropertyChanged,
                                                       Mode=TwoWay}"
                                        TextChanged="OnSubjectTextChanged"
                                        Watermark="{x:Static properties:Resources.Subject}"
-                                       WatermarkTemplate="{StaticResource LargeWatermarkTemplate}" />
+                                       WatermarkTemplate="{StaticResource WatermarkTextBoxTemplate}" />
             <Grid Grid.Row="4"
                   Grid.Column="0"
                   Grid.ColumnSpan="4">

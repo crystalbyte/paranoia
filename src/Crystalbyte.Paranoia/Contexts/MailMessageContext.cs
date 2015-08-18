@@ -433,8 +433,8 @@ namespace Crystalbyte.Paranoia {
                             var attachments = reader.FindAllAttachments();
                             message.Attachments.AddRange(attachments.Select(x => new MailAttachment {
                                 ContentId = x.ContentId,
-                                ContentDisposition = x.ContentDisposition.ToString(),
-                                ContentType = x.ContentType.ToString(),
+                                ContentDisposition = x.ContentDisposition == null ? null : x.ContentDisposition.ToString(),
+                                ContentType = x.ContentType == null ? null : x.ContentType.ToString(),
                                 Filename = x.FileName,
                                 Size = x.Body.Length
                             }));
