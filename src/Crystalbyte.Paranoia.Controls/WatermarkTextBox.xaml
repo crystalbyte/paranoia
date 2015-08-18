@@ -44,7 +44,7 @@
                                           Focusable="false"
                                           HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Hidden" />
-                            <ContentPresenter x:Name="WatermarkHost"
+                            <ContentPresenter x:Name="watermark"
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -61,6 +61,9 @@
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="true">
                             <Setter TargetName="border" Property="BorderBrush" Value="{Binding AccentBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Trigger>
+                        <Trigger Property="IsWatermarkVisible" Value="True">
+                            <Setter TargetName="watermark" Property="Visibility" Value="Visible" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
