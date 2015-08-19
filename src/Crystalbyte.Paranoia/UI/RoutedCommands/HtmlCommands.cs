@@ -31,5 +31,9 @@ using System.Windows.Input;
 namespace Crystalbyte.Paranoia.UI {
     public static class HtmlCommands {
         public static RoutedCommand ViewSource = new RoutedUICommand(string.Empty, "ViewSource", typeof (HtmlCommands));
+        public static RoutedCommand InsertAttachment = new RoutedCommand("InsertAttachment", typeof(HtmlCommands));
+        public static RoutedCommand InsertLink = new RoutedCommand("InsertLink", typeof(HtmlCommands));
+        public static RoutedCommand InsertPicture = new RoutedCommand("InsertPicture", typeof(HtmlCommands));
+        public static RoutedCommand ToggleStrikethrough = new RoutedCommand("ToggleStrikethrough", typeof(HtmlCommands));
     }
 }

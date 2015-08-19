@@ -283,7 +283,6 @@
     <Compile Include="UI\InsertLinkModalPage.xaml.cs">
       <DependentUpon>InsertLinkModalPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\RoutedCommands\EditingCommands.cs" />
     <Compile Include="UI\RoutedCommands\HtmlCommands.cs" />
     <Compile Include="HtmlSupport.cs" />
     <Compile Include="MessageSchemeHandler.cs" />

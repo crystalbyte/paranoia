@@ -217,9 +217,6 @@ namespace Crystalbyte.Paranoia {
         }
 
         private async void OnStrikethroughChanged() {
-            if (IsEditorStrikethrough) {
-                return;
-            }
             await _editor.SetStrikethrough(IsStrikethrough);
         }
 

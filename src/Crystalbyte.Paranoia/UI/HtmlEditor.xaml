@@ -82,13 +82,13 @@
                                         Command="ToggleUnderline"
                                         Modifiers="Control" />
                             <KeyBinding Key="T"
-                                        Command="{x:Static ui:EditingCommands.ToggleStrikethrough}"
+                                        Command="{x:Static ui:HtmlCommands.ToggleStrikethrough}"
                                         Modifiers="Control" />
                             <KeyBinding Key="H"
-                                        Command="{x:Static ui:EditingCommands.InsertLink}"
+                                        Command="{x:Static ui:HtmlCommands.InsertLink}"
                                         Modifiers="Control" />
                             <KeyBinding Key="P"
-                                        Command="{x:Static ui:EditingCommands.InsertPicture}"
+                                        Command="{x:Static ui:HtmlCommands.InsertPicture}"
                                         Modifiers="Control" />
                         </Border.InputBindings>
                         <FrameworkElement.ContextMenu>
@@ -251,7 +251,7 @@
                                         </controls:ColorPicker.ContentTemplate>
                                     </controls:ColorPicker>
                                     <Rectangle Style="{StaticResource EditorSplitterRectangleStyle}" />
-                                    <Button Command="{x:Static ui:EditingCommands.InsertLink}"
+                                    <Button Command="{x:Static ui:HtmlCommands.InsertLink}"
                                             Style="{DynamicResource EditorButtonStyle}"
                                             ToolTip="{x:Static properties:Resources.Link}">
                                         <Rectangle Style="{StaticResource MonoChromeIconRectangleStyle}">
@@ -272,7 +272,7 @@
                                         </Rectangle>
                                     </Button>
                                     <Rectangle Style="{StaticResource EditorSplitterRectangleStyle}" />
-                                    <Button Command="{x:Static ui:EditingCommands.InsertAttachment}"
+                                    <Button Command="{x:Static ui:HtmlCommands.InsertAttachment}"
                                             Style="{DynamicResource EditorButtonStyle}"
                                             ToolTip="{x:Static properties:Resources.Attachment}">
                                         <Rectangle Width="14"

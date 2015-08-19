@@ -22,8 +22,8 @@
                       d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}"
                       mc:Ignorable="d">
     <controls:MetroWindow.CommandBindings>
-        <CommandBinding Command="{x:Static ui:EditingCommands.InsertLink}" Executed="OnLink" />
-        <CommandBinding Command="{x:Static ui:EditingCommands.InsertAttachment}" Executed="OnAttachment" />
+        <CommandBinding Command="{x:Static ui:HtmlCommands.InsertLink}" Executed="OnLink" />
+        <CommandBinding Command="{x:Static ui:HtmlCommands.InsertAttachment}" Executed="OnAttachment" />
         <CommandBinding Command="{x:Static ui:FlyoutCommands.Cancel}" Executed="OnCancel" />
         <CommandBinding Command="{x:Static ui:WindowCommands.Maximize}" Executed="OnMaximize" />
         <CommandBinding Command="{x:Static ui:WindowCommands.Minimize}" Executed="OnMinimize" />
@@ -102,7 +102,7 @@
                     Modifiers="Control" />
         <KeyBinding Key="Escape" Command="{x:Static ui:FlyoutCommands.Cancel}" />
         <KeyBinding Key="M"
-                    Command="{x:Static ui:EditingCommands.InsertAttachment}"
+                    Command="{x:Static ui:HtmlCommands.InsertAttachment}"
                     Modifiers="Control" />
     </Window.InputBindings>
     <Grid>

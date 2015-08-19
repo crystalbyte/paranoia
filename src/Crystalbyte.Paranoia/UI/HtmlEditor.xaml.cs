@@ -38,6 +38,7 @@ using CefSharp.Wpf;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using NLog;
+using System.Windows.Documents;
 using Color = System.Windows.Media.Color;
 
 #endregion
@@ -80,8 +81,11 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, OnPaste));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.SelectAll, OnSelectAll));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
+            CommandBindings.Add(new CommandBinding(EditingCommands.ToggleBold, OnToggleBold));
+            CommandBindings.Add(new CommandBinding(EditingCommands.ToggleUnderline, OnToggleUnderline));
+            CommandBindings.Add(new CommandBinding(EditingCommands.ToggleItalic, OnToggleItalic));
+            CommandBindings.Add(new CommandBinding(HtmlCommands.ToggleStrikethrough, OnToggleStrikethrough));
             CommandBindings.Add(new CommandBinding(HtmlCommands.ViewSource, OnViewSource));
-            CommandBindings.Add(new CommandBinding(EditingCommands.ToggleStrikethrough, OnToggleStrikethrough));
         }
 
         #endregion
@@ -306,6 +310,21 @@ namespace Crystalbyte.Paranoia.UI {
 
         #region Methods
 
+        private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            try {
+                OnReady();
+                if (!string.IsNullOrEmpty(Source)) {
+                    Navigate(new Uri(Source, UriKind.RelativeOrAbsolute));
+                }
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        public void FocusEditor() {
+            _browser.Focus();
+        }
+
         public void InsertSignature(string signature) {
             var script = string.Format("(function() {{ signature('{0}'); }})();",
                 string.IsNullOrEmpty(signature) ? "" : signature);
@@ -313,8 +332,29 @@ namespace Crystalbyte.Paranoia.UI {
             _browser.ExecuteScriptAsync(script);
         }
 
+        public async Task InvalidateCommandsAsync() {
+            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
+            await context.InvalidateAsync();
+        }
+
         private void OnToggleStrikethrough(object sender, ExecutedRoutedEventArgs e) {
-            ToggleStrikethrough();
+            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
+            context.IsStrikethrough = !context.IsStrikethrough;
+        }
+
+        private void OnToggleItalic(object sender, ExecutedRoutedEventArgs e) {
+            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
+            context.IsItalic = !context.IsItalic;
+        }
+
+        private void OnToggleUnderline(object sender, ExecutedRoutedEventArgs e) {
+            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
+            context.IsUnderlined = !context.IsUnderlined;
+        }
+
+        private void OnToggleBold(object sender, ExecutedRoutedEventArgs e) {
+            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
+            context.IsBold = !context.IsBold;
         }
 
         private void ChangeZoom(double level) {
@@ -471,21 +511,6 @@ namespace Crystalbyte.Paranoia.UI {
             _browser.RegisterJsObject("Extern", new ScriptingObject(this));
         }
 
-        public void FocusEditor() {
-            _browser.Focus();
-        }
-
-        private void OnIsBrowserInitializedChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            try {
-                OnReady();
-                if (!string.IsNullOrEmpty(Source)) {
-                    Navigate(new Uri(Source, UriKind.RelativeOrAbsolute));
-                }
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
-
         #endregion
 
         #region Dependency Property
@@ -548,15 +573,5 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         #endregion
-
-        public async Task InvalidateCommandsAsync() {
-            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
-            await context.InvalidateAsync();
-        }
-
-        public void ToggleStrikethrough() {
-            var context = (HtmlEditorCommandContext)_editorBorder.DataContext;
-            context.IsStrikethrough = !context.IsStrikethrough;
-        }
     }
 }
