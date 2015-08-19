@@ -171,7 +171,7 @@ namespace Crystalbyte.Paranoia {
                 await App.Context.ProcessOutboxAsync();
 
             } catch (Exception ex) {
-                Logger.Error(ex);
+                Logger.ErrorException(ex.Message, ex);
             }
         }
 

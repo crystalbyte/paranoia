@@ -463,18 +463,7 @@ namespace Crystalbyte.Paranoia.UI {
             _browser = (ChromiumWebBrowser)Template.FindName(WebBrowserTemplatePart, this);
             _browser.RequestHandler = new HtmlRequestHandler(this);
             _browser.BrowserSettings = new BrowserSettings {
-                DefaultEncoding = Encoding.UTF8.WebName,
-                //ApplicationCacheDisabled = true,
-                //JavaDisabled = true
-                //WebSecurityDisabled = true,
-                //WebGlDisabled = true,
-                //UniversalAccessFromFileUrlsAllowed = true,
-                //FileAccessFromFileUrlsAllowed = true,
-                //PluginsDisabled = true,
-                //JavaScriptOpenWindowsDisabled = true,
-                //JavaScriptCloseWindowsDisabled = true,
-                //JavascriptDisabled = false,
-                //TextAreaResizeDisabled = true
+                DefaultEncoding = Encoding.UTF8.WebName
             };
 
             _browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
