@@ -1,4 +1,12 @@
-﻿* {
+﻿@scrollbar-background-color: #F0F0F0;
+@scrollbar-border-color: #F0F0F0;
+@scrollbar-thumb-background-color: #CDCDCD;
+@scrollbar-thumb-background-color-hover: #A6A6A6;
+@scrollbar-thumb-background-color-active: #606060;
+@scrollbar-height: 21px;
+@scrollbar-width: 21px;
+
+* {
     margin: 0;
     padding: 0;
     border: 0;
@@ -14,4 +22,69 @@ body {
 pre {
     font-family: Vera Sans Mono, Consolas, Lucida Console, monospace;
     white-space: pre-wrap;
+}
+
+::selection {
+    background: #ADD6FF;
+}
+
+::-webkit-resizer {
+    width: @scrollbar-width;
+    height: @scrollbar-height;
+}
+
+::-webkit-scrollbar-button {
+    width: @scrollbar-width;
+    height: @scrollbar-height;
+}
+
+::-webkit-scrollbar-button:start:vertical {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url('resource:///Assets/scrollbar.arrow.up.jpg');
+}
+
+::-webkit-scrollbar-button:end:vertical {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url('resource:///Assets/scrollbar.arrow.down.jpg');
+}
+
+::-webkit-scrollbar-button:start:horizontal {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url('resource:///Assets/scrollbar.arrow.left.jpg');
+}
+
+::-webkit-scrollbar-button:end:horizontal {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url('resource:///Assets/scrollbar.arrow.right.jpg');
+}
+
+::-webkit-scrollbar {
+    width: @scrollbar-width;
+    background-color: @scrollbar-background-color;
+    border-color: @scrollbar-border-color;
+}
+
+::-webkit-scrollbar:horizontal {
+    height: @scrollbar-height;
+}
+
+::-webkit-scrollbar-track {
+    background-color: @scrollbar-background-color;
+    border-color: @scrollbar-border-color;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: @scrollbar-thumb-background-color;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: @scrollbar-thumb-background-color-hover;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background-color: @scrollbar-thumb-background-color-active;
 }
