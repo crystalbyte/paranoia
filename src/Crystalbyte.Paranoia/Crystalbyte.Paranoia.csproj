@@ -826,9 +826,6 @@
   <ItemGroup>
     <Resource Include="Scripts\quill.min.js" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Scripts\jquery.base64.min.js" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

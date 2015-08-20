@@ -16,12 +16,9 @@ var Paranoia;
                 "styles": {
                     ".ql-editor": {
                         "background-color": "white"
-                        //"font-family": "Candara, Calibri, Segoe, 'Segoe UI', Optima, Arial, sans-serif",
-                        //"font-size": "16px"
                     }
                 }
             });
-            this.quill.addContainer("ql-signature");
             this.quill.on('text-change', function (delta, source) {
                 // Extern is defined outside this document ...
                 var json = JSON.stringify(delta);
@@ -35,9 +32,17 @@ var Paranoia;
             Extern.notifyContentReady();
         };
         Composition.prototype.changeSignature = function (encoded) {
-            var signature = $.base64.decode(encoded);
-            var sign = $(".ql-signature");
-            sign.html(signature);
+            var signature = decodeURIComponent(encoded);
+
+            var html = $(this.editor.getHTML());
+            html.remove(".ql-signature");
+
+            var div = $("<div>")
+                .attr("id", "ql-signature")
+                .html(signature);
+
+            html.append(div)
+            this.editor.setHTML(html.prop("innerHTML"));
         };
         return Composition;
     })();

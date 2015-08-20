@@ -29,22 +29,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
-using System.Net.Mime;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using Crystalbyte.Paranoia.Cryptography;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Data.SQLite;
-using Crystalbyte.Paranoia.Mail;
 using Crystalbyte.Paranoia.Properties;
 using Crystalbyte.Paranoia.UI.Commands;
 using Microsoft.Win32;
 using NLog;
-using MailAddress = System.Net.Mail.MailAddress;
 using MailMessage = System.Net.Mail.MailMessage;
 
 #endregion

@@ -286,6 +286,7 @@
                                 </WrapPanel>
                             </Border>
                             <cef:ChromiumWebBrowser x:Name="PART_WebBrowser"
+                                                    Background="White"
                                                     Focusable="True"
                                                     IsTabStop="True" />
                         </DockPanel>

@@ -1080,28 +1080,36 @@ namespace Crystalbyte.Paranoia {
                 }
             });
 
-            // TODO: Add encryption here.
-            if (account == null) {
-                throw new MissingAccountException();
-            }
+            await Task.Run(async () => {
+                // TODO: Add encryption here.
+                if (account == null) {
+                    throw new MissingAccountException();
+                }
 
-            var message = new System.Net.Mail.MailMessage();
-            message.To.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.To).Select(x => new System.Net.Mail.MailAddress(x.Address)));
-            message.CC.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.Cc).Select(x => new System.Net.Mail.MailAddress(x.Address)));
-            message.Bcc.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.Bcc).Select(x => new System.Net.Mail.MailAddress(x.Address)));
-            message.Subject = composition.Subject;
+                var message = new System.Net.Mail.MailMessage();
+                message.To.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.To).Select(x => new System.Net.Mail.MailAddress(x.Address)));
+                message.CC.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.Cc).Select(x => new System.Net.Mail.MailAddress(x.Address)));
+                message.Bcc.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.Bcc).Select(x => new System.Net.Mail.MailAddress(x.Address)));
+                message.Subject = composition.Subject;
 
-            message.From = new System.Net.Mail.MailAddress(account.Address);
-            message.Body = composition.Content;
-            message.IsBodyHtml = true;
+                message.From = new System.Net.Mail.MailAddress(account.Address);
+                message.Body = composition.Content;
+                message.IsBodyHtml = true;
 
-            using (var connection = new SmtpConnection()) {
-                using (var auth = await connection.ConnectAsync(account.SmtpHost, account.SmtpPort)) {
-                    using (var session = await auth.LoginAsync(account.SmtpUsername, account.SmtpPassword)) {
-                        await session.SendAsync(message);
+                using (var connection = new SmtpConnection()) {
+                    using (var auth = await connection.ConnectAsync(account.SmtpHost, account.SmtpPort)) {
+                        using (var session = await auth.LoginAsync(account.SmtpUsername, account.SmtpPassword)) {
+                            await session.SendAsync(message);
+                        }
                     }
                 }
-            }
+
+                using (var context = new DatabaseContext()) {
+                    var set = context.Set<MailComposition>();
+                    set.Add(composition);
+                    set.Remove(composition);
+                }
+            });
         }
 
         internal async Task ProcessOutboxAsync() {
@@ -1172,8 +1180,7 @@ namespace Crystalbyte.Paranoia {
             var id = message.Id.ToString(CultureInfo.InvariantCulture);
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
-            await window.PrepareAsForwardAsync(new Dictionary<string, string>
-            {
+            await window.PrepareAsForwardAsync(new Dictionary<string, string> {
                 {"id", id}
             });
             window.MimicOwnership(owner);
@@ -1189,8 +1196,7 @@ namespace Crystalbyte.Paranoia {
             var path = Uri.EscapeDataString(file.FullName);
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
-            await window.PrepareAsForwardAsync(new Dictionary<string, string>
-            {
+            await window.PrepareAsForwardAsync(new Dictionary<string, string> {
                 {"path", path}
             });
             window.MimicOwnership(owner);

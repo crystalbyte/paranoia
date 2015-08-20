@@ -40,7 +40,6 @@ using Newtonsoft.Json;
 using NLog;
 using System.Windows.Documents;
 using Color = System.Windows.Media.Color;
-using CsQuery;
 
 #endregion
 
@@ -327,9 +326,7 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public void ChangeSignature(string signature) {
-            var bytes = Encoding.UTF8.GetBytes(signature);
-            var encoded = Convert.ToBase64String(bytes);
-            
+            var encoded = Uri.EscapeUriString(signature);
             var script = string.Format("(function() {{ Composition.changeSignature('{0}'); }})();", encoded);
             _browser.ExecuteScriptAsync(script);
         }
