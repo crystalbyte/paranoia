@@ -366,10 +366,16 @@ namespace Crystalbyte.Paranoia.UI {
 
             _popup = (Popup)Template.FindName(PopupPartName, this);
             _itemsHost = (ListView)Template.FindName(HostPartName, this);
+            _itemsHost.MouseDoubleClick += OnItemsHostMouseDoubleClick;
             _itemsHost.InputBindings.Add(new KeyBinding(SuggestionBoxCommands.Select, Key.Enter, ModifierKeys.None));
             _itemsHost.InputBindings.Add(new KeyBinding(SuggestionBoxCommands.Select, Key.Tab, ModifierKeys.None));
 
             InvalidateWatermark();
+        }
+
+        private void OnItemsHostMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            CommitSelection();
+            Close();
         }
 
         #endregion

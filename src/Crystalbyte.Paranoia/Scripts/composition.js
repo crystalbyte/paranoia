@@ -3,7 +3,6 @@ var Paranoia;
 (function (Paranoia) {
     var Composition = (function () {
         function Composition() {
-            this.editorId = "paranoia-editor";
         }
         Object.defineProperty(Composition.prototype, "editor", {
             get: function () {
@@ -13,21 +12,16 @@ var Paranoia;
             configurable: true
         });
         Composition.prototype.init = function (container) {
-            this.container = container;
-
-            var editor = $("div")
-                .attr("id", this.editorId);
-
-            this.container.append(editor);
-            this.quill = new Quill("#" + this.editorId, {
+            this.quill = new Quill(container, {
                 "styles": {
                     ".ql-editor": {
-                        "background-color": "white",
-                        "font-family": "Candara, Calibri, Segoe, 'Segoe UI', Optima, Arial, sans-serif",
-                        "font-size": "16px"
+                        "background-color": "white"
+                        //"font-family": "Candara, Calibri, Segoe, 'Segoe UI', Optima, Arial, sans-serif",
+                        //"font-size": "16px"
                     }
                 }
             });
+            this.quill.addContainer("ql-signature");
             this.quill.on('text-change', function (delta, source) {
                 // Extern is defined outside this document ...
                 var json = JSON.stringify(delta);
@@ -40,12 +34,10 @@ var Paranoia;
             });
             Extern.notifyContentReady();
         };
-        Composition.prototype.setHistory = function (history) {
-            var h = $.parseHTML(history);
-            throw new Error("Not yet implemented");
-        };
-        Composition.prototype.changeSignature = function (signature) {
-            throw new Error("Not yet implemented");
+        Composition.prototype.changeSignature = function (encoded) {
+            var signature = $.base64.decode(encoded);
+            var sign = $(".ql-signature");
+            sign.html(signature);
         };
         return Composition;
     })();
@@ -53,7 +45,6 @@ var Paranoia;
 })(Paranoia || (Paranoia = {}));
 var Composition;
 $(document).ready(function () {
-    var container = $("#container");
     Composition = new Paranoia.Composition();
-    Composition.init(container);
+    Composition.init("#container");
 });

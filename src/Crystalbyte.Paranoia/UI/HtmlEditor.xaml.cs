@@ -40,6 +40,7 @@ using Newtonsoft.Json;
 using NLog;
 using System.Windows.Documents;
 using Color = System.Windows.Media.Color;
+using CsQuery;
 
 #endregion
 
@@ -325,10 +326,11 @@ namespace Crystalbyte.Paranoia.UI {
             _browser.Focus();
         }
 
-        public void InsertSignature(string signature) {
-            var script = string.Format("(function() {{ signature('{0}'); }})();",
-                string.IsNullOrEmpty(signature) ? "" : signature);
-
+        public void ChangeSignature(string signature) {
+            var bytes = Encoding.UTF8.GetBytes(signature);
+            var encoded = Convert.ToBase64String(bytes);
+            
+            var script = string.Format("(function() {{ Composition.changeSignature('{0}'); }})();", encoded);
             _browser.ExecuteScriptAsync(script);
         }
 
@@ -493,6 +495,12 @@ namespace Crystalbyte.Paranoia.UI {
         #endregion
 
         #region Class Overrides
+        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e) {
+            base.OnLostKeyboardFocus(e);
+
+            this.InvalidateVisual();
+        }
+
 
         public override void OnApplyTemplate() {
             base.OnApplyTemplate();

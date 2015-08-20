@@ -65,7 +65,7 @@ namespace Crystalbyte.Paranoia.UI {
         internal CompositionWindow(MailComposition composition) {
             InitializeComponent();
             DataContext = _mailComposition = new MailCompositionContext(composition, this);
-            HtmlEditor.EditorReady += async (sender, e) => await SignAsync();
+            HtmlEditor.EditorReady += async (sender, e) => await ChangeSignatureAsync();
         }
 
         #endregion
@@ -341,7 +341,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private async Task SignAsync() {
+        private async Task ChangeSignatureAsync() {
             var context = (MailCompositionContext)DataContext;
             var path = context.SelectedAccount.SignaturePath;
 
@@ -354,9 +354,7 @@ namespace Crystalbyte.Paranoia.UI {
                 signature = await Task.Run(() => File.ReadAllText(path, Encoding.UTF8));
             }
 
-            var bytes = Encoding.UTF8.GetBytes(signature);
-            var encoded = Convert.ToBase64String(bytes);
-            HtmlEditor.InsertSignature(encoded);
+            HtmlEditor.ChangeSignature(signature);
         }
 
         private async void OnAccountSelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -367,7 +365,7 @@ namespace Crystalbyte.Paranoia.UI {
 
                 var context = (MailCompositionContext)DataContext;
                 if (context.SelectedAccount != null) {
-                    await SignAsync();
+                    await ChangeSignatureAsync();
                 }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
