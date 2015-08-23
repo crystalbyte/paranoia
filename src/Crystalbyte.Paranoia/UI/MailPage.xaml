@@ -21,31 +21,31 @@
         <CommandBinding CanExecute="OnCanPrint"
                         Command="ApplicationCommands.Print"
                         Executed="OnPrint" />
-        <CommandBinding Command="ui:MessageCommands.Compose" Executed="OnCompose" />
-        <CommandBinding Command="ui:MessageCommands.Reply" Executed="OnReply" />
-        <CommandBinding Command="ui:MessageCommands.ReplyAll" Executed="OnReplyAll" />
-        <CommandBinding Command="ui:MessageCommands.Forward" Executed="OnForward" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.Compose}" Executed="OnCompose" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.Reply}" Executed="OnReply" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.ReplyAll}" Executed="OnReplyAll" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.Forward}" Executed="OnForward" />
         <CommandBinding CanExecute="OnCanInspect"
-                        Command="ui:MessageCommands.Inspect"
+                        Command="{x:Static ui:MessageCommands.Inspect}"
                         Executed="OnInspect" />
-        <CommandBinding Command="ui:MessageCommands.QuickSearch" Executed="OnQuickSearch" />
-        <CommandBinding Command="ui:MessageCommands.CancelSearch" Executed="OnCancelSearch" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.QuickSearch}" Executed="OnQuickSearch" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.CancelSearch}" Executed="OnCancelSearch" />
         <CommandBinding CanExecute="OnCanCreateMailbox"
-                        Command="ui:MailboxCommands.Create"
+                        Command="{x:Static ui:MailboxCommands.Create}"
                         Executed="OnCreateMailbox" />
         <CommandBinding CanExecute="OnCanDeleteMailbox"
-                        Command="ui:MailboxCommands.Delete"
+                        Command="{x:Static ui:MailboxCommands.Delete}"
                         Executed="OnDeleteMailbox" />
         <CommandBinding CanExecute="OnCanSyncMailbox"
-                        Command="ui:MailboxCommands.Sync"
+                        Command="{x:Static ui:MailboxCommands.Sync}"
                         Executed="OnSyncMailbox" />
     </Page.CommandBindings>
     <Page.InputBindings>
         <KeyBinding Key="N"
-                    Command="ui:MessageCommands.Compose"
+                    Command="{x:Static ui:MessageCommands.Compose}"
                     Modifiers="Control" />
         <KeyBinding Key="Q"
-                    Command="ui:MessageCommands.QuickSearch"
+                    Command="{x:Static ui:MessageCommands.QuickSearch}"
                     Modifiers="Control" />
     </Page.InputBindings>
     <Page.Resources>
@@ -74,7 +74,7 @@
                         UseLayoutRounding="True">
                     <Grid HorizontalAlignment="Left">
                         <controls:MetroButton Margin="10"
-                                              Command="ui:MessageCommands.Compose"
+                                              Command="{x:Static ui:MessageCommands.Compose}"
                                               Content="{x:Static properties:Resources.ComposeMessage}"
                                               ImageSource="/Assets/paper.png"
                                               IsTabStop="False" />
@@ -383,12 +383,13 @@
                         UseLayoutRounding="True">
                     <controls:WatermarkTextBox x:Name="QuickSearchBox"
                                                Margin="0"
+                                               BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SuggestionBoxBackgroundBrushKey}}"
                                                IsTabStop="False"
                                                Padding="5"
                                                RenderOptions.EdgeMode="Unspecified"
                                                Watermark="{x:Static properties:Resources.SearchBoxWatermark}">
                         <controls:WatermarkTextBox.InputBindings>
-                            <KeyBinding Key="Escape" Command="ui:MessageCommands.CancelSearch" />
+                            <KeyBinding Key="Escape" Command="{x:Static ui:MessageCommands.CancelSearch}" />
                         </controls:WatermarkTextBox.InputBindings>
                     </controls:WatermarkTextBox>
                 </Border>
