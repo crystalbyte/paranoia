@@ -561,7 +561,7 @@ namespace Crystalbyte.Paranoia {
                     var set = context.Set<MailMessageFlag>();
                     var seenFlags = toBeMarkedAsUnseen.Select(x => x.Flags.First(y => y.Value == MailMessageFlags.Seen));
                     set.RemoveRange(seenFlags);
-                    set.AddRange(toBeMarkedAsSeen.Select(x => new MailMessageFlag { Value = MailMessageFlags.Seen, MessageId = x.Id}));
+                    set.AddRange(toBeMarkedAsSeen.Select(x => new MailMessageFlag { Value = MailMessageFlags.Seen, MessageId = x.Id }));
 
                     await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
 
@@ -1047,17 +1047,22 @@ namespace Crystalbyte.Paranoia {
 
                     // We do not use EF's .Include() method for it translates into sub selects which are painfully slow.
                     // Instead we fetch the messages and sub tables manually using INNER JOINS in parallel.
-                    var getMessages = context.Set<MailMessage>()
+                    var query = context.Set<MailMessage>()
                         .AsNoTracking()
-                        .Where(x => x.MailboxId == _mailbox.Id)
-                        .Select(x => new {
-                            x.Id,
-                            x.Uid,
-                            x.MailboxId,
-                            x.Date,
-                            x.Subject,
-                            x.Size
-                        });
+                        .Where(x => x.MailboxId == _mailbox.Id);
+
+                    if (App.Context.ShowOnlyUnseen) {
+                        query = query.Where(x => x.Flags.All(y => y.Value != MailMessageFlags.Seen));
+                    }
+
+                    var getMessages = query.Select(x => new {
+                        x.Id,
+                        x.Uid,
+                        x.MailboxId,
+                        x.Date,
+                        x.Subject,
+                        x.Size
+                    });
 
                     var getFlags = context.Set<MailMessageFlag>()
                         .AsNoTracking()
@@ -1111,12 +1116,6 @@ namespace Crystalbyte.Paranoia {
                         if (addresses.ContainsKey(message.Id)) {
                             message.Addresses.AddRange(addresses[message.Id].Select(x => x.Address));
                         }
-                    }
-
-                    if (App.Context.ShowOnlyUnseen) {
-                        return messages
-                            .Where(x => x.Flags.All(y => y.Value != MailMessageFlags.Seen))
-                            .Select(x => new MailMessageContext(this, x));
                     }
 
                     return messages.Select(x => new MailMessageContext(this, x));
