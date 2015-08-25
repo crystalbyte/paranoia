@@ -127,9 +127,16 @@ namespace Crystalbyte.Paranoia {
             get { return _message.Uid; }
         }
 
+        public string AccountName {
+            get { return _mailbox.Account.Name; } }
+
         #endregion
 
         #region Properties
+
+        public bool IsAccountVisible {
+            get; internal set;
+        }
 
         public bool IsDetailed {
             get { return _isDetailed; }

@@ -27,6 +27,8 @@
 using System;
 using System.Linq;
 using Crystalbyte.Paranoia.Data;
+using System.Threading.Tasks;
+using Crystalbyte.Paranoia.Data.SQLite;
 
 #endregion
 
@@ -54,6 +56,10 @@ namespace Crystalbyte.Paranoia {
         #endregion
 
         #region Properties
+
+        public int Relevance {
+            get { return _contact.Relevance; }
+        }
 
         public long Id {
             get { return _contact.Id; }

@@ -90,11 +90,6 @@ namespace Crystalbyte.Paranoia {
                 // Strip out duplicates.
                 var ids = result.Select(x => x.message_id).Distinct().ToArray();
 
-                //var messageTableAttribute = typeof(MailMessage).GetCustomAttribute<TableAttribute>();
-                //var messageTableName = messageTableAttribute == null
-                //    ? typeof(MailMessage).Filename
-                //    : messageTableAttribute.Filename;
-
                 var messages = await context.MailMessages
                     .Include(x => x.Attachments)
                     .Include(x => x.Addresses)
@@ -103,7 +98,9 @@ namespace Crystalbyte.Paranoia {
                     .AsNoTracking()
                     .ToArrayAsync();
 
-                return messages.Select(x => new MailMessageContext(_mailboxes[x.MailboxId], x)).ToArray();
+                return messages.Select(x => new MailMessageContext(_mailboxes[x.MailboxId], x) {
+                    IsAccountVisible = true
+                }).ToArray();
             }
         }
 
@@ -113,7 +110,7 @@ namespace Crystalbyte.Paranoia {
         }
 
         #endregion
-// ReSharper disable once ClassNeverInstantiated.Local
+        // ReSharper disable once ClassNeverInstantiated.Local
         private class QueryResult {
             // ReSharper disable UnusedMember.Local
             // ReSharper disable InconsistentNaming

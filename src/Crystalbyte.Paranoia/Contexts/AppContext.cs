@@ -1086,6 +1086,8 @@ namespace Crystalbyte.Paranoia {
                     throw new MissingAccountException();
                 }
 
+                var addresses = composition.Addresses.Select(x => x.Address).ToArray();
+
                 var message = new System.Net.Mail.MailMessage();
                 message.To.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.To).Select(x => new System.Net.Mail.MailAddress(x.Address)));
                 message.CC.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.Cc).Select(x => new System.Net.Mail.MailAddress(x.Address)));
@@ -1106,8 +1108,15 @@ namespace Crystalbyte.Paranoia {
 
                 using (var context = new DatabaseContext()) {
                     var set = context.Set<MailComposition>();
-                    set.Add(composition);
+                    set.Attach(composition);
                     set.Remove(composition);
+                    
+                    var contacts = context.Set<MailContact>().Where(x => addresses.Contains(x.Address));
+                    foreach (var contact in contacts) {
+                        contact.Relevance++;
+                    }
+
+                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
                 }
             });
         }

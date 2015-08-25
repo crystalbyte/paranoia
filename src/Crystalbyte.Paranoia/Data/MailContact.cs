@@ -44,7 +44,7 @@ namespace Crystalbyte.Paranoia.Data {
 
         [Key]
         [Column("id")]
-        public Int64 Id { get; set; }
+        public long Id { get; set; }
 
         [Column("name")]
         [Collate(CollatingSequence.NoCase)]
@@ -54,6 +54,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("address")]
         [Collate(CollatingSequence.NoCase)]
         public string Address { get; set; }
+
+        [Column("relevance")]
+        public int Relevance { get; set; }
 
         [Column("is_external_content_allowed")]
         public bool IsExternalContentAllowed { get; set; }

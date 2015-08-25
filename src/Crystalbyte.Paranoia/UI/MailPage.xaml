@@ -11,6 +11,7 @@
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       x:Name="Page"
+      Focusable="False"
       Title="Messages"
       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
       d:DataContext="{d:DesignInstance paranoia:AppContext}"
@@ -112,16 +113,16 @@
                           VirtualizingPanel.ScrollUnit="Pixel">
                     <TreeView.InputBindings>
                         <KeyBinding Key="N"
-                                    Command="ui:MailboxCommands.Create"
+                                    Command="{x:Static ui:MailboxCommands.Create}"
                                     CommandParameter="{Binding SelectedItem,
                                                                ElementName=AccountsTreeView}"
                                     Modifiers="Control+Shift" />
                         <KeyBinding Key="F5"
-                                    Command="ui:MailboxCommands.Sync"
+                                    Command="{x:Static ui:MailboxCommands.Sync}"
                                     CommandParameter="{Binding SelectedItem,
                                                                ElementName=AccountsTreeView}" />
                         <KeyBinding Key="Delete"
-                                    Command="ui:MailboxCommands.Delete"
+                                    Command="{x:Static ui:MailboxCommands.Delete}"
                                     CommandParameter="{Binding SelectedItem,
                                                                ElementName=AccountsTreeView}" />
                     </TreeView.InputBindings>
@@ -224,7 +225,7 @@
                             <Grid>
                                 <Grid.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Command="ui:MailboxCommands.Create"
+                                        <MenuItem Command="{x:Static ui:MailboxCommands.Create}"
                                                   CommandParameter="{Binding}"
                                                   Header="{x:Static properties:Resources.New}"
                                                   InputGestureText="{x:Static properties:Resources.NewMailboxGesture}">
@@ -249,7 +250,7 @@
                                             </MenuItem.Icon>
                                         </MenuItem>
                                         <Separator />
-                                        <MenuItem Command="ui:MailboxCommands.Sync"
+                                        <MenuItem Command="{x:Static ui:MailboxCommands.Sync}"
                                                   CommandParameter="{Binding}"
                                                   Header="{x:Static properties:Resources.Sync}"
                                                   InputGestureText="{x:Static properties:Resources.RefreshGesture}">
@@ -362,7 +363,7 @@
                 <DockPanel LastChildFill="False">
                     <controls:MetroButton Margin="6"
                                           VerticalAlignment="Center"
-                                          Command="ui:MailboxCommands.Sync"
+                                          Command="{x:Static ui:MailboxCommands.Sync}"
                                           CommandParameter="{Binding SelectedMailbox}"
                                           DockPanel.Dock="Right"
                                           ImageSource="/Assets/refresh.png"
@@ -483,13 +484,13 @@
                     </ListView.ItemsSource>
                     <ListView.InputBindings>
                         <KeyBinding Key="Enter"
-                                    Command="ui:MessageCommands.Inspect"
+                                    Command="{x:Static ui:MessageCommands.Inspect}"
                                     CommandParameter="{Binding SelectedMessage}" />
                         <KeyBinding Key="R"
-                                    Command="ui:MessageCommands.Reply"
+                                    Command="{x:Static ui:MessageCommands.Reply}"
                                     Modifiers="Control" />
                         <KeyBinding Key="F"
-                                    Command="ui:MessageCommands.Forward"
+                                    Command="{x:Static ui:MessageCommands.Forward}"
                                     Modifiers="Control" />
                         <KeyBinding Key="Delete" Command="{Binding DeleteMessagesCommand}" />
                         <KeyBinding Key="D"
@@ -498,7 +499,7 @@
                     </ListView.InputBindings>
                     <ListView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Command="ui:MessageCommands.Reply"
+                            <MenuItem Command="{x:Static ui:MessageCommands.Reply}"
                                       Header="{x:Static properties:Resources.Reply}"
                                       InputGestureText="{x:Static properties:Resources.ReplyGesture}">
                                 <MenuItem.Icon>
@@ -509,7 +510,7 @@
                                     </Rectangle>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Command="ui:MessageCommands.Forward"
+                            <MenuItem Command="{x:Static ui:MessageCommands.Forward}"
                                       Header="{x:Static properties:Resources.Forward}"
                                       InputGestureText="{x:Static properties:Resources.ForwardGesture}">
                                 <MenuItem.Icon>
@@ -673,6 +674,7 @@
                                             <ImageBrush ImageSource="/Assets/attachment.png" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
+                                    <TextBlock Text="{Binding AccountName}" Visibility="{Binding IsAccountVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppWarningBrushKey}}" />
                                 </StackPanel>
                                 <TextBlock x:Name="SubjectText"
                                            Grid.Row="1"
@@ -690,7 +692,6 @@
                                 <TextBlock x:Name="DateText"
                                            Grid.Row="1"
                                            Grid.Column="3"
-                                           Margin="0,0,6,0"
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSmallFontSizeKey}}"
@@ -784,12 +785,12 @@
                                 Visibility="{Binding SelectedMessage,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
                         <controls:MetroButton Margin="3,0"
-                                              Command="ui:MessageCommands.Reply"
+                                              Command="{x:Static ui:MessageCommands.Reply}"
                                               ImageSource="/Assets/reply.png"
                                               IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Reply}" />
                         <controls:MetroButton Margin="3,0"
-                                              Command="ui:MessageCommands.Forward"
+                                              Command="{x:Static ui:MessageCommands.Forward}"
                                               ImageSource="/Assets/forward.png"
                                               IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Forward}" />

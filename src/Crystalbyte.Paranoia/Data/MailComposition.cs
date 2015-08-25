@@ -46,10 +46,10 @@ namespace Crystalbyte.Paranoia.Data {
 
         [Key]
         [Column("id")]
-        public Int64 Id { get; set; }
+        public long Id { get; set; }
 
         [Column("account_id")]
-        public Int64 AccountId { get; set; }
+        public long AccountId { get; set; }
 
         [Column("created")]
         [Default(DatabaseFunction.CurrentTimestamp)]
