@@ -167,8 +167,8 @@ namespace Crystalbyte.Paranoia.UI {
                 var candidates = database.MailContacts
                     .Where(x => x.Address.StartsWith(text)
                                 || x.Name.StartsWith(text))
-                    .Take(20)
-                    .OrderByDescending(x => x.Relevance)
+                                .OrderByDescending(x => x.Relevance)
+                    .Take(6)
                     .ToArray();
 
                 return candidates.Select(x => new MailContactContext(x)).ToArray();
