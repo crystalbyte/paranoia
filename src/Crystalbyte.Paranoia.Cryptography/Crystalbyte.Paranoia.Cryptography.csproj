@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICryptoAlgorithm.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="MessageDecryptionFailedException.cs" />
     <Compile Include="NativeResource.cs" />

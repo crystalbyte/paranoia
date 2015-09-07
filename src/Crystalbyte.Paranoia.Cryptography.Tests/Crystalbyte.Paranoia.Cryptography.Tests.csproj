@@ -68,7 +68,7 @@
     <Compile Include="SodiumTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj">
+    <ProjectReference Include="..\Crystalbyte.Paranoia.Cryptography\Crystalbyte.Paranoia.Cryptography.csproj">
       <Project>{fc115aed-c02e-45a6-80eb-711a1ccf14e3}</Project>
       <Name>Crystalbyte.Paranoia.Cryptography</Name>
     </ProjectReference>

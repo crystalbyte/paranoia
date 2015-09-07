@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia", "Crystalbyte.Paranoia\Crystalbyte.Paranoia.csproj", "{A0762E18-FAC3-4624-8B65-9D1AF8E4F366}"
 EndProject
@@ -40,6 +40,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Sandbox", "Crystalbyte.Paranoia.Sandbox\Crystalbyte.Paranoia.Sandbox.csproj", "{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(debug)", "(debug)", "{E6967EB9-26AB-4396-89B7-1C8629CD3A1A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "(encryption)", "(encryption)", "{CBECD478-2520-4EDE-AA4A-042B3BF5BDE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crystalbyte.Paranoia.Cryptograpy.Curve25519", "Crystalbyte.Paranoia.Cryptograpy.Curve25519\Crystalbyte.Paranoia.Cryptograpy.Curve25519.csproj", "{70F87BB1-D7F0-4579-813D-788C6612B06B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -491,11 +495,60 @@ Global
 		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Trial|Win32.ActiveCfg = Release|Any CPU
 		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Trial|x64.ActiveCfg = Release|Any CPU
 		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2}.Trial|x86.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|Win32.Build.0 = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|x64.Build.0 = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Debug|x86.Build.0 = Debug|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|ARM.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|Win32.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|Win32.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|x64.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|x64.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|x86.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Release|x86.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|ARM.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|ARM.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|Win32.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|Win32.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|x64.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|x64.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|x86.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Retail|x86.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|Any CPU.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|Any CPU.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|ARM.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|ARM.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|Mixed Platforms.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|Win32.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|Win32.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|x64.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|x64.Build.0 = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|x86.ActiveCfg = Release|Any CPU
+		{70F87BB1-D7F0-4579-813D-788C6612B06B}.Trial|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{FC115AED-C02E-45A6-80EB-711A1CCF14E3} = {CBECD478-2520-4EDE-AA4A-042B3BF5BDE2}
 		{66E07860-ACA4-494D-9C6B-759FDEAB12DE} = {8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}
 		{22E6957C-9D6C-4CF1-B4CF-E296685EE645} = {8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}
 		{1C2AAAD6-95EB-4DF4-BAA2-3384CB334DC8} = {8DEACA7E-BA38-4B1E-A2A7-D5A0A3E0577F}
@@ -504,6 +557,7 @@ Global
 		{97C747C3-AFC9-49AB-B6CE-1BF27D109707} = {B14B7EB5-65F9-4CDC-B018-B08687E76F3D}
 		{4B4368B8-6B90-42D1-AD2C-E5912246E8F1} = {B14B7EB5-65F9-4CDC-B018-B08687E76F3D}
 		{BA9C14DA-2534-4D4D-9B4E-33AA33296BF2} = {E6967EB9-26AB-4396-89B7-1C8629CD3A1A}
+		{70F87BB1-D7F0-4579-813D-788C6612B06B} = {CBECD478-2520-4EDE-AA4A-042B3BF5BDE2}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Crystalbyte.Paranoia.vsmdi

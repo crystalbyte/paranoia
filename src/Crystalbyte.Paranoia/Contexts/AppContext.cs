@@ -496,8 +496,13 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
 
-                var contexts = contacts.Select(x => new MailContactContext(x));
+                return;
+
+                var contexts = contacts.Select(x => new MailContactContext(x)).ToArray();
+                _contacts.DeferNotifications = true;
                 _contacts.AddRange(contexts);
+                _contacts.DeferNotifications = false;
+                _contacts.NotifyCollectionChanged();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             } finally {
@@ -1385,6 +1390,13 @@ namespace Crystalbyte.Paranoia {
 
         public void NotifyAccountCreated(MailAccountContext account) {
             _accounts.Add(account);
+        }
+
+        internal void UnloadContacts() {
+            _contacts.DeferNotifications = true;
+            _contacts.Clear();
+            _contacts.DeferNotifications = false;
+            _contacts.NotifyCollectionChanged();
         }
     }
 }

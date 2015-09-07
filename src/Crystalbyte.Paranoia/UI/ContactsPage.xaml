@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:paranoia="clr-namespace:Crystalbyte.Paranoia"
+      xmlns:mahapps="clr-namespace:MahApps.Metro;assembly=MahApps.Metro"
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="Contacts"
@@ -12,6 +13,9 @@
       d:DesignHeight="768"
       d:DesignWidth="1024"
       mc:Ignorable="d">
+    <Page.CommandBindings>
+        <CommandBinding Command="{x:Static ui:AppCommands.JumpToContact}" CanExecute="OnCanJumpToContact" Executed="OnJumpToContact" />
+    </Page.CommandBindings>
     <Page.Resources>
         <CollectionViewSource x:Key="ContactsSource"
                               IsLiveGroupingRequested="True"
@@ -22,7 +26,6 @@
             </CollectionViewSource.GroupDescriptions>
             <CollectionViewSource.SortDescriptions>
                 <componentModel:SortDescription Direction="Ascending" PropertyName="Letter" />
-                <componentModel:SortDescription Direction="Ascending" PropertyName="Filename" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </Page.Resources>
@@ -40,7 +43,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="ContentPresenter">
-                    <Button Command="ui:AppCommands.JumpToContact">
+                    <Button Command="{x:Static ui:AppCommands.JumpToContact}">
                         <Grid Width="30" Height="30">
                             <TextBlock Margin="4,2"
                                        HorizontalAlignment="Center"

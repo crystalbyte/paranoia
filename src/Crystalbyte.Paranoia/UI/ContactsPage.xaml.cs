@@ -24,8 +24,10 @@
 
 #region Using Directives
 
+using NLog;
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using NavigationCommands = Crystalbyte.Paranoia.UI.FlyoutCommands;
@@ -37,13 +39,33 @@ namespace Crystalbyte.Paranoia.UI {
     ///     Interaction logic for ContactsPage.xaml
     /// </summary>
     public partial class ContactsPage {
+
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public ContactsPage() {
             InitializeComponent();
             DataContext = App.Context;
-            CommandBindings.Add(new CommandBinding(AppCommands.JumpToContact, OnJumpToContact, OnCanJumpToContact));
+            Loaded += OnPageLoaded;
+            Unloaded += OnPageUnloaded;
         }
 
-        private static void OnCanJumpToContact(object sender, CanExecuteRoutedEventArgs e) {
+        private void OnPageUnloaded(object sender, RoutedEventArgs e) {
+            try {
+                App.Context.UnloadContacts();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private async void OnPageLoaded(object sender, RoutedEventArgs e) {
+            try {
+                await App.Context.LoadContactsAsync();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private void OnCanJumpToContact(object sender, CanExecuteRoutedEventArgs e) {
             var button = e.OriginalSource as Button;
             if (button == null) {
                 return;
