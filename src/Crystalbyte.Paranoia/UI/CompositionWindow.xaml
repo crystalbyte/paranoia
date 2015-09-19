@@ -406,7 +406,6 @@
             <controls:WatermarkTextBox Grid.Row="3"
                                        Grid.Column="0"
                                        FontWeight="Thin"
-                                       FontStyle="Italic"
                                        Grid.ColumnSpan="4"
                                        AcceptsReturn="False"
                                        AcceptsTab="False"

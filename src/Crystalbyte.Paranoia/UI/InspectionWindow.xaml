@@ -23,18 +23,18 @@
                       d:DataContext="{d:DesignInstance paranoia:MailMessageContext}"
                       mc:Ignorable="d">
     <controls:MetroWindow.CommandBindings>
-        <CommandBinding Command="ui:WindowCommands.Maximize" Executed="OnMaximize" />
-        <CommandBinding Command="ui:WindowCommands.Minimize" Executed="OnMinimize" />
-        <CommandBinding Command="ui:WindowCommands.RestoreDown" Executed="OnRestoreDown" />
-        <CommandBinding Command="ui:MessageCommands.Reply" Executed="OnReply" />
-        <CommandBinding Command="ui:MessageCommands.Compose" Executed="OnCompose" />
-        <CommandBinding Command="ui:MessageCommands.ReplyAll" Executed="OnReplyAll" />
-        <CommandBinding Command="ui:MessageCommands.Forward" Executed="OnForward" />
+        <CommandBinding Command="{x:Static ui:WindowCommands.Maximize}" Executed="OnMaximize" />
+        <CommandBinding Command="{x:Static ui:WindowCommands.Minimize}" Executed="OnMinimize" />
+        <CommandBinding Command="{x:Static ui:WindowCommands.RestoreDown}" Executed="OnRestoreDown" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.Reply}" Executed="OnReply" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.Compose}" Executed="OnCompose" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.ReplyAll}" Executed="OnReplyAll" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.Forward}" Executed="OnForward" />
+        <CommandBinding Command="{x:Static ui:InspectionCommands.ShowToAddresses}" Executed="OnShowToAddresses" />
+        <CommandBinding Command="{x:Static ui:InspectionCommands.ShowCcAddresses}" Executed="OnShowCcAddresses" />
         <CommandBinding Command="ApplicationCommands.Close" Executed="OnClose" />
         <CommandBinding Command="ApplicationCommands.Help" Executed="OnHelp" />
         <CommandBinding Command="ApplicationCommands.Print" Executed="OnPrint" />
-        <CommandBinding Command="ui:InspectionCommands.ShowToAddresses" Executed="OnShowToAddresses" />
-        <CommandBinding Command="ui:InspectionCommands.ShowCcAddresses" Executed="OnShowCcAddresses" />
     </controls:MetroWindow.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -121,7 +121,7 @@
                             Orientation="Horizontal">
                     <controls:MetroButton x:Name="ToMetroButton"
                                           Margin="3,0"
-                                          Command="ui:InspectionCommands.ShowToAddresses"
+                                          Command="{x:Static ui:InspectionCommands.ShowToAddresses}"
                                           CommandParameter="to"
                                           ImageSource="/Assets/to.png"
                                           ToolTip="{x:Static properties:Resources.Reply}" />
@@ -142,7 +142,7 @@
                     </Popup>
                     <controls:MetroButton x:Name="CcMetroButton"
                                           Margin="3,0"
-                                          Command="ui:InspectionCommands.ShowCcAddresses"
+                                          Command="{x:Static ui:InspectionCommands.ShowCcAddresses}"
                                           ImageSource="/Assets/cc.png"
                                           ToolTip="{x:Static properties:Resources.Reply}"
                                           Visibility="{Binding HasCarbonCopies,
@@ -165,15 +165,15 @@
                     </Popup>
                     <Rectangle Style="{StaticResource MetroButtonSeparatorStyle}" />
                     <controls:MetroButton Margin="3,0"
-                                          Command="ui:MessageCommands.Reply"
+                                          Command="{x:Static ui:MessageCommands.Reply}"
                                           ImageSource="/Assets/reply.png"
                                           ToolTip="{x:Static properties:Resources.Reply}" />
                     <controls:MetroButton Margin="3,0"
-                                          Command="ui:MessageCommands.ReplyAll"
+                                          Command="{x:Static ui:MessageCommands.ReplyAll}"
                                           ImageSource="/Assets/reply.all.png"
                                           ToolTip="{x:Static properties:Resources.ReplyAll}" />
                     <controls:MetroButton Margin="3,0"
-                                          Command="ui:MessageCommands.Forward"
+                                          Command="{x:Static ui:MessageCommands.Forward}"
                                           ImageSource="/Assets/forward.png"
                                           ToolTip="{x:Static properties:Resources.Forward}" />
                     <controls:MetroButton Margin="3,0"

@@ -149,7 +149,7 @@ namespace Crystalbyte.Paranoia {
                 foreach (var attachment in _attachments) {
                     var ca = new MailCompositionAttachment();
                     var la = attachment;
-                    ca.Name = attachment.Filename;
+                    ca.Name = attachment.Name;
                     ca.Bytes = await Task.Run(() => la.GetBytes());
                     attachments.Add(ca);
                 }

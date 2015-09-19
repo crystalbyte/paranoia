@@ -12,6 +12,5 @@ namespace Crystalbyte.Paranoia.Cryptography {
         void Decrypt();
 
         void Encrypt();
-
     }
 }
