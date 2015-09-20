@@ -10,11 +10,12 @@
                       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                       x:Name="Window"
                       Title="{x:Static properties:Resources.ApplicationLongName}"
+                      Icon="/Assets/logo.ico"
                       Width="1280"
                       Height="768"
                       AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                      BorderThickness="0"
+                      BorderThickness="1"
                       KeyboardNavigation.TabNavigation="Local"
                       UseLayoutRounding="True"
                       WindowStartupLocation="CenterScreen"
@@ -118,15 +119,8 @@
                                 Background="Transparent"
                                 IsHitTestVisible="True">
                             <StackPanel Margin="6" Orientation="Horizontal">
-                                <TextBlock Margin="6,0"
-                                           VerticalAlignment="Center"
-                                           FontFamily="Paranoia"
-                                           FontSize="14"
-                                           FontStretch="Expanded"
-                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
-                                           Text="{x:Static properties:Resources.ApplicationNameUpperCase}" />
+                                <Image Height="20" Width="20" Source="{Binding Icon, RelativeSource={RelativeSource AncestorType=Window}}" />
                             </StackPanel>
-
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -149,7 +143,7 @@
     </controls:MetroWindow.InputBindings>
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -160,8 +154,11 @@
         <Rectangle Grid.Row="0"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                   RenderOptions.EdgeMode="Aliased" />
+                   RenderOptions.EdgeMode="Aliased">
+            <Rectangle.Effect>
+                <BlurEffect Radius="10" RenderingBias="Quality" />
+            </Rectangle.Effect>
+        </Rectangle>
         <Grid Grid.Row="0"
               Grid.RowSpan="2"
               Grid.Column="0"
@@ -318,7 +315,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
             <Rectangle Grid.Row="0"
                        Fill="{StaticResource FlyoutOverlayBrushKey}"
                        Opacity="{StaticResource FlyoutOverlayOpacityKey}"
@@ -347,13 +343,18 @@
                            Navigated="OnPopupFrameNavigated"
                            NavigationUIVisibility="Hidden" />
                 </Grid>
-
             </Border>
             <Rectangle Grid.Row="2"
                        Fill="{StaticResource FlyoutOverlayBrushKey}"
                        Opacity="{StaticResource FlyoutOverlayOpacityKey}"
                        RenderOptions.EdgeMode="Aliased" />
         </Grid>
+        <Rectangle Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                       Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}"
+                       
+                       RenderOptions.EdgeMode="Aliased" />
         <Button Grid.Row="0"
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
@@ -361,84 +362,16 @@
                 Panel.ZIndex="100001"
                 Command="{x:Static ui:AppCommands.Settings}"
                 Style="{StaticResource AppMenuButtonStyle}" />
-        <ListView x:Name="NavigationMenu"
-                  Grid.Row="0"
-                  Grid.Column="1"
-                  Margin="0"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch"
-                  Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
-                  BorderThickness="0"
-                  ItemsSource="{Binding NavigationOptions}"
-                  KeyboardNavigation.ControlTabNavigation="None"
-                  KeyboardNavigation.DirectionalNavigation="Contained"
-                  Padding="0"
-                  SelectionChanged="OnMainMenuSelectionChanged">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                    <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
-                    <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBorderBrushKey}}" />
-                    <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
-                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                    <Setter Property="VerticalContentAlignment" Value="Center" />
-                    <Setter Property="SnapsToDevicePixels" Value="True" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ListViewItem">
-                                <Border x:Name="Border"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="0">
-                                    <Grid>
-                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                    </Grid>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}}" />
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="Border" Property="BorderBrush" Value="Transparent" />
-                                    </Trigger>
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsMouseOver" Value="True" />
-                                            <Condition Property="IsSelected" Value="False" />
-                                        </MultiTrigger.Conditions>
-                                        <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
-                                        <Setter TargetName="Border" Property="TextOptions.TextRenderingMode" Value="Grayscale" />
-                                    </MultiTrigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate DataType="paranoia:NavigationContext">
-                    <StackPanel Orientation="Horizontal" Margin="12,4">
-                        <TextBlock x:Name="Text"
-                                   VerticalAlignment="Center"
-                                   Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
-                                   Text="{Binding Title}" />
-                    </StackPanel>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                            <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <TextBlock Margin="6,0"
+                   Grid.Row="0"
+                Grid.Column="1"
+                                           VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                                           Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
+                                           Text="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}" />
         <Frame x:Name="MainFrame"
+               Focusable="False"
                Grid.Row="1"
                Grid.Column="0"
                Grid.ColumnSpan="2"
@@ -448,7 +381,92 @@
         <StatusBar Grid.Row="2"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Height="24"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.StatusBarBackgroundBrushKey}}" />
+                   Height="Auto"
+                   BorderThickness="0"
+                   BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
+                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.StatusBarBackgroundBrushKey}}">
+            <ListView x:Name="NavigationMenu"
+                  Grid.Row="0"
+                  Grid.Column="1"
+                  Margin="0"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                      Background="Transparent"
+                  BorderThickness="0"
+                  ItemsSource="{Binding NavigationOptions}"
+                  KeyboardNavigation.ControlTabNavigation="None"
+                  KeyboardNavigation.DirectionalNavigation="Contained"
+                  Padding="0"
+                  SelectionChanged="OnMainMenuSelectionChanged">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.NavigationOptionBorderBrushKey}}" />
+                        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="SnapsToDevicePixels" Value="True" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border x:Name="Border"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                            Padding="3"
+                                        BorderThickness="0">
+                                        <Grid>
+                                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <!--<MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsMouseOver" Value="True" />
+                                                <Condition Property="IsSelected" Value="False" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
+                                            <Setter TargetName="Border" Property="TextOptions.TextRenderingMode" Value="Grayscale" />
+                                        </MultiTrigger>-->
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="paranoia:NavigationContext">
+                        <StackPanel Orientation="Horizontal" Margin="10,4,0,4">
+                            <TextBlock x:Name="Text"
+                                       Margin="0,0,0,2"
+                                       FontWeight="Thin"
+                                       FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
+                                       Text="{Binding Title}" />
+                        </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True" />
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="Text" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+                            </MultiDataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StatusBar>
     </Grid>
 </controls:MetroWindow>

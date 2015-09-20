@@ -99,13 +99,13 @@ namespace Crystalbyte.Paranoia {
 
             _navigationOptions = new ObservableCollection<NavigationContext> {
                 new MailNavigationContext {
-                    Title = Resources.MessagesUpper,
+                    Title = Resources.Messages,
                     TargetUri = typeof (MailPage).ToPageUri(),
                     IconUri = new Uri("/Assets/paper.png", UriKind.Relative),
                     IsSelected = true
                 },
                 new NavigationContext {
-                    Title = Resources.ContactsUpper,
+                    Title = Resources.Contacts,
                     TargetUri = typeof (ContactsPage).ToPageUri(),
                     IconUri = new Uri("/Assets/address.png", UriKind.Relative),
                     Counter = 0
@@ -498,7 +498,8 @@ namespace Crystalbyte.Paranoia {
 
                 return;
 
-                var contexts = contacts.Select(x => new MailContactContext(x)).ToArray();
+                var contexts = contacts.Select(x => new MailContactContext(x))
+                    .ToArray();
                 _contacts.DeferNotifications = true;
                 _contacts.AddRange(contexts);
                 _contacts.DeferNotifications = false;
@@ -1157,9 +1158,11 @@ namespace Crystalbyte.Paranoia {
             var id = message.Id.ToString(CultureInfo.InvariantCulture);
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
+
             await window.PrepareAsReplyAsync(new Dictionary<string, string> {
                 {"id", id}
             });
+
             window.MimicOwnership(owner);
 
             if (owner.WindowState == WindowState.Maximized) {
@@ -1228,10 +1231,10 @@ namespace Crystalbyte.Paranoia {
 
         internal async Task ReplyToAllAsync(MailMessageContext message) {
             var id = message.Id.ToString(CultureInfo.InvariantCulture);
+
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
-            await window.PrepareAsReplyAllAsync(new Dictionary<string, string>
-            {
+            await window.PrepareAsReplyAllAsync(new Dictionary<string, string> {
                 {"id", id}
             });
             window.MimicOwnership(owner);
@@ -1248,8 +1251,7 @@ namespace Crystalbyte.Paranoia {
 
             var owner = Application.Current.MainWindow;
             var window = new CompositionWindow();
-            await window.PrepareAsReplyAllAsync(new Dictionary<string, string>
-            {
+            await window.PrepareAsReplyAllAsync(new Dictionary<string, string> {
                 {"path", path}
             });
             window.MimicOwnership(owner);

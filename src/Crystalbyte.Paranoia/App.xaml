@@ -12,7 +12,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Light;component/Themes.Light.Resources.xaml" />
+                <ResourceDictionary Source="/Crystalbyte.Paranoia.Themes.Dark;component/Themes.Dark.Resources.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.Button.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.CheckBox.xaml" />
                 <ResourceDictionary Source="/UI/Styles/Styles.ComboBox.xaml" />

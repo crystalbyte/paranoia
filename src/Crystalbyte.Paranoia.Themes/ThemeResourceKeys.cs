@@ -27,9 +27,12 @@ namespace Crystalbyte.Paranoia.Themes {
         // Application Scope
         public static string AppFontFamilyKey = "AppFontFamilyKey";
         public static string AppAccentBrushKey = "AppAccentBrushKey";
+        public static string AppSecondaryAccentBrushKey = "AppSecondaryAccentBrushKey";
+
         public static string AppSuccessBrushKey = "AppSuccessBrushKey";
         public static string AppFailureBrushKey = "AppFailureBrushKey";
         public static string AppWarningBrushKey = "AppWarningBrushKey";
+
         public static string AppForegroundBrushKey = "AppForegroundBrushKey";
         public static string AppSecondaryForegroundBrushKey = "AppSecondaryForegroundBrushKey";
         public static string AppAccentForegroundBrushKey = "AppAccentForegroundBrushKey";
@@ -55,6 +58,7 @@ namespace Crystalbyte.Paranoia.Themes {
 
         // Window Scope
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
+        public static string WindowTitleBackgroundBrushKey = "WindowTitleBackgroundBrushKey";
         public static string WindowSecondaryBackgroundBrushKey = "WindowSecondaryBackgroundBrushKey";
         public static string WindowHeaderForegroundBrushKey = "WindowHeaderForegroundBrushKey";
         public static string WindowHeaderSecondaryForegroundBrushKey = "WindowHeaderSecondaryForegroundBrushKey";

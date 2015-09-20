@@ -62,6 +62,7 @@ namespace Crystalbyte.Paranoia {
         public DateTime Date { get; private set; }
 
         public bool IsDownloading { get; set; }
+
         public double Progress { get; set; }
 
         #endregion
