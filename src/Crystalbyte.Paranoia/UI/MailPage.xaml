@@ -469,9 +469,9 @@
                           KeyboardNavigation.TabNavigation="Continue"
                           MouseLeave="OnMouseLeaveMessagesListView"
                           MouseMove="OnMouseMoveMessagesListView"
-                          Padding="2,0"
                           PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDownMessagesListView"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          Padding="1,0"
                           SnapsToDevicePixels="True"
                           TabIndex="4"
                           VirtualizingPanel.IsVirtualizing="True"
@@ -860,7 +860,6 @@
                                                                                         AncestorType=Page}}"
                                    KeyboardNavigation.DirectionalNavigation="None"
                                    KeyboardNavigation.TabNavigation="Once"
-                                   SnapsToDevicePixels="True"
                                    Source="{Binding Source,
                                                     Mode=OneWay}"
                                    d:IsHidden="True" />

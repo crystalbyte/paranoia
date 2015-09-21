@@ -322,6 +322,8 @@
     </Style>
 
     <Style BasedOn="{StaticResource {x:Type ScrollViewer}}" TargetType="ScrollViewer">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
         <Setter Property="Template" Value="{StaticResource ScrollViewerControlTemplate}" />
     </Style>
 </ResourceDictionary>
