@@ -83,6 +83,14 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
+        private void OnResetZoom(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                App.Context.ZoomLevel = 0.0f;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
         private void OnFlyoutClose(object sender, ExecutedRoutedEventArgs e) {
             try {
                 var page = FlyoutFrame.Content as ICancelationAware;

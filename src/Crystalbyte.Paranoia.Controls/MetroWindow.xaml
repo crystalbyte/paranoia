@@ -36,9 +36,9 @@
                                 BorderThickness="{TemplateBinding ActualBorderThickness}"
                                 Padding="{TemplateBinding Padding}">
                             <Border.Effect>
-                                <DropShadowEffect BlurRadius="10"
+                                <DropShadowEffect BlurRadius="8"
                                                   ShadowDepth="0"
-                                                  Color="Black" />
+                                                  Color="#11000000" />
                             </Border.Effect>
                             <Grid>
                                 <Grid.RowDefinitions>

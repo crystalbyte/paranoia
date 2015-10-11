@@ -221,5 +221,29 @@ namespace Crystalbyte.Paranoia.Properties {
                 this["StorageQuota"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Lime")]
+        public string SecondaryAccent {
+            get {
+                return ((string)(this["SecondaryAccent"]));
+            }
+            set {
+                this["SecondaryAccent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public float ZoomLevel {
+            get {
+                return ((float)(this["ZoomLevel"]));
+            }
+            set {
+                this["ZoomLevel"] = value;
+            }
+        }
     }
 }

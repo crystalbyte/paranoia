@@ -97,7 +97,7 @@
                             <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
                         </MultiTrigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderPressedBackgroundBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -201,6 +201,32 @@
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Command" Value="{x:Static ApplicationCommands.Close}" />
         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Close}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Rectangle x:Name="HoverArea" Fill="Transparent" />
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsPressed" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="HoverArea" Property="Fill" Value="Red" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>

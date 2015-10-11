@@ -33,5 +33,6 @@ namespace Crystalbyte.Paranoia.UI {
         public static RoutedCommand NoOperation = new RoutedCommand("NoOperation", typeof (AppCommands));
         public static RoutedCommand Settings = new RoutedCommand("Settings", typeof (AppCommands));
         public static RoutedCommand JumpToContact = new RoutedCommand("JumpToContact", typeof (AppCommands));
+        public static RoutedCommand ResetZoom = new RoutedCommand("ResetZoom", typeof(AppCommands));
     }
 }

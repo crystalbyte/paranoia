@@ -183,6 +183,7 @@
                         <ItemsPresenter x:Name="ItemsHost"
                                         Grid.Row="1"
                                         Grid.Column="1"
+                                        Grid.ColumnSpan="2"
                                         Visibility="Collapsed" />
                     </Grid>
                     <ControlTemplate.Triggers>

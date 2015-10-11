@@ -135,6 +135,7 @@
     </controls:MetroWindow.Resources>
     <controls:MetroWindow.CommandBindings>
         <CommandBinding Command="{x:Static ui:MessageCommands.Compose}" Executed="OnCompose" />
+        <CommandBinding Command="{x:Static ui:AppCommands.ResetZoom}" Executed="OnResetZoom" />
     </controls:MetroWindow.CommandBindings>
     <controls:MetroWindow.InputBindings>
         <KeyBinding Key="Print" Command="ApplicationCommands.Print" />
@@ -151,14 +152,6 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Rectangle Grid.Row="0"
-                   Grid.Column="0"
-                   Grid.ColumnSpan="2"
-                   RenderOptions.EdgeMode="Aliased">
-            <Rectangle.Effect>
-                <BlurEffect Radius="10" RenderingBias="Quality" />
-            </Rectangle.Effect>
-        </Rectangle>
         <Grid Grid.Row="0"
               Grid.RowSpan="2"
               Grid.Column="0"
@@ -304,6 +297,7 @@
         </Grid>
         <Grid x:Name="ModalOverlay"
               Grid.Row="0"
+              d:Hidden="True"
               Grid.RowSpan="3"
               Grid.Column="0"
               Grid.ColumnSpan="2"
@@ -382,16 +376,28 @@
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
                    Height="Auto"
+                   HorizontalAlignment="Stretch"
                    BorderThickness="0"
                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
                    Background="{DynamicResource {x:Static themes:ThemeResourceKeys.StatusBarBackgroundBrushKey}}">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid />
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StackPanel HorizontalAlignment="Right" Margin="0,0,36,0" Orientation="Horizontal">
+                <Slider Width="100" IsEnabled="{Binding IsMessageSelected}" SmallChange="0.1" LargeChange="0.5" Minimum="-0.5" Maximum="2.0" Value="{Binding ZoomLevel, Mode=TwoWay}"></Slider>
+                <Button IsEnabled="{Binding IsMessageSelected}" Command="{x:Static ui:AppCommands.ResetZoom}" MinWidth="40" Margin="12" VerticalAlignment="Stretch" BorderThickness="0" Background="Transparent">
+                    <TextBlock Text="{Binding ZoomLevel, Mode=OneWay, Converter={StaticResource ZoomLevelFormatter}}" />
+                </Button>
+            </StackPanel>
             <ListView x:Name="NavigationMenu"
                   Grid.Row="0"
                   Grid.Column="1"
                   Margin="0"
-                  HorizontalAlignment="Stretch"
+                  HorizontalAlignment="Left"
                   VerticalAlignment="Stretch"
-                      Background="Transparent"
+                  Background="Transparent"
                   BorderThickness="0"
                   ItemsSource="{Binding NavigationOptions}"
                   KeyboardNavigation.ControlTabNavigation="None"
@@ -421,16 +427,6 @@
                                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                                         </Grid>
                                     </Border>
-                                    <ControlTemplate.Triggers>
-                                        <!--<MultiTrigger>
-                                            <MultiTrigger.Conditions>
-                                                <Condition Property="IsMouseOver" Value="True" />
-                                                <Condition Property="IsSelected" Value="False" />
-                                            </MultiTrigger.Conditions>
-                                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}}" />
-                                            <Setter TargetName="Border" Property="TextOptions.TextRenderingMode" Value="Grayscale" />
-                                        </MultiTrigger>-->
-                                    </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>

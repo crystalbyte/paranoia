@@ -6,9 +6,8 @@
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemBorderBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemBackgroundBrushKey}}" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="0" />
         <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="False" />
@@ -42,7 +41,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}}" />
+                            <Setter TargetName="HoverArea" Property="Fill" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                             <Setter TargetName="HoverArea" Property="Opacity" Value=".1" />
                             <Setter Property="BorderBrush" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
                         </MultiTrigger>
@@ -75,7 +74,6 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="RenderOptions.EdgeMode" Value="Aliased" />
-        <Setter Property="Padding" Value="0" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -90,7 +88,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}" Margin="0" BorderThickness="0">
+                        <ScrollViewer Focusable="False" Padding="{TemplateBinding Padding}">
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>

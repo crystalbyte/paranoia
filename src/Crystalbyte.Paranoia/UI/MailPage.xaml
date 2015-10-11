@@ -15,8 +15,8 @@
       Title="Messages"
       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
       d:DataContext="{d:DesignInstance paranoia:AppContext}"
-      d:DesignHeight="553.714"
-      d:DesignWidth="1072.625"
+      d:DesignHeight="637.93"
+      d:DesignWidth="1107.941"
       mc:Ignorable="d">
     <Page.CommandBindings>
         <CommandBinding CanExecute="OnCanPrint"
@@ -471,7 +471,7 @@
                           MouseMove="OnMouseMoveMessagesListView"
                           PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDownMessagesListView"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          Padding="1,0"
+                          Padding="2,0"
                           SnapsToDevicePixels="True"
                           TabIndex="4"
                           VirtualizingPanel.IsVirtualizing="True"
@@ -674,7 +674,7 @@
                                             <ImageBrush ImageSource="/Assets/attachment.png" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <TextBlock Text="{Binding AccountName}" Visibility="{Binding IsAccountVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppWarningBrushKey}}" />
+                                    <TextBlock Text="{Binding AccountName}" Visibility="{Binding IsAccountVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryAccentBrushKey}}" />
                                 </StackPanel>
                                 <TextBlock x:Name="SubjectText"
                                            Grid.Row="1"
@@ -736,27 +736,27 @@
                       HorizontalAlignment="Center"
                       IsTabStop="False" />
         <Grid Grid.Row="0"
-              Grid.Column="4"
               Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}}"
-              Visibility="{Binding IsMessageSelected,
+              Grid.Column="4">
+            <Grid Visibility="{Binding IsMessageSelected,
                                    Converter={StaticResource BooleanToVisibilityConverter},
                                    FallbackValue={x:Static Visibility.Collapsed},
                                    TargetNullValue={x:Static Visibility.Collapsed}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Border Grid.Row="0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"
                                Grid.Column="0"
                                Margin="12,0,6,3"
                                VerticalAlignment="Center"
@@ -768,7 +768,7 @@
                                               Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"
                                TextWrapping="NoWrap" />
-                    <TextBlock Grid.Row="0"
+                        <TextBlock Grid.Row="0"
                                Grid.Column="1"
                                Margin="6"
                                VerticalAlignment="Center"
@@ -777,50 +777,50 @@
                                FontWeight="Normal"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                Text="{Binding Date}" />
-                    <StackPanel Grid.Row="0"
+                        <StackPanel Grid.Row="0"
                                 Grid.Column="2"
                                 Margin="6"
                                 VerticalAlignment="Center"
                                 Orientation="Horizontal"
                                 Visibility="{Binding SelectedMessage,
                                                      Converter={StaticResource NullToVisibilityConverter}}">
-                        <controls:MetroButton Margin="3,0"
+                            <controls:MetroButton Margin="3,0"
                                               Command="{x:Static ui:MessageCommands.Reply}"
                                               ImageSource="/Assets/reply.png"
                                               IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Reply}" />
-                        <controls:MetroButton Margin="3,0"
+                            <controls:MetroButton Margin="3,0"
                                               Command="{x:Static ui:MessageCommands.Forward}"
                                               ImageSource="/Assets/forward.png"
                                               IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Forward}" />
-                        <controls:MetroButton Margin="3,0"
+                            <controls:MetroButton Margin="3,0"
                                               Command="{Binding DeleteMessagesCommand}"
                                               ImageBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFailureBrushKey}}"
                                               ImageSource="/Assets/delete.png"
                                               IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Delete}" />
-                        <controls:MetroButton Margin="3,0"
+                            <controls:MetroButton Margin="3,0"
                                               Command="ApplicationCommands.Print"
                                               ImageSource="/Assets/print.png"
                                               IsTabStop="False"
                                               ToolTip="{x:Static properties:Resources.Print}" />
-                    </StackPanel>
-                </Grid>
-            </Border>
-            <Border Grid.Row="1"
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1"
                     DataContext="{Binding SelectedMessage}"
                     Visibility="{Binding IsDetailed,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
-                <ui:SpamNoticeControl Authenticatable="{Binding}" />
-            </Border>
-            <Border Grid.Row="2"
+                    <ui:SpamNoticeControl Authenticatable="{Binding}" />
+                </Border>
+                <Border Grid.Row="2"
                     DataContext="{Binding SelectedMessage}"
                     Visibility="{Binding IsDetailed,
                                          Converter={StaticResource BooleanToVisibilityConverter}}">
-                <ui:BlockNoticeControl Blockable="{Binding}" />
-            </Border>
-            <ListView Grid.Row="3"
+                    <ui:BlockNoticeControl Blockable="{Binding}" />
+                </Border>
+                <ListView Grid.Row="3"
                       Margin="0"
                       DataContext="{Binding SelectedMessage}"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
@@ -829,32 +829,34 @@
                       ScrollViewer.CanContentScroll="False"
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
                       ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                <ListView.Style>
-                    <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
-                        <Style.Triggers>
-                            <Trigger Property="HasItems" Value="False">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListView.Style>
-                <ListView.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
-                        <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="BorderBrush" Value="Transparent" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-            </ListView>
-            <Grid Grid.Row="4" Visibility="{Binding IsMessageSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsDownloading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
-                    <ui:HtmlViewer x:Name="MessageViewer"
+                    <ListView.Style>
+                        <Style BasedOn="{StaticResource {x:Type ListView}}" TargetType="{x:Type ListView}">
+                            <Style.Triggers>
+                                <Trigger Property="HasItems" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.Style>
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+                <Grid Grid.Row="4" Visibility="{Binding IsMessageSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsDownloading, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=!}">
+                        <ui:HtmlViewer x:Name="MessageViewer"
                                    BorderThickness="0"
-                                   IsBrowserFocusDisabled="True"
+                                   Focusable="False"
+                                   Zoom="{Binding ZoomLevel, Mode=TwoWay}"
+                                   IsNavigationFocusDisabled="True"
                                    DataContext="{Binding DataContext,
                                                          RelativeSource={RelativeSource FindAncestor,
                                                                                         AncestorType=Page}}"
@@ -863,9 +865,9 @@
                                    Source="{Binding Source,
                                                     Mode=OneWay}"
                                    d:IsHidden="True" />
-                </Grid>
-                <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsDownloading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                    <TextBlock Margin="24,12"
+                    </Grid>
+                    <Grid DataContext="{Binding SelectedMessage}" Visibility="{Binding IsDownloading, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                        <TextBlock Margin="24,12"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Bottom">
                         <Run FontSize="48"
@@ -876,9 +878,17 @@
                         <Run FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                              FontWeight="Thin"
                              Text="%" />
-                    </TextBlock>
+                        </TextBlock>
+                    </Grid>
                 </Grid>
             </Grid>
+            <StackPanel Visibility="{Binding IsMessageSelected,
+                                   Converter={StaticResource BooleanToVisibilityConverter},
+                                   ConverterParameter=!,
+                                   FallbackValue={x:Static Visibility.Collapsed},
+                                   TargetNullValue={x:Static Visibility.Collapsed}}" Margin="30">
+                <TextBlock FontWeight="Thin" FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppLargeFontSizeKey}}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" Text="{x:Static properties:Resources.NoMessageSelected}" />
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

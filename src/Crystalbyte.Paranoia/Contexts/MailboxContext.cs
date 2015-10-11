@@ -750,8 +750,9 @@ namespace Crystalbyte.Paranoia {
 
                         foreach (var id in ids) {
                             var model = new MailMessage { Id = id };
-                            context.Set<MailMessage>().Attach(model);
-                            context.Set<MailMessage>().Remove(model);
+                            var set = context.Set<MailMessage>();
+                            set.Attach(model);
+                            set.Remove(model);
                         }
                     }
                 });

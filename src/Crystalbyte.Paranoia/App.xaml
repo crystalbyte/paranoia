@@ -54,6 +54,7 @@
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:QuantityToVisibilityConverter x:Key="QuantityToVisibilityConverter" />
             <converters:PercentageFormatter x:Key="PercentageFormatter" />
+            <converters:ZoomLevelFormatter x:Key="ZoomLevelFormatter" />
             <converters:SecurityProtocolFormatter x:Key="SecurityProtocolFormatter" />
             <converters:BooleanToVisibilityMultiConverter x:Key="BooleanToVisibilityMultiConverter" />
             <converters:SortPropertyFormatter x:Key="SortPropertyFormatter" />

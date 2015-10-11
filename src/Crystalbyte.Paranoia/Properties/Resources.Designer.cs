@@ -1207,6 +1207,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No message selected for preview.
+        /// </summary>
+        public static string NoMessageSelected {
+            get {
+                return ResourceManager.GetString("NoMessageSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nothing to send ....
         /// </summary>
         public static string NothingToSend {

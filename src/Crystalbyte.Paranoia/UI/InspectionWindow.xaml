@@ -16,7 +16,7 @@
                       Height="480"
                       AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                      BorderThickness="0"
+                      BorderThickness="1"
                       ShowActivated="True"
                       UseLayoutRounding="True"
                       WindowStartupLocation="CenterOwner"
@@ -38,7 +38,7 @@
     </controls:MetroWindow.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -48,20 +48,20 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border Grid.Row="0" BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}">
-            <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}">
+            <Grid Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}">
                 <StackPanel HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Orientation="Horizontal">
                     <Image Width="20"
-                           Margin="10,0"
+                           Height="20"
+                           Margin="6"
                            VerticalAlignment="Center"
-                           DockPanel.Dock="Left"
                            RenderOptions.BitmapScalingMode="HighQuality"
-                           Source="/Assets/logo.window.png" />
+                           Source="/Assets/logo.ico" />
                     <TextBlock VerticalAlignment="Center"
                                Background="Transparent"
                                FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}"
                                Text="{Binding Subject,
                                               Mode=OneWay,
@@ -71,7 +71,7 @@
                     <TextBlock Margin="2,0"
                                VerticalAlignment="Center"
                                FontFamily="{DynamicResource {x:Static themes:ThemeResourceKeys.AppFontFamilyKey}}"
-                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                               FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                                Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderSecondaryForegroundBrushKey}}">
                         <Run Text=" - " />
                         <Run Text="{x:Static properties:Resources.ApplicationLongName}" />

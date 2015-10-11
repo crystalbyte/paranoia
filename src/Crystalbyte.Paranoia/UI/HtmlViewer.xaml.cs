@@ -92,7 +92,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         #endregion
 
-        public bool IsBrowserFocusDisabled { get; set; }
+        public bool IsNavigationFocusDisabled { get; set; }
 
         #region Methods
 
@@ -199,7 +199,7 @@ namespace Crystalbyte.Paranoia.UI {
 
         private static void OnZoomChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var viewer = (HtmlViewer)d;
-            var change = (double)e.NewValue / 100.0d;
+            var change = (double)e.NewValue;
             viewer.ChangeZoom(change);
         }
 
@@ -213,7 +213,6 @@ namespace Crystalbyte.Paranoia.UI {
             }
 
             _browser.ZoomLevel = level;
-            _browser.Reload(false);
         }
 
         private void Navigate(Uri uri) {

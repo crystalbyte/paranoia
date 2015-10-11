@@ -19,7 +19,11 @@ namespace Crystalbyte.Paranoia.UI {
         }
 
         public bool OnSetFocus(CefFocusSource source) {
-            return _viewer.IsBrowserFocusDisabled;
+            if (source == CefFocusSource.FocusSourceNavigation) {
+                return _viewer.IsNavigationFocusDisabled;
+            }
+
+            return false;
         }
 
         public void OnTakeFocus(bool next) {

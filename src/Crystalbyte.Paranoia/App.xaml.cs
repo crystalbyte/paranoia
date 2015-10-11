@@ -126,6 +126,7 @@ namespace Crystalbyte.Paranoia {
             InitEnvironment();
             InitSodium();
             InitChromium();
+            InitSettings();
             InitThemes();
 
             StartComServer();
@@ -160,6 +161,10 @@ namespace Crystalbyte.Paranoia {
                 Settings.Default.AcceptUntrustedCertificates = true;
             }
 #endif
+        }
+
+        private void InitSettings() {
+            Context.ApplySettings();
         }
 
 #if DEBUG

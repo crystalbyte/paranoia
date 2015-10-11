@@ -17,6 +17,7 @@
 
     <!--  Application Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentBrushKey}" Color="#5299EA" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSecondaryAccentBrushKey}" Color="YellowGreen" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppAccentForegroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSuccessBrushKey}" Color="ForestGreen" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppFailureBrushKey}" Color="Red" />
@@ -29,7 +30,7 @@
 
     <!--  Window Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="White" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}" Color="#555" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}" Color="#F8F8F9" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderSecondaryForegroundBrushKey}" Color="LightGray" />
@@ -38,7 +39,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedBackgroundBrushKey}" Color="#44000000" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}" Color="#222" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.StatusBarBackgroundBrushKey}" Color="Transparent" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.StatusBarBackgroundBrushKey}" Color="#DDD" />
 
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.InputFontFamilyKey}">Calibri</FontFamily>
     <system:Double x:Key="{x:Static themes:ThemeResourceKeys.InputFontSizeKey}">13</system:Double>

@@ -101,6 +101,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Background" Value="Transparent" />
@@ -321,9 +322,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style BasedOn="{StaticResource {x:Type ScrollViewer}}" TargetType="ScrollViewer">
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Margin" Value="0" />
+    <Style TargetType="ScrollViewer">
         <Setter Property="Template" Value="{StaticResource ScrollViewerControlTemplate}" />
     </Style>
 </ResourceDictionary>

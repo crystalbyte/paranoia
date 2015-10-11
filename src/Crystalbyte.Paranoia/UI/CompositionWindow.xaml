@@ -10,11 +10,12 @@
                       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
                       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
                       x:Name="Window"
+                      Icon="/Assets/logo.ico"
                       Title="{Binding Title,
                                       Mode=OneWay}"
                       AccentBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}"
                       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-                      BorderThickness="0"
+                      BorderThickness="1"
                       KeyboardNavigation.ControlTabNavigation="Contained"
                       KeyboardNavigation.DirectionalNavigation="None"
                       UseLayoutRounding="True"
@@ -115,20 +116,20 @@
         <Rectangle Grid.Row="0"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
-                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}" />
         <Border Grid.Row="0">
             <StackPanel HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
                 <Image Width="20"
-                       Margin="10,0"
+                       Margin="6"
                        DockPanel.Dock="Left"
                        RenderOptions.BitmapScalingMode="HighQuality"
                        Source="/Assets/logo.window.png" />
                 <TextBlock x:Name="TitleBlock"
                            Margin="0"
                            VerticalAlignment="Center"
-                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
+                           FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
                            WindowChrome.IsHitTestVisibleInChrome="False"
                            d:DataContext="{d:DesignInstance paranoia:MailCompositionContext}">
                     <Run Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}}" Text="{Binding Subject, Delay=250, Converter={StaticResource NullOrEmptyFormatter}, ConverterParameter=...}" />

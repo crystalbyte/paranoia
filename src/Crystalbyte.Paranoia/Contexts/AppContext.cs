@@ -60,6 +60,7 @@ namespace Crystalbyte.Paranoia {
         #region Private Fields
 
         private string _source;
+        private float _zoomLevel;
         private bool _isAnimating;
         private bool _isPopupVisible;
         private bool _showOnlyUnseen;
@@ -358,6 +359,10 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
+        internal void ApplySettings() {
+            ZoomLevel = Settings.Default.ZoomLevel;
+        }
+
         internal async Task DeleteMessagesAsync(MailMessageContext[] messages) {
             Logger.Enter();
 
@@ -433,7 +438,6 @@ namespace Crystalbyte.Paranoia {
                 using (var context = new DatabaseContext()) {
                     await context.OpenAsync();
                     await context.EnableForeignKeysAsync();
-                    throw new NotImplementedException();
 
                     using (var transaction = context.Database.BeginTransaction()) {
                         foreach (var message in mailboxGroup) {
@@ -719,6 +723,18 @@ namespace Crystalbyte.Paranoia {
                 _selectedMailbox = value;
                 RaisePropertyChanged(() => SelectedMailbox);
                 OnMailboxSelectionChanged();
+            }
+        }
+
+        public float ZoomLevel {
+            get { return _zoomLevel; }
+            set {
+                if (Math.Abs(_zoomLevel - value) <= float.Epsilon) {
+                    return;
+                }
+
+                _zoomLevel = value;
+                RaisePropertyChanged(() => ZoomLevel);
             }
         }
 
@@ -1116,7 +1132,7 @@ namespace Crystalbyte.Paranoia {
                     var set = context.Set<MailComposition>();
                     set.Attach(composition);
                     set.Remove(composition);
-                    
+
                     var contacts = context.Set<MailContact>().Where(x => addresses.Contains(x.Address));
                     foreach (var contact in contacts) {
                         contact.Relevance++;
