@@ -756,4 +756,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="NoMessageSelected" xml:space="preserve">
     <value>No message selected for preview</value>
   </data>
+  <data name="ShowSource" xml:space="preserve">
+    <value>Source</value>
+  </data>
 </root>

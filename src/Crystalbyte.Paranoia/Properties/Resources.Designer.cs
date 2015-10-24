@@ -1622,6 +1622,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Source.
+        /// </summary>
+        public static string ShowSource {
+            get {
+                return ResourceManager.GetString("ShowSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage Subscriptions.
         /// </summary>
         public static string ShowUnsubscribedMailboxes {

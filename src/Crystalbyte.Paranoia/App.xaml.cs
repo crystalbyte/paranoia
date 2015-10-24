@@ -159,6 +159,8 @@ namespace Crystalbyte.Paranoia {
                 await database.SaveChangesAsync();
 
                 Settings.Default.AcceptUntrustedCertificates = true;
+
+                Context.IsDebugBuild = true;
             }
 #endif
         }

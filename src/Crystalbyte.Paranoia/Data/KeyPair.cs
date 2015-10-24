@@ -38,6 +38,9 @@ namespace Crystalbyte.Paranoia.Data {
         [Column("id")]
         public long Id { get; set; }
 
+        [Column("device")]
+        public string Device { get; set; }
+
         [Column("public_key")]
         public byte[] PublicKey { get; set; }
 

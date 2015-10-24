@@ -38,7 +38,7 @@ namespace Crystalbyte.Paranoia {
         #region Methods
 
         public string ToHeader() {
-            return string.Format("v = 1; n = {0}", Nonce);
+            return string.Format("v=1; n={0}", Nonce);
         }
 
         #endregion

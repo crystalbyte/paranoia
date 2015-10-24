@@ -40,6 +40,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Crystalbyte.Paranoia.Data;
 using NLog;
+using System.Text;
 
 #endregion
 
@@ -273,6 +274,31 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 var parent = (IMailboxCreator)e.Parameter;
                 e.CanExecute = parent.CanHaveChildren;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private async void OnShowSource(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var message = App.Context.SelectedMessage;
+                if (message == null) {
+                    return;
+                }
+
+                using (var context = new DatabaseContext()) {
+                    var mime = await context.MailMessages
+                        .Where(x => x.Id == message.Id)
+                        .Select(x => x.Mime)
+                        .FirstOrDefaultAsync();
+
+                    var text = Encoding.UTF8.GetString(mime);
+
+                    if (!string.IsNullOrEmpty(text)) {
+                        Clipboard.SetText(text);
+                    }
+
+                }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }

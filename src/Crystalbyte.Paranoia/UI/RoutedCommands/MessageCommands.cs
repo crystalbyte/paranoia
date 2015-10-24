@@ -37,6 +37,7 @@ namespace Crystalbyte.Paranoia.UI {
         public static RoutedCommand Resume = new RoutedCommand("Resume", typeof (MessageCommands));
         public static RoutedCommand Inspect = new RoutedCommand("Inspect", typeof (MessageCommands));
         public static RoutedCommand QuickSearch = new RoutedCommand("QuickSearch", typeof (MessageCommands));
+        public static RoutedCommand ShowSource = new RoutedCommand("ShowSource", typeof(MessageCommands));
         public static RoutedCommand CancelSearch = new RoutedCommand("CancelSearch", typeof(MessageCommands));
         public static RoutedCommand ChangeAuthenticity = new RoutedCommand("ChangeAuthenticity", typeof(MessageCommands));
         public static RoutedCommand UnblockExternalContent = new RoutedCommand("UnblockExternalContent", typeof(MessageCommands));

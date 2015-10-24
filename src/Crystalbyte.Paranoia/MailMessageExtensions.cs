@@ -12,15 +12,16 @@ using Crystalbyte.Paranoia.Mail;
 using MailMessage = System.Net.Mail.MailMessage;
 using System.Net.Mime;
 using Crystalbyte.Paranoia.Data;
+using System.Collections.Generic;
 
 namespace Crystalbyte.Paranoia {
     internal static class MailMessageExtensions {
 
         private static readonly Random Random = new Random();
 
-        public static void SetPublicKeys(this MailMessage message, MailContact contact) {
-            foreach (var key in contact.Keys) {
-                var k = Convert.ToBase64String(key.Bytes);
+        public static void AttachPublicKeys(this MailMessage message, IEnumerable<KeyPair> keys) {
+            foreach (var key in keys) {
+                var k = Convert.ToBase64String(key.PublicKey);
                 message.Headers.Add(MessageHeaders.PublicKey, string.Format("v = 1; k = {0}; d = {1}", k, key.Device));
             }
         }

@@ -29,6 +29,7 @@
         <CommandBinding CanExecute="OnCanInspect"
                         Command="{x:Static ui:MessageCommands.Inspect}"
                         Executed="OnInspect" />
+        <CommandBinding Command="{x:Static ui:MessageCommands.ShowSource}" Executed="OnShowSource" />
         <CommandBinding Command="{x:Static ui:MessageCommands.QuickSearch}" Executed="OnQuickSearch" />
         <CommandBinding Command="{x:Static ui:MessageCommands.CancelSearch}" Executed="OnCancelSearch" />
         <CommandBinding CanExecute="OnCanCreateMailbox"
@@ -575,6 +576,16 @@
                                         </Rectangle>
                                     </MenuItem.Icon>
                                 </MenuItem>
+                            </MenuItem>
+                            <Separator DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Page}}" Visibility="{Binding IsDebugBuild, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <MenuItem DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Page}}" Visibility="{Binding IsDebugBuild, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{x:Static ui:MessageCommands.ShowSource}" Header="{x:Static properties:Resources.ShowSource}">
+                                <MenuItem.Icon>
+                                    <Rectangle Style="{DynamicResource MonoChromeIconRectangleStyle}">
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush ImageSource="/Assets/star.full.png" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </MenuItem.Icon>
                             </MenuItem>
                         </ContextMenu>
                     </ListView.ContextMenu>

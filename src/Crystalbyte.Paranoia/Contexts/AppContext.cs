@@ -808,6 +808,8 @@ namespace Crystalbyte.Paranoia {
             get { return _messages.Count; }
         }
 
+        public bool IsDebugBuild { get; set; }
+
         public bool IsSortAscending {
             get { return _isSortAscending; }
             set {
@@ -1115,20 +1117,22 @@ namespace Crystalbyte.Paranoia {
                 var messages = new List<System.Net.Mail.MailMessage>();
                 foreach (var address in composition.Addresses) {
                     using (var context = new DatabaseContext()) {
-                        var set = context.Set<MailContact>();
-                        var contact = await set.FirstOrDefaultAsync(x => x.Address == address.Address);
+                        var contacts = context.Set<MailContact>();
+                        var contact = await contacts.FirstOrDefaultAsync(x => x.Address == address.Address);
+
+                        var keys = await context.Set<KeyPair>().ToArrayAsync();
 
                         // The contact is not yet saved in our database, thus there are no keys to start encryption.
                         // We need to send it in plain text and remove all other recipients.
                         if (contact == null || contact.Keys.Count == 0) {
                             messages.Add(message);
-                            message.SetPublicKeys(contact);
+                            message.AttachPublicKeys(keys);
                         } else {
                             var cypher = new HybridMimeCypher();
                             var result = cypher.Encrypt(contact, bytes);
                             var wrapper = await message.WrapEncryptedMessageAsync(result);
                             messages.Add(wrapper);
-                            wrapper.SetPublicKeys(contact);
+                            wrapper.AttachPublicKeys(keys);
                         }
                     }
                 }

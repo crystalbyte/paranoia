@@ -14,7 +14,7 @@ namespace Crystalbyte.Paranoia {
         public override string ToString() {
             var secret = Convert.ToBase64String(EncryptedSecret);
             var nonce = Convert.ToBase64String(Nonce);
-            return string.Format("v = 1; s = {1}; n = {2}", secret, nonce);
+            return string.Format("v=1; s={1}; n={2}", secret, nonce);
         }
     }
 }

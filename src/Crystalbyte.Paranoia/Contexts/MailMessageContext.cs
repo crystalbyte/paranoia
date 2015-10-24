@@ -103,7 +103,7 @@ namespace Crystalbyte.Paranoia {
 
         #region ReadOnly Properties
 
-        public Int64 Size {
+        public long Size {
             get { return _message.Id; }
         }
 
@@ -128,7 +128,8 @@ namespace Crystalbyte.Paranoia {
         }
 
         public string AccountName {
-            get { return _mailbox.Account.Name; } }
+            get { return _mailbox.Account.Name; }
+        }
 
         #endregion
 
