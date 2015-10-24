@@ -72,6 +72,12 @@ namespace Crystalbyte.Paranoia.Cryptography {
 
             [DllImport(Library.Sodium, EntryPoint = "sodium_init")]
             public static extern int Init();
+
+            [DllImport(Library.Sodium, EntryPoint = "randombytes_buf", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void RandomBytesBuf(IntPtr buf, uint size);
+
+            [DllImport(Library.Sodium, EntryPoint = "sodium_memzero", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void SodiumMemZero(IntPtr buf, uint size);
         }
     }
 }

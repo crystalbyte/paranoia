@@ -36,11 +36,14 @@ namespace Crystalbyte.Paranoia.Data {
     internal class PublicKey {
         [Key]
         [Column("id")]
-        public Int64 Id { get; set; }
+        public long Id { get; set; }
 
         [Index]
         [Column("contact_id")]
-        public Int64 ContactId { get; set; }
+        public long ContactId { get; set; }
+
+        [Column("device")]
+        public string Device { get; set; }
 
         [Column("bytes")]
         [Collate(CollatingSequence.Binary)]

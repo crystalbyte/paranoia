@@ -50,6 +50,8 @@ using Crystalbyte.Paranoia.UI;
 using Crystalbyte.Paranoia.UI.Commands;
 using NLog;
 using MailMessage = Crystalbyte.Paranoia.Data.MailMessage;
+using System.Text;
+using System.Diagnostics;
 
 #endregion
 
@@ -1102,43 +1104,59 @@ namespace Crystalbyte.Paranoia {
                 }
             });
 
+            if (account == null) {
+                throw new MissingAccountException();
+            }
+
             await Task.Run(async () => {
-                // TODO: Add encryption here.
-                if (account == null) {
-                    throw new MissingAccountException();
-                }
+                var message = composition.ToMessage(account.Address);
+                var bytes = await message.ToMimeAsync();
 
-                var addresses = composition.Addresses.Select(x => x.Address).ToArray();
+                var messages = new List<System.Net.Mail.MailMessage>();
+                foreach (var address in composition.Addresses) {
+                    using (var context = new DatabaseContext()) {
+                        var set = context.Set<MailContact>();
+                        var contact = await set.FirstOrDefaultAsync(x => x.Address == address.Address);
 
-                var message = new System.Net.Mail.MailMessage();
-                message.To.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.To).Select(x => new System.Net.Mail.MailAddress(x.Address)));
-                message.CC.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.Cc).Select(x => new System.Net.Mail.MailAddress(x.Address)));
-                message.Bcc.AddRange(composition.Addresses.Where(x => x.Role == AddressRole.Bcc).Select(x => new System.Net.Mail.MailAddress(x.Address)));
-                message.Subject = composition.Subject;
-
-                message.From = new System.Net.Mail.MailAddress(account.Address);
-                message.Body = composition.Content;
-                message.IsBodyHtml = true;
-
-                using (var connection = new SmtpConnection()) {
-                    using (var auth = await connection.ConnectAsync(account.SmtpHost, account.SmtpPort)) {
-                        using (var session = await auth.LoginAsync(account.SmtpUsername, account.SmtpPassword)) {
-                            await session.SendAsync(message);
+                        // The contact is not yet saved in our database, thus there are no keys to start encryption.
+                        // We need to send it in plain text and remove all other recipients.
+                        if (contact == null || contact.Keys.Count == 0) {
+                            messages.Add(message);
+                            message.SetPublicKeys(contact);
+                        } else {
+                            var cypher = new HybridMimeCypher();
+                            var result = cypher.Encrypt(contact, bytes);
+                            var wrapper = await message.WrapEncryptedMessageAsync(result);
+                            messages.Add(wrapper);
+                            wrapper.SetPublicKeys(contact);
                         }
                     }
                 }
 
-                using (var context = new DatabaseContext()) {
-                    var set = context.Set<MailComposition>();
-                    set.Attach(composition);
-                    set.Remove(composition);
 
-                    var contacts = context.Set<MailContact>().Where(x => addresses.Contains(x.Address));
-                    foreach (var contact in contacts) {
-                        contact.Relevance++;
+                using (var connection = new SmtpConnection()) {
+                    using (var auth = await connection.ConnectAsync(account.SmtpHost, account.SmtpPort)) {
+                        using (var session = await auth.LoginAsync(account.SmtpUsername, account.SmtpPassword)) {
+                            foreach (var m in messages) {
+                                await session.SendAsync(m);
+
+                                using (var context = new DatabaseContext()) {
+                                    var compositions = context.Set<MailComposition>();
+                                    compositions.Attach(composition);
+                                    compositions.Remove(composition);
+
+                                    var contacts = context.Set<MailContact>();
+
+                                    Debug.Assert(m.To.Count == 1);
+                                    var address = m.To.First().Address;
+                                    var contact = await contacts.FirstOrDefaultAsync(x => x.Address == address);
+                                    contact.Relevance++;
+
+                                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
+                                }
+                            }
+                        }
                     }
-
-                    await context.SaveChangesAsync(OptimisticConcurrencyStrategy.ClientWins);
                 }
             });
         }

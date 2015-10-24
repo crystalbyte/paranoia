@@ -8,7 +8,7 @@ namespace Crystalbyte.Paranoia.Data {
 
         [Key]
         [Column("id")]
-        public Int64 Id { get; set; }
+        public long Id { get; set; }
 
         [Column("address")]
         public string Address { get; set; }
@@ -18,7 +18,7 @@ namespace Crystalbyte.Paranoia.Data {
 
         [Index]
         [Column("composition_id")]
-        public Int64 CompositionId { get; set; }
+        public long CompositionId { get; set; }
 
         [ForeignKey("CompositionId")]
         public MailComposition MailComposition { get; set; }

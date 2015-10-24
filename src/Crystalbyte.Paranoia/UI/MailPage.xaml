@@ -821,7 +821,6 @@
                     <ui:BlockNoticeControl Blockable="{Binding}" />
                 </Border>
                 <ListView Grid.Row="3"
-                      Margin="0"
                       DataContext="{Binding SelectedMessage}"
                       ItemTemplate="{StaticResource ThumbnailTemplate}"
                       ItemsSource="{Binding Attachments}"

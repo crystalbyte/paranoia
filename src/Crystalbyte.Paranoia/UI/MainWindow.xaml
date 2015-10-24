@@ -372,14 +372,18 @@
                NavigationUIVisibility="Hidden"
                RenderTransformOrigin="0.5,0.5"
                Source="/UI/MailPage.xaml" />
+        <Rectangle Grid.Row="2"
+                   Grid.Column="0"
+                   Opacity=".5"
+                   Grid.ColumnSpan="2" IsHitTestVisible="False" Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.StatusBarBackgroundBrushKey}}" />
         <StatusBar Grid.Row="2"
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Height="Auto"
+                   Height="43"
                    HorizontalAlignment="Stretch"
                    BorderThickness="0"
                    BorderBrush="{DynamicResource {x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}}"
-                   Background="{DynamicResource {x:Static themes:ThemeResourceKeys.StatusBarBackgroundBrushKey}}">
+                   Background="Transparent">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid />

@@ -397,8 +397,10 @@ namespace Crystalbyte.Paranoia {
 
                 var content = await Task.Run(async () => {
                     var mime = await FetchMimeAsync();
-                    var encryption = new EllipticCurveMimeEncryption();
-                    mime = encryption.Decrypt(mime);
+
+                    var cypher = new HybridMimeCypher();
+                    mime = cypher.Decrypt(mime);
+
                     await StoreContentAsync(mime);
                     return mime;
                 });
@@ -447,27 +449,27 @@ namespace Crystalbyte.Paranoia {
                             }));
 
                             // May be an incomplete draft.
-                            if (contact != null) {
-                                var xHeaders = reader.Headers.UnknownHeaders;
-                                var values = xHeaders.GetValues(MessageHeaders.Signet);
-                                if (values != null) {
-                                    var value = values.FirstOrDefault();
-                                    if (value != null) {
-                                        var dic = value.ToKeyValuePairs();
-                                        try {
-                                            var pKey = Convert.FromBase64String(dic["pkey"]);
-                                            var k = contact.Keys.FirstOrDefault(x => x.Bytes == pKey);
-                                            if (k == null) {
-                                                contact.Keys.Add(new PublicKey {
-                                                    Bytes = pKey
-                                                });
-                                            }
-                                        } catch (Exception ex) {
-                                            Logger.ErrorException(ex.Message, ex);
-                                        }
-                                    }
-                                }
-                            }
+                            //if (contact != null) {
+                            //    var xHeaders = reader.Headers.UnknownHeaders;
+                            //    var values = xHeaders.GetValues(MessageHeaders.Signet);
+                            //    if (values != null) {
+                            //        var value = values.FirstOrDefault();
+                            //        if (value != null) {
+                            //            var dic = value.ToKeyValuePairs();
+                            //            try {
+                            //                var pKey = Convert.FromBase64String(dic["pkey"]);
+                            //                var k = contact.Keys.FirstOrDefault(x => x.Bytes == pKey);
+                            //                if (k == null) {
+                            //                    contact.Keys.Add(new PublicKey {
+                            //                        Bytes = pKey
+                            //                    });
+                            //                }
+                            //            } catch (Exception ex) {
+                            //                Logger.ErrorException(ex.Message, ex);
+                            //            }
+                            //        }
+                            //    }
+                            //}
 
 
                             var textParam = new SQLiteParameter("@text");

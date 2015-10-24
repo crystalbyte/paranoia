@@ -242,6 +242,7 @@
     <Compile Include="Data\MailAttachment.cs" />
     <Compile Include="Data\MailboxFlag.cs" />
     <Compile Include="Data\MailComposition.cs" />
+    <Compile Include="Data\MailCompositionExtensions.cs" />
     <Compile Include="Data\MailMessageContent.cs" />
     <Compile Include="Data\MailAddress.cs" />
     <Compile Include="Data\MailMessageFlag.cs" />
@@ -251,12 +252,11 @@
     <Compile Include="Data\SQLite\DatabaseFunction.cs" />
     <Compile Include="Data\SQLite\ModuleType.cs" />
     <Compile Include="Data\SQLite\VirtualAttribute.cs" />
-    <Compile Include="EllipticCurveEncryption.cs" />
+    <Compile Include="HybridMimeCypher.cs" />
     <Compile Include="EmlSchemeHandler.cs" />
     <Compile Include="FileSchemeHandler.cs" />
     <Compile Include="IAuthenticatable.cs" />
     <Compile Include="IBlockable.cs" />
-    <Compile Include="IDecryptor.cs" />
     <Compile Include="ICompositionView.cs" />
     <Compile Include="IMailMessage.cs" />
     <Compile Include="IRecipientView.cs" />
@@ -266,10 +266,12 @@
     <Compile Include="MailMessageExtensions.cs" />
     <Compile Include="MailMessageReaderExtension.cs" />
     <Compile Include="MessageHeaders.cs" />
+    <Compile Include="MimeEncryptionResult.cs" />
     <Compile Include="MissingAccountException.cs" />
     <Compile Include="MissingContactException.cs" />
     <Compile Include="MissingKeyException.cs" />
     <Compile Include="ProgressChangedEventArgs.cs" />
+    <Compile Include="PublicKeyEncryptionEntry.cs" />
     <Compile Include="SignetMissingOrCorruptException.cs" />
     <Compile Include="SimpleSpamDetector.cs" />
     <Compile Include="TextRange.cs" />
@@ -817,7 +819,7 @@
     <Resource Include="Assets\scrollbar.arrow.right.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\facade.html" />
+    <Resource Include="Resources\encryption-wrapper.html" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\warning.png" />

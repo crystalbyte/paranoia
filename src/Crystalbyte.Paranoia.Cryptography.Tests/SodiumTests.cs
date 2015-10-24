@@ -43,16 +43,16 @@ namespace Crystalbyte.Paranoia.Cryptography.Tests {
         }
 
         [TestMethod]
-        public void TestKeyGeneration() {
+        public void KeyGenerationTest() {
             Sodium.InitNativeLibrary();
             var pkc1 = new PublicKeyCrypto();
 
-            Assert.IsFalse(String.IsNullOrEmpty(Encoding.UTF8.GetString(pkc1.PublicKey)));
-            Assert.IsFalse(String.IsNullOrEmpty(Encoding.UTF8.GetString(pkc1.PrivateKey)));
+            Assert.IsFalse(string.IsNullOrEmpty(Encoding.UTF8.GetString(pkc1.PublicKey)));
+            Assert.IsFalse(string.IsNullOrEmpty(Encoding.UTF8.GetString(pkc1.PrivateKey)));
         }
 
         [TestMethod]
-        public void TestPublicKeyEncrypt() {
+        public void PublicKeyEncryptTest() {
             Sodium.InitNativeLibrary();
             var pkc1 = new PublicKeyCrypto();
             var pkc2 = new PublicKeyCrypto();
@@ -63,18 +63,30 @@ namespace Crystalbyte.Paranoia.Cryptography.Tests {
             var encMessage = pkc1.EncryptWithPublicKey(Encoding.ASCII.GetBytes(message), pkc2.PublicKey, nonce);
 
             var decryptedMessage = pkc2.DecryptWithPrivateKey(encMessage, pkc1.PublicKey, nonce);
-            Assert.IsTrue(String.Compare(message, Encoding.ASCII.GetString(decryptedMessage)) == 0);
+            Assert.IsTrue(string.Compare(message, Encoding.ASCII.GetString(decryptedMessage)) == 0);
         }
 
         [TestMethod]
-        public void TestSecretKeyEncrpytion() {
+        public void SecretKeyEncryptionTest() {
             Sodium.InitNativeLibrary();
             var skc = new SecretKeyCrypto();
 
             var message = "test";
             var cipherText = skc.Encrypt(Encoding.ASCII.GetBytes(message));
             var decryptedMessage = skc.Decrypt(cipherText, skc.Nonce, skc.Key);
-            Assert.IsTrue(String.Compare(message, Encoding.ASCII.GetString(decryptedMessage)) == 0);
+            Assert.IsTrue(string.Compare(message, Encoding.ASCII.GetString(decryptedMessage)) == 0);
+        }
+
+        [TestMethod]
+        public void HybridEncryptionTest() {
+            Sodium.InitNativeLibrary();
+            var message = "test";
+
+            var skc = new SecretKeyCrypto();
+            var cipherText = skc.Encrypt(Encoding.ASCII.GetBytes(message));
+            
+            var decryptedMessage = skc.Decrypt(cipherText, skc.Nonce, skc.Key);
+            Assert.IsTrue(string.Compare(message, Encoding.ASCII.GetString(decryptedMessage)) == 0);
         }
     }
 }

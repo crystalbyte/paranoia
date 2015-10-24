@@ -67,26 +67,6 @@ namespace Crystalbyte.Paranoia.Cryptography {
             get { return Convert.ToInt32(_nonceSize/Marshal.SizeOf<Byte>()); }
         }
 
-        //public async Task InitFromFileAsync(string publicKeyPath, string privateKeyPath, string password = "") {
-
-        //    string publicKey = string.Empty;
-        //    string privateKey = string.Empty;
-
-        //    await Task.Factory.StartNew(() => {
-        //        publicKey = File.ReadAllText(publicKeyPath);
-        //        privateKey = File.ReadAllText(privateKeyPath);
-        //    });
-
-        //    Alloc();
-
-        //    var decodedPublicKey = Convert.FromBase64String(publicKey);
-        //    WriteKey(decodedPublicKey, _publicKeyPtr);
-
-
-        //    var decodedPrivateKey = Convert.FromBase64String(privateKey);
-        //    WriteKey(decodedPrivateKey, _privateKeyPtr);
-        //}
-
         private void WriteKey(byte[] key, IntPtr ptr) {
             Marshal.Copy(key, 0, ptr, KeySize);
         }
@@ -147,8 +127,6 @@ namespace Crystalbyte.Paranoia.Cryptography {
 
             var cipherTextPtr = Marshal.AllocHGlobal(message.Length + MacBytesSize);
             var chiperText = new byte[message.Length + MacBytesSize];
-
-            //SafeNativeMethods.SodiumMemZero(cipherTextPtr, Convert.ToUInt32(messageSize + macBytesSize));
 
             var messagePtr = Marshal.AllocHGlobal(message.Length);
             Marshal.Copy(message, 0, messagePtr, message.Length);

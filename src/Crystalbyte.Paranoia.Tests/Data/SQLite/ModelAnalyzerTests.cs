@@ -41,7 +41,7 @@ namespace Crystalbyte.Paranoia.Tests.Data.SQLite {
             var analyzer = new ModelAnalyzer(typeof (Person));
             var actual = analyzer.GetTableCreateScript();
             const string expected =
-                "CREATE TABLE Person(Id INTEGER PRIMARY KEY, Filename TEXT, Age INTEGER, residence TEXT, CategoryId INTEGER, FOREIGN KEY(CategoryId) REFERENCES Category(Id));";
+                "CREATE TABLE Person(Id INTEGER PRIMARY KEY, Name TEXT, Age INTEGER, residence TEXT, CategoryId INTEGER, FOREIGN KEY(CategoryId) REFERENCES Category(Id) ON DELETE CASCADE);";
             Assert.AreEqual(expected, actual);
         }
 

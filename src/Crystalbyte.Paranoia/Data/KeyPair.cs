@@ -36,7 +36,7 @@ namespace Crystalbyte.Paranoia.Data {
     internal sealed class KeyPair {
         [Key]
         [Column("id")]
-        public Int64 Id { get; set; }
+        public long Id { get; set; }
 
         [Column("public_key")]
         public byte[] PublicKey { get; set; }

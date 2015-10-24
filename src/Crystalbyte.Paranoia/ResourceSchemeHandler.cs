@@ -82,19 +82,7 @@ namespace Crystalbyte.Paranoia {
             if (uri.LocalPath.EndsWith("less")) {
                 using (var reader = new StreamReader(info.Stream)) {
                     var less = reader.ReadToEnd();
-
-                    less = Regex.Replace(less, "::[A-Za-z0-9]+::", m => {
-                        var key = m.Value.Trim(':');
-                        var brush =
-                            Application.Current.Resources[key] as
-                                SolidColorBrush;
-                        return brush != null
-                            ? brush.Color.ToHex(false)
-                            : "Fuchsia";
-                    });
-
                     var css = Less.Parse(less);
-
                     var bytes = Encoding.UTF8.GetBytes(css);
                     response.ResponseStream = new MemoryStream(bytes);
                     response.MimeType = "text/css";
