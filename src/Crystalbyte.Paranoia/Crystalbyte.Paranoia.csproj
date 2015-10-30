@@ -226,6 +226,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationExtensions.cs" />
+    <Compile Include="Checksum.cs" />
     <Compile Include="CompositionSchemeHandler.cs" />
     <Compile Include="Contexts\AttachmentBase.cs" />
     <Compile Include="Contexts\FileAttachmentContext.cs" />
@@ -235,6 +236,9 @@
     <Compile Include="Contexts\MailCompositionContext.cs" />
     <Compile Include="Contexts\MailNavigationContext.cs" />
     <Compile Include="Contexts\StreamAttachmentContext.cs" />
+    <Compile Include="Cryptography\EncryptedPublicKey.cs" />
+    <Compile Include="Cryptography\SodiumEncryptionMetadata.cs" />
+    <Compile Include="Cryptography\SodiumHybridMimeCypher.cs" />
     <Compile Include="Data\AddressRole.cs" />
     <Compile Include="Data\MailCompositionAddress.cs" />
     <Compile Include="Data\MailCompositionAttachment.cs" />
@@ -252,7 +256,6 @@
     <Compile Include="Data\SQLite\DatabaseFunction.cs" />
     <Compile Include="Data\SQLite\ModuleType.cs" />
     <Compile Include="Data\SQLite\VirtualAttribute.cs" />
-    <Compile Include="HybridMimeCypher.cs" />
     <Compile Include="EmlSchemeHandler.cs" />
     <Compile Include="FileSchemeHandler.cs" />
     <Compile Include="IAuthenticatable.cs" />
@@ -266,12 +269,11 @@
     <Compile Include="MailMessageExtensions.cs" />
     <Compile Include="MailMessageReaderExtension.cs" />
     <Compile Include="MessageHeaders.cs" />
-    <Compile Include="MimeEncryptionResult.cs" />
+    <Compile Include="MimeDecryptionMetadata.cs" />
     <Compile Include="MissingAccountException.cs" />
     <Compile Include="MissingContactException.cs" />
     <Compile Include="MissingKeyException.cs" />
     <Compile Include="ProgressChangedEventArgs.cs" />
-    <Compile Include="PublicKeyEncryptionEntry.cs" />
     <Compile Include="SignetMissingOrCorruptException.cs" />
     <Compile Include="SimpleSpamDetector.cs" />
     <Compile Include="TextRange.cs" />

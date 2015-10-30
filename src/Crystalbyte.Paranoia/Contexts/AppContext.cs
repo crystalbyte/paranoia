@@ -1128,9 +1128,9 @@ namespace Crystalbyte.Paranoia {
                             messages.Add(message);
                             message.AttachPublicKeys(keys);
                         } else {
-                            var cypher = new HybridMimeCypher();
-                            var result = cypher.Encrypt(contact, bytes);
-                            var wrapper = await message.WrapEncryptedMessageAsync(result);
+                            var cypher = new SodiumHybridMimeCypher();
+                            var data = cypher.Encrypt(contact, bytes);
+                            var wrapper = await message.WrapSodiumEncryptedMessageAsync(data);
                             messages.Add(wrapper);
                             wrapper.AttachPublicKeys(keys);
                         }

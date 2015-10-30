@@ -24,8 +24,9 @@
 
 namespace Crystalbyte.Paranoia {
     internal static class MessageHeaders {
-        public static string AemKey = "X-AEM-Key";
-        public static string Nonce = "X-Nonce";
         public static string PublicKey = "X-Public-Key";
+        public static string Secret = "X-CEM-Secret";
+        public static string EncryptedMessage = "X-Encrypted-Message";
+
     }
 }

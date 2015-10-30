@@ -399,8 +399,8 @@ namespace Crystalbyte.Paranoia {
                 var content = await Task.Run(async () => {
                     var mime = await FetchMimeAsync();
 
-                    var cypher = new HybridMimeCypher();
-                    mime = cypher.Decrypt(mime);
+                    //var cypher = new HybridMimeCypher();
+                    //mime = cypher.Decrypt(mime);
 
                     await StoreContentAsync(mime);
                     return mime;
