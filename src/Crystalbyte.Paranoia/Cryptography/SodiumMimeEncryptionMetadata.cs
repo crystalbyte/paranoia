@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Crystalbyte.Paranoia {
 
-    internal sealed class SodiumEncryptionMetadata {
+    internal sealed class SodiumMimeEncryptionMetadata {
 
         #region Private Fields
 
-        private List<EncryptedPublicKey> _entries;
+        private List<EncryptedSecret> _entries;
 
         #endregion
 
         #region Construction
 
-        public SodiumEncryptionMetadata() {
-            _entries = new List<EncryptedPublicKey>();
+        public SodiumMimeEncryptionMetadata() {
+            _entries = new List<EncryptedSecret>();
         }
 
         #endregion
@@ -32,7 +32,7 @@ namespace Crystalbyte.Paranoia {
 
         public byte[] Nonce { get; set; }
 
-        public List<EncryptedPublicKey> Entries {
+        public List<EncryptedSecret> Entries {
             get { return _entries; }
         }
 

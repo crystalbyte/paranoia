@@ -236,8 +236,10 @@
     <Compile Include="Contexts\MailCompositionContext.cs" />
     <Compile Include="Contexts\MailNavigationContext.cs" />
     <Compile Include="Contexts\StreamAttachmentContext.cs" />
-    <Compile Include="Cryptography\EncryptedPublicKey.cs" />
-    <Compile Include="Cryptography\SodiumEncryptionMetadata.cs" />
+    <Compile Include="Cryptography\ByteCollectionExtensions.cs" />
+    <Compile Include="Cryptography\EncryptedSecret.cs" />
+    <Compile Include="Cryptography\SodiumMimeDecryptionMetadata.cs" />
+    <Compile Include="Cryptography\SodiumMimeEncryptionMetadata.cs" />
     <Compile Include="Cryptography\SodiumHybridMimeCypher.cs" />
     <Compile Include="Data\AddressRole.cs" />
     <Compile Include="Data\MailCompositionAddress.cs" />
@@ -269,7 +271,6 @@
     <Compile Include="MailMessageExtensions.cs" />
     <Compile Include="MailMessageReaderExtension.cs" />
     <Compile Include="MessageHeaders.cs" />
-    <Compile Include="MimeDecryptionMetadata.cs" />
     <Compile Include="MissingAccountException.cs" />
     <Compile Include="MissingContactException.cs" />
     <Compile Include="MissingKeyException.cs" />

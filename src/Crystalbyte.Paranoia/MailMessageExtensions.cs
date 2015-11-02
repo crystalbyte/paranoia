@@ -22,11 +22,11 @@ namespace Crystalbyte.Paranoia {
         public static void AttachPublicKeys(this MailMessage message, IEnumerable<KeyPair> keys) {
             foreach (var key in keys) {
                 var k = Convert.ToBase64String(key.PublicKey);
-                message.Headers.Add(MessageHeaders.PublicKey, string.Format("k = {0}; d = {1}", k, key.Device));
+                message.Headers.Add(MessageHeaders.PublicKey, string.Format("k={0}; d={1}", k, key.Device));
             }
         }
 
-        public static async Task<MimeDecryptionMetadata> UnwrapEncryptedMessageAsync(this MailMessage message) {
+        public static async Task<SodiumMimeDecryptionMetadata> UnwrapEncryptedMessageAsync(this MailMessage message) {
             throw new NotImplementedException();
             //var reader = new MailMessageReader();
             //var part = reader.FindFirstMessagePartWithMediaType(MessageHeaders.CypherVersion);
@@ -70,7 +70,7 @@ namespace Crystalbyte.Paranoia {
             //return null;
         }
 
-        public static async Task<MailMessage> WrapSodiumEncryptedMessageAsync(this MailMessage message, SodiumEncryptionMetadata data) {
+        public static async Task<MailMessage> WrapSodiumEncryptedMessageAsync(this MailMessage message, SodiumMimeEncryptionMetadata data) {
             var wrapper = new MailMessage {
                 IsBodyHtml = true,
                 BodyEncoding = Encoding.UTF8,

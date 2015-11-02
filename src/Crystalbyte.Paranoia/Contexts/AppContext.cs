@@ -962,6 +962,7 @@ namespace Crystalbyte.Paranoia {
                 var pair = new KeyPair {
                     PublicKey = crypto.PublicKey,
                     PrivateKey = crypto.PrivateKey,
+                    Device = Environment.MachineName,
                     Date = DateTime.Now
                 };
 

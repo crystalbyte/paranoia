@@ -38,6 +38,7 @@ using System.Windows;
 using Crystalbyte.Paranoia.Data;
 using Crystalbyte.Paranoia.Data.SQLite;
 using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Cryptography;
 using NLog;
 
 #endregion
@@ -399,8 +400,13 @@ namespace Crystalbyte.Paranoia {
                 var content = await Task.Run(async () => {
                     var mime = await FetchMimeAsync();
 
-                    //var cypher = new HybridMimeCypher();
-                    //mime = cypher.Decrypt(mime);
+                    await Task.Run(() => {
+                        var meta = mime.ToMimeDecryptionMetadata();
+                        if (meta.IsEncrypted) {
+                            var cypher = new SodiumHybridMimeCypher();
+                            mime = cypher.Decrypt(mime, meta);
+                        }
+                    });
 
                     await StoreContentAsync(mime);
                     return mime;
