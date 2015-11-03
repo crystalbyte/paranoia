@@ -1144,6 +1144,15 @@ namespace Crystalbyte.Paranoia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Multiple encrypted message views are currently not supported by this agent..
+        /// </summary>
+        public static string MultipleEncryptionsDetected {
+            get {
+                return ResourceManager.GetString("MultipleEncryptionsDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filename.
         /// </summary>
         public static string Name {

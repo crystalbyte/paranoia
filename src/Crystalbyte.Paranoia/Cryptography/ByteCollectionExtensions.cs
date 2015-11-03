@@ -1,4 +1,5 @@
 ﻿using Crystalbyte.Paranoia.Mail;
+using Crystalbyte.Paranoia.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,12 @@ namespace Crystalbyte.Paranoia.Cryptography {
                     IsEncrypted = false
                 };
             }
+
+            if (part.Count > 1) {
+                throw new NotSupportedException(Resources.MultipleEncryptionsDetected);
+            }
+
+            
 
             throw new NotImplementedException();
         }

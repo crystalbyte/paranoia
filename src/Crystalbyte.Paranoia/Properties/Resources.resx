@@ -759,4 +759,7 @@ Access protocols are currently limited to the IMAP (Internet Message Access Prot
   <data name="ShowSource" xml:space="preserve">
     <value>Source</value>
   </data>
+  <data name="MultipleEncryptionsDetected" xml:space="preserve">
+    <value>Multiple encrypted message views are currently not supported by this agent.</value>
+  </data>
 </root>
