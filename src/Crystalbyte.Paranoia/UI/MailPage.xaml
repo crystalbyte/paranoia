@@ -14,9 +14,8 @@
       Focusable="False"
       Title="Messages"
       Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
-      d:DataContext="{d:DesignInstance paranoia:AppContext}"
-      d:DesignHeight="637.93"
-      d:DesignWidth="1107.941"
+      d:DesignHeight="768.00"
+      d:DesignWidth="1280.00"
       mc:Ignorable="d">
     <Page.CommandBindings>
         <CommandBinding CanExecute="OnCanPrint"

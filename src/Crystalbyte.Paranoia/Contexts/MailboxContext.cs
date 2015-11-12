@@ -45,7 +45,7 @@ using NLog;
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    [DebuggerDisplay("Filename = {Filename}")]
+    [DebuggerDisplay("Name = {Name}")]
     public sealed class MailboxContext : HierarchyContext, IMessageSource, IMailboxCreator {
 
         #region Private Fields
@@ -138,7 +138,7 @@ namespace Crystalbyte.Paranoia {
             }
         }
 
-        public Int64 Id {
+        public long Id {
             get { return _mailbox.Id; }
             set {
                 if (_mailbox.Id == value) {
@@ -523,7 +523,9 @@ namespace Crystalbyte.Paranoia {
                     .Select(x => new MailMessageContext(this, x))
                     .ToArray();
 
-                App.Context.NotifyMessagesReceived(contexts);
+                var module = App.Context.GetModule<MailModule>();
+                module.NotifyMessagesReceived(contexts);
+
                 await countNotSeen;
 
             } catch (Exception ex) {
@@ -559,7 +561,7 @@ namespace Crystalbyte.Paranoia {
                         .Select(x => new { x.Value.Id, x.Value.Flags });
 
                     var set = context.Set<MailMessageFlag>();
-                    var seenFlags = toBeMarkedAsUnseen.Select(x => x.Flags.First(y => y.Value == MailMessageFlags.Seen));
+                    var seenFlags = toBeMarkedAsUnseen.Select(x => x.Flags.First(y => y.Value.EqualsIgnoreCase(MailMessageFlags.Seen)));
                     set.RemoveRange(seenFlags);
                     set.AddRange(toBeMarkedAsSeen.Select(x => new MailMessageFlag { Value = MailMessageFlags.Seen, MessageId = x.Id }));
 
@@ -574,7 +576,8 @@ namespace Crystalbyte.Paranoia {
                 }
             });
 
-            App.Context.NotifySeenStatesChanged(seenIds, _mailbox.Id);
+            var module = App.Context.GetModule<MailModule>();
+            module.NotifySeenStatesChanged(seenIds, _mailbox.Id);
         }
 
         private async void OnIsExpandedChanged(object sender, EventArgs e) {
@@ -1015,7 +1018,8 @@ namespace Crystalbyte.Paranoia {
                     }
                 }
 
-                await App.Context.DeleteMessagesAsync(messages);
+                var context = App.Context.GetModule<MailModule>();
+                await context.DeleteMessagesAsync(messages);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             } finally {
@@ -1052,7 +1056,8 @@ namespace Crystalbyte.Paranoia {
                         .AsNoTracking()
                         .Where(x => x.MailboxId == _mailbox.Id);
 
-                    if (App.Context.ShowOnlyUnseen) {
+                    var module = App.Context.GetModule<MailModule>();
+                    if (module.ShowOnlyUnseen) {
                         query = query.Where(x => x.Flags.All(y => y.Value != MailMessageFlags.Seen));
                     }
 

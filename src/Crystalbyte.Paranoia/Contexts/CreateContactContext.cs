@@ -35,39 +35,25 @@ using NLog;
 
 namespace Crystalbyte.Paranoia {
     public sealed class CreateContactContext : NotificationObject {
-        private readonly ICommand _createContactCommand;
+
+        #region Private Fields
+
         private string _name;
         private string _address;
+        private readonly ICommand _createContactCommand;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
+        #region Construction
 
         public CreateContactContext() {
             _createContactCommand = new RelayCommand(OnCreateContact);
         }
 
-        private async void OnCreateContact(object obj) {
-            try {
-                var contact = await StoreContactAsync();
-                App.Context.NotifyContactsCreated(new[] { new MailContactContext(contact) });
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            } finally {
-                App.Context.ClosePopup();
-            }
-        }
+        #endregion
 
-        private async Task<MailContact> StoreContactAsync() {
-            var contact = new MailContact {
-                Name = Name,
-                Address = Address
-            };
-
-            using (var database = new DatabaseContext()) {
-                database.MailContacts.Add(contact);
-                await database.SaveChangesAsync();
-            }
-
-            return contact;
-        }
+        #region Properties
 
         public ICommand CreateContactCommand {
             get { return _createContactCommand; }
@@ -96,5 +82,39 @@ namespace Crystalbyte.Paranoia {
                 RaisePropertyChanged(() => Address);
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        private async void OnCreateContact(object obj) {
+            try {
+                var contact = await StoreContactAsync();
+                var module = App.Context.GetModule<MailModule>();
+                module.NotifyContactsCreated(new[] {
+                    new MailContactContext(contact)
+                });
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            } finally {
+                App.Context.ClosePopup();
+            }
+        }
+
+        private async Task<MailContact> StoreContactAsync() {
+            var contact = new MailContact {
+                Name = Name,
+                Address = Address
+            };
+
+            using (var database = new DatabaseContext()) {
+                database.MailContacts.Add(contact);
+                await database.SaveChangesAsync();
+            }
+
+            return contact;
+        }
+
+        #endregion
     }
 }

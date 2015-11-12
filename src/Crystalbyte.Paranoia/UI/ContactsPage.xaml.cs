@@ -30,7 +30,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using NavigationCommands = Crystalbyte.Paranoia.UI.FlyoutCommands;
 
 #endregion
 
@@ -44,14 +43,23 @@ namespace Crystalbyte.Paranoia.UI {
 
         public ContactsPage() {
             InitializeComponent();
-            DataContext = App.Context;
             Loaded += OnPageLoaded;
             Unloaded += OnPageUnloaded;
+            DataContext = App.Context.GetModule<MailModule>();
+        }
+
+        private MailModule GetContext() {
+            if (DataContext == null) {
+                throw new NullReferenceException("DataContext");
+            }
+
+            return (MailModule) DataContext;
         }
 
         private void OnPageUnloaded(object sender, RoutedEventArgs e) {
             try {
-                App.Context.UnloadContacts();
+                var context = GetContext();
+                //App.Context.UnloadContacts();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -59,7 +67,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private async void OnPageLoaded(object sender, RoutedEventArgs e) {
             try {
-                await App.Context.LoadContactsAsync();
+                var context = GetContext();
+                //await App.Context.LoadContactsAsync();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -71,8 +80,9 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var value = (char) button.DataContext;
-            var contact = App.Context.Contacts.FirstOrDefault(
+            var context = GetContext();
+            var value = (char)button.DataContext;
+            var contact = context.Contacts.FirstOrDefault(
                 x => x.Name.StartsWith(new string(value, 1), StringComparison.InvariantCultureIgnoreCase));
             e.CanExecute = contact != null;
         }
@@ -83,8 +93,9 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var value = (char) button.DataContext;
-            var contact = App.Context.Contacts
+            var context = GetContext();
+            var value = (char)button.DataContext;
+            var contact = context.Contacts
                 .Where(x => !x.Name.StartsWith("NIL", StringComparison.InvariantCultureIgnoreCase))
                 .OrderBy(x => x.Name)
                 .FirstOrDefault(
@@ -100,14 +111,14 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            var app = App.Context;
-            app.OnContactSelectionChanged();
+            var context = GetContext();
+            context.OnContactSelectionChanged();
 
-            var contact = app.SelectedContact;
+            var contact = context.SelectedContact;
             if (contact == null)
                 return;
 
-            var container = (Control) ContactsList.ItemContainerGenerator.ContainerFromItem(contact);
+            var container = (Control)ContactsList.ItemContainerGenerator.ContainerFromItem(contact);
             if (container != null) {
                 container.Focus();
             }

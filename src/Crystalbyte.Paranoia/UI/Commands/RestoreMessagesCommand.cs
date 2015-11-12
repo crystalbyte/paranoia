@@ -35,23 +35,23 @@ namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class RestoreMessagesCommand : ICommand {
         #region Private Fields
 
-        private readonly AppContext _app;
+        private readonly MailModule _module;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
         #region Construction
 
-        public RestoreMessagesCommand(AppContext app) {
-            _app = app;
-            _app.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
+        public RestoreMessagesCommand(MailModule module) {
+            _module = module;
+            _module.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         #endregion
 
         public bool CanExecute(object parameter) {
             // Group by accounts, since not all messages must necessarily be from the same account.
-            var mailboxes = _app.SelectedMessages.GroupBy(x => x.Mailbox).ToArray();
+            var mailboxes = _module.SelectedMessages.GroupBy(x => x.Mailbox).ToArray();
 
             // We have found a trashbin for all accounts the messages belong too.
             return mailboxes.All(x => x.Key.IsTrash);
@@ -67,7 +67,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public async void Execute(object parameter) {
             try {
-                await _app.RestoreSelectedMessagesAsync();
+                await _module.RestoreSelectedMessagesAsync();
             }
             catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);

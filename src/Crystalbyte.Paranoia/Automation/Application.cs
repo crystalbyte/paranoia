@@ -51,15 +51,17 @@ namespace Crystalbyte.Paranoia.Automation {
         }
 
         public Application(IComServer server)
-            : base(server) {}
+            : base(server) { }
 
         #endregion
 
         #region Implementation of IApplication
 
         public void OpenFile(string path) {
-            WinApp.Current.Dispatcher.Invoke(
-                () => App.Context.InspectMessage(new FileInfo(path)));
+            WinApp.Current.Dispatcher.Invoke(() => {
+                var module = App.Context.GetModule<MailModule>();
+                module.InspectMessage(new FileInfo(path));
+            });
         }
 
         #endregion

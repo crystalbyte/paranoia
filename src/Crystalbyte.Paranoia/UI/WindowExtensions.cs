@@ -46,7 +46,7 @@ namespace Crystalbyte.Paranoia.UI {
             window.Loaded -= OnWindowLoaded;
 
             var timer = new DispatcherTimer {
-                Interval = TimeSpan.FromMilliseconds(400)
+                Interval = TimeSpan.FromMilliseconds(1000)
             };
 
             timer.Tick += (x, y) => {

@@ -36,16 +36,16 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         #region Private Fields
 
-        private readonly AppContext _app;
+        private readonly MailModule _module;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
         #region Construction
 
-        public DeleteMessagesCommand(AppContext app) {
-            _app = app;
-            _app.MessageSelectionChanged += OnMessageSelectionChanged;
+        public DeleteMessagesCommand(MailModule module) {
+            _module = module;
+            _module.MessageSelectionChanged += OnMessageSelectionChanged;
         }
 
         #endregion
@@ -56,7 +56,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public bool CanExecute(object parameter) {
             // Group by accounts, since not all messages must necessarily be from the same account.
-            var accounts = _app.SelectedMessages.GroupBy(x => x.Mailbox.Account).ToArray();
+            var accounts = _module.SelectedMessages.GroupBy(x => x.Mailbox.Account).ToArray();
             var trashbins = accounts.Select(x => x.Key.Mailboxes.FirstOrDefault(y => y.IsTrash)).ToArray();
 
             // We have found a trashbin for all accounts the messages belong too.
@@ -65,8 +65,8 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         public async void Execute(object parameter) {
             try {
-                var selection = _app.SelectedMessages.ToArray();
-                await _app.DeleteMessagesAsync(selection);
+                var selection = _module.SelectedMessages.ToArray();
+                await _module.DeleteMessagesAsync(selection);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }

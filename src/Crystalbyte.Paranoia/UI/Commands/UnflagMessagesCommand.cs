@@ -32,29 +32,30 @@ using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class UnflagMessagesCommand : ICommand {
+
         #region Private Fields
 
-        private readonly AppContext _context;
+        private readonly MailModule _module;
 
         #endregion
 
         #region Construction
 
-        public UnflagMessagesCommand(AppContext context) {
-            _context = context;
-            _context.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
+        public UnflagMessagesCommand(MailModule module) {
+            _module = module;
+            _module.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         #endregion
 
         public bool CanExecute(object parameter) {
-            return _context.SelectedMessage != null
-                   && _context.SelectedMessages.Any(x => x.IsFlagged);
+            return _module.SelectedMessage != null
+                   && _module.SelectedMessages.Any(x => x.IsFlagged);
         }
 
         public async void Execute(object parameter) {
-            var messages = _context.SelectedMessages.ToArray();
-            await _context.MarkMessagesAsUnflaggedAsync(messages);
+            var messages = _module.SelectedMessages.ToArray();
+            await _module.MarkMessagesAsUnflaggedAsync(messages);
             OnCanExecuteChanged();
         }
 

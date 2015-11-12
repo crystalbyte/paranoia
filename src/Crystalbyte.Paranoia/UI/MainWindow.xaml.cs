@@ -85,7 +85,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnResetZoom(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.ZoomLevel = 0.0f;
+                var module = App.Context.GetModule<MailModule>();
+                if (module != null) {
+                    module.ResetZoom();
+                }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -146,7 +149,7 @@ namespace Crystalbyte.Paranoia.UI {
                 InitStoryboards();
                 HookUpNavigationRequests();
 
-                await App.Context.RunAsync();
+                await App.Context.InitializeAsync();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -296,8 +299,8 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
                 }
 
-                var selection = App.Context.NavigationOptions.First(x => x.IsSelected);
-                MainFrame.Navigate(selection.TargetUri);
+                //var selection = App.Context.Modules.First(x => x.IsSelected);
+                //MainFrame.Navigate(selection.PageUri);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -328,7 +331,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnCompose(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.Compose();
+                var module = App.Context.GetModule<MailModule>();
+                if (module != null) {
+                    module.Compose();
+                }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }

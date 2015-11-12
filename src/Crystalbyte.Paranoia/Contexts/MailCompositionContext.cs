@@ -63,7 +63,9 @@ namespace Crystalbyte.Paranoia {
         internal MailCompositionContext(MailComposition composition, ICompositionView source) {
             _source = source;
             _composition = composition;
-            _accounts = App.Context.Accounts;
+
+            var module = App.Context.GetModule<MailModule>();
+            _accounts = module.Accounts.ToArray();
 
             var accountId = _composition.AccountId;
             _selectedAccount = accountId != 0 
@@ -161,7 +163,8 @@ namespace Crystalbyte.Paranoia {
                     }
                 });
 
-                await App.Context.ProcessOutboxAsync();
+                var module = App.Context.GetModule<MailModule>();
+                await module.ProcessOutboxAsync();
 
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);

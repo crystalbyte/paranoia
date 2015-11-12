@@ -35,16 +35,16 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         #region Private Fields
 
-        private readonly AppContext _app;
+        private readonly MailModule _module;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
         #region Construction
 
-        public DeleteContactsCommand(AppContext app) {
-            _app = app;
-            _app.ContactSelectionChanged += (sender, e) => OnCanExecuteChanged();
+        public DeleteContactsCommand(MailModule module) {
+            _module = module;
+            _module.ContactSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         #endregion
@@ -52,12 +52,12 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         #region Implementation of ICommand
 
         public bool CanExecute(object parameter) {
-            return _app.SelectedContact != null;
+            return _module.SelectedContact != null;
         }
 
         public async void Execute(object parameter) {
             try {
-                await _app.DeleteSelectedContactsAsync();
+                await _module.DeleteSelectedContactsAsync();
             }
             catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);

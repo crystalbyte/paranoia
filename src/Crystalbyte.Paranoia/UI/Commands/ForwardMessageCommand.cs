@@ -32,11 +32,11 @@ using System.Windows.Input;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class ForwardMessageCommand : ICommand {
-        private readonly AppContext _app;
+        private readonly MailModule _module;
 
-        public ForwardMessageCommand(AppContext app) {
-            _app = app;
-            _app.MessageSelectionChanged += OnMessageSelectionChanged;
+        public ForwardMessageCommand(MailModule module) {
+            _module = module;
+            _module.MessageSelectionChanged += OnMessageSelectionChanged;
         }
 
         private void OnMessageSelectionChanged(object sender, EventArgs e) {
@@ -44,7 +44,7 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         }
 
         public bool CanExecute(object parameter) {
-            return _app.SelectedMessage != null;
+            return _module.SelectedMessage != null;
         }
 
         public void Execute(object parameter) {

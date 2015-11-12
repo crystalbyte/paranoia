@@ -66,9 +66,10 @@ namespace Crystalbyte.Paranoia.UI {
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
 
-            DataContext = App.Context;
-            App.Context.SortOrderChanged += OnSortOrderChanged;
-            App.Context.ItemSelectionRequested += OnItemSelectionRequested;
+            var module = App.Context.GetModule<MailModule>();
+            module.SortOrderChanged += OnSortOrderChanged;
+            module.ItemSelectionRequested += OnItemSelectionRequested;
+            DataContext = module;
 
             _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
         }
@@ -119,8 +120,8 @@ namespace Crystalbyte.Paranoia.UI {
         private static async void OnQueryTextChangeObserved(string query) {
             try {
                 await Application.Current.Dispatcher.InvokeAsync(() => {
-                    var app = App.Context;
-                    app.QueryMessages(query);
+                    var module = App.Context.GetModule<MailModule>();
+                    module.QueryMessages(query);
                 });
             } catch (Exception ex) {
                 Logger.Error(ex.Message, ex);
@@ -134,21 +135,21 @@ namespace Crystalbyte.Paranoia.UI {
                         return;
                     }
 
-                    var app = App.Context;
-                    app.OnMessageSelectionChanged();
+                    var module = App.Context.GetModule<MailModule>();
+                    module.OnMessageSelectionChanged();
 
                     Task flagMessages = null;
                     if (_toBeMarkedAsSeen != null) {
-                        flagMessages = app.MarkMessagesAsSeenAsync(new[] { _toBeMarkedAsSeen });
+                        flagMessages = module.MarkMessagesAsSeenAsync(new[] { _toBeMarkedAsSeen });
                         _toBeMarkedAsSeen = null;
                     }
 
-                    var message = app.SelectedMessage;
+                    var message = module.SelectedMessage;
                     if (message == null)
                         return;
 
                     _toBeMarkedAsSeen = message;
-                    await app.ViewMessageAsync(message);
+                    await module.ViewMessageAsync(message);
 
                     var container = (Control)MessagesListView
                         .ItemContainerGenerator.ContainerFromItem(message);
@@ -264,7 +265,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnCreateMailbox(object sender, ExecutedRoutedEventArgs e) {
             try {
                 var parent = (IMailboxCreator)e.Parameter;
-                App.Context.CreateMailbox(parent);
+                var module = App.Context.GetModule<MailModule>();
+                module.CreateMailbox(parent);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -281,7 +283,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private async void OnShowSource(object sender, ExecutedRoutedEventArgs e) {
             try {
-                var message = App.Context.SelectedMessage;
+                var module = App.Context.GetModule<MailModule>();
+                var message = module.SelectedMessage;
                 if (message == null) {
                     return;
                 }
@@ -316,7 +319,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnCanInspect(object sender, CanExecuteRoutedEventArgs e) {
             try {
-                e.CanExecute = App.Context.SelectedMessage != null;
+                var module = App.Context.GetModule<MailModule>();
+                e.CanExecute = module.SelectedMessage != null;
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -324,7 +328,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnForward(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.ForwardAsync();
+                var module = App.Context.GetModule<MailModule>();
+                module.ForwardAsync();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -332,7 +337,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnReply(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.ReplyAsync();
+                var module = App.Context.GetModule<MailModule>();
+                module.ReplyAsync();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -340,7 +346,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.ReplyToAllAsync();
+                var module = App.Context.GetModule<MailModule>();
+                module.ReplyToAllAsync();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -348,7 +355,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnCompose(object sender, ExecutedRoutedEventArgs e) {
             try {
-                App.Context.Compose();
+                var module = App.Context.GetModule<MailModule>();
+                module.Compose();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -372,7 +380,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnUnloaded(object sender, RoutedEventArgs e) {
             try {
-                App.Context.SortOrderChanged -= OnSortOrderChanged;
+                var module = App.Context.GetModule<MailModule>();
+                module.SortOrderChanged -= OnSortOrderChanged;
                 DataContext = null;
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
@@ -381,8 +390,8 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnSortOrderChanged(object sender, EventArgs e) {
             try {
-                var app = App.Context;
-                var direction = app.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
+                var module = App.Context.GetModule<MailModule>();
+                var direction = module.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
                 Sort(SortProperty, direction);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
@@ -397,8 +406,9 @@ namespace Crystalbyte.Paranoia.UI {
 
                 var tree = (TreeView)sender;
                 var value = tree.SelectedValue;
+                var module = App.Context.GetModule<MailModule>();
 
-                App.Context.SelectedMailbox = value as MailboxContext;
+                module.SelectedMailbox = value as MailboxContext;
 
                 RequeryRoutedCommands();
 
@@ -441,7 +451,8 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
                 }
 
-                App.Context.InspectMessage(message);
+                var module = App.Context.GetModule<MailModule>();
+                module.InspectMessage(message);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -461,7 +472,10 @@ namespace Crystalbyte.Paranoia.UI {
 
                 // Need to invoke to let the event handler finish before opening a window.
                 // http://stackoverflow.com/questions/14055794/wpf-treeview-restores-its-focus-after-double-click
-                Dispatcher.InvokeAsync(() => App.Context.InspectMessage(message));
+                Dispatcher.InvokeAsync(() => {
+                    var module = App.Context.GetModule<MailModule>();
+                    module.InspectMessage(message);
+                });
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -479,7 +493,8 @@ namespace Crystalbyte.Paranoia.UI {
             try {
                 var item = (MenuItem)sender;
                 var app = (AppContext)DataContext;
-                var direction = app.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
+                var module = App.Context.GetModule<MailModule>();
+                var direction = module.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
                 Sort((SortProperty)item.DataContext, direction);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);

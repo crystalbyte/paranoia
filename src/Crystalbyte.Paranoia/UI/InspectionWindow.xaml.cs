@@ -123,9 +123,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         private async void OnForward(object sender, ExecutedRoutedEventArgs e) {
             try {
+                var module = App.Context.GetModule<MailModule>();
                 var file = DataContext as FileMessageContext;
                 if (file != null) {
-                    await App.Context.ForwardAsync(file);
+                    await module.ForwardAsync(file);
                     return;
                 }
 
@@ -133,7 +134,7 @@ namespace Crystalbyte.Paranoia.UI {
                 if (message == null)
                     return;
 
-                await App.Context.ForwardAsync(message);
+                await module.ForwardAsync(message);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -141,9 +142,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         private async void OnReply(object sender, ExecutedRoutedEventArgs e) {
             try {
+                var module = App.Context.GetModule<MailModule>();
                 var file = DataContext as FileMessageContext;
                 if (file != null) {
-                    await App.Context.ReplyAsync(file);
+                    await module.ReplyAsync(file);
                     return;
                 }
 
@@ -151,7 +153,7 @@ namespace Crystalbyte.Paranoia.UI {
                 if (message == null)
                     return;
 
-                await App.Context.ReplyAsync(message);
+                await module.ReplyAsync(message);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -159,9 +161,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         private async void OnReplyAll(object sender, ExecutedRoutedEventArgs e) {
             try {
+                var module = App.Context.GetModule<MailModule>();
                 var file = DataContext as FileMessageContext;
                 if (file != null) {
-                    await App.Context.ReplyToAllAsync(file);
+                    await module.ReplyToAllAsync(file);
                     return;
                 }
 
@@ -169,7 +172,7 @@ namespace Crystalbyte.Paranoia.UI {
                 if (message == null)
                     return;
 
-                await App.Context.ReplyToAllAsync(message);
+                await module.ReplyToAllAsync(message);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -178,6 +181,21 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnShowToAddresses(object sender, ExecutedRoutedEventArgs e) {
             try {
                 ToPopup.IsOpen = true;
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
+
+        private void OnCompose(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                var module = App.Context.GetModule<MailModule>();
+                var address = e.Parameter as MailAddressContext;
+                CcPopup.IsOpen = ToPopup.IsOpen = false;
+                if (address != null) {
+                    module.Compose(new[] { address.Address });
+                } else {
+                    module.Compose();
+                }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -214,20 +232,6 @@ namespace Crystalbyte.Paranoia.UI {
             BorderBrush = Application.Current.Resources[ThemeResourceKeys.AppAccentBrushKey] as Brush;
         }
 
-        #endregion
-
-        private void OnCompose(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                var address = e.Parameter as MailAddressContext;
-                CcPopup.IsOpen = ToPopup.IsOpen = false;
-                if (address != null) {
-                    App.Context.Compose(new[] { address.Address });
-                } else {
-                    App.Context.Compose();
-                }
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
+        #endregion    
     }
 }

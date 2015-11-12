@@ -64,7 +64,8 @@ namespace Crystalbyte.Paranoia.UI {
                 var account = (MailAccountContext)DataContext;
                 await account.SaveAsync();
 
-                App.Context.NotifyAccountCreated(account);
+                var module = App.Context.GetModule<MailModule>();
+                module.NotifyAccountCreated(account);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }

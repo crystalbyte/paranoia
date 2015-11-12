@@ -64,7 +64,8 @@ namespace Crystalbyte.Paranoia {
 
             // Compose a new list of all possible mailboxes available. 
             // We will need them to map messages back into their own mailbox later.
-            foreach (var mailbox in App.Context.Accounts.SelectMany(x => x.Mailboxes)) {
+            var module = App.Context.GetModule<MailModule>();
+            foreach (var mailbox in module.Accounts.SelectMany(x => x.Mailboxes)) {
                 _mailboxes.Add(mailbox.Id, mailbox);
             }
         }

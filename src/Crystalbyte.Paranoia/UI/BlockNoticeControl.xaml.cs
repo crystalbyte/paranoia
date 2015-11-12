@@ -112,8 +112,9 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
 
                 await Blockable.UnblockAsync();
-                if (App.Context.SelectedMessage == Blockable) {
-                    await App.Context.RefreshMessageViewAsync();
+                var module = App.Context.GetModule<MailModule>();
+                if (module.SelectedMessage == Blockable) {
+                    await module.RefreshMessageViewAsync();
                 }
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);

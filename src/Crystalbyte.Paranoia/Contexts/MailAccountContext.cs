@@ -1012,7 +1012,8 @@ namespace Crystalbyte.Paranoia {
 
             Application.Current.AssertUIThread();
 
-            App.Context.NotifyAccountRemoved(this);
+            var module = App.Context.GetModule<MailModule>();
+            module.NotifyAccountRemoved(this);
 
             try {
                 await Task.Run(async () => {
@@ -1073,7 +1074,7 @@ namespace Crystalbyte.Paranoia {
 
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
-                App.Context.NotifyAccountCreated(this);
+                module.NotifyAccountCreated(this);
             } finally {
                 Logger.Exit();
             }
@@ -1126,7 +1127,8 @@ namespace Crystalbyte.Paranoia {
                 }
 
                 // Requery message source for some items may have changed.
-                await App.Context.QueryMessageSourceAsync();
+                var module = App.Context.GetModule<MailModule>();
+                await module.QueryMessageSourceAsync();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }

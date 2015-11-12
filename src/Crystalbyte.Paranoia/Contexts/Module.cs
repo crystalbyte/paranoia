@@ -25,29 +25,19 @@
 #region Using Directives
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 #endregion
 
 namespace Crystalbyte.Paranoia {
-    public class NavigationContext : SelectionObject {
-        private int _counter;
+    public abstract class Module : SelectionObject {
 
-        public string Title { get; set; }
+        #region Abstract Methods
 
-        public Uri TargetUri { get; set; }
+        internal abstract Task InitializeAsync();
 
-        public Uri IconUri { get; set; }
-
-        public int Counter {
-            get { return _counter; }
-            set {
-                if (_counter == value) {
-                    return;
-                }
-
-                _counter = value;
-                RaisePropertyChanged(() => Counter);
-            }
-        }
+        #endregion
     }
 }

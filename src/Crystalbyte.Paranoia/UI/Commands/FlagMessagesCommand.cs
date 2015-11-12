@@ -33,31 +33,32 @@ using NLog;
 
 namespace Crystalbyte.Paranoia.UI.Commands {
     public sealed class FlagMessagesCommand : ICommand {
+
         #region Private Fields
 
-        private readonly AppContext _app;
+        private readonly MailModule _module;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
         #region Construction
 
-        public FlagMessagesCommand(AppContext app) {
-            _app = app;
-            _app.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
+        public FlagMessagesCommand(MailModule module) {
+            _module = module;
+            _module.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         #endregion
 
         public bool CanExecute(object parameter) {
-            return _app.SelectedMessage != null
-                   && _app.SelectedMessages.Any(x => !x.IsFlagged);
+            return _module.SelectedMessage != null
+                   && _module.SelectedMessages.Any(x => !x.IsFlagged);
         }
 
         public async void Execute(object parameter) {
             try {
-                var selection = _app.SelectedMessages.ToArray();
-                await _app.MarkMessagesAsFlaggedAsync(selection);
+                var selection = _module.SelectedMessages.ToArray();
+                await _module.MarkMessagesAsFlaggedAsync(selection);
                 OnCanExecuteChanged();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);

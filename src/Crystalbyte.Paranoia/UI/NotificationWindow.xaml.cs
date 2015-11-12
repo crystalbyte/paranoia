@@ -86,7 +86,8 @@ namespace Crystalbyte.Paranoia.UI {
                 return;
             }
 
-            App.Context.ShowMessage(_messages.First());
+            var module = App.Context.GetModule<MailModule>();
+            module.DisplayMessage(_messages.First());
             SlideOut();
         }
 

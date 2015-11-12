@@ -37,16 +37,16 @@ namespace Crystalbyte.Paranoia.UI.Commands {
 
         #region Private Fields
 
-        private readonly AppContext _context;
+        private readonly MailModule _module;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
         #region Construction
 
-        public FlagMessagesAsUnseenCommand(AppContext context) {
-            _context = context;
-            _context.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
+        public FlagMessagesAsUnseenCommand(MailModule module) {
+            _module = module;
+            _module.MessageSelectionChanged += (sender, e) => OnCanExecuteChanged();
         }
 
         #endregion
@@ -54,14 +54,14 @@ namespace Crystalbyte.Paranoia.UI.Commands {
         #region Implementation of ICommand
 
         public bool CanExecute(object parameter) {
-            return _context.SelectedMessages != null
-                   && _context.SelectedMessages.Any(x => x.IsSeen);
+            return _module.SelectedMessages != null
+                   && _module.SelectedMessages.Any(x => x.IsSeen);
         }
 
         public async void Execute(object parameter) {
             try {
-                var messages = _context.SelectedMessages.ToArray();
-                await _context.MarkMessagesAsUnseenAsync(messages);
+                var messages = _module.SelectedMessages.ToArray();
+                await _module.MarkMessagesAsUnseenAsync(messages);
                 OnCanExecuteChanged();
             }
             catch (Exception ex) {

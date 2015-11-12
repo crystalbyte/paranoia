@@ -59,6 +59,7 @@ namespace Crystalbyte.Paranoia {
     ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App {
+
         #region Private Fields
 
         private readonly ComServer _server;
@@ -263,7 +264,9 @@ namespace Crystalbyte.Paranoia {
                     Current.MainWindow.Loaded += (sender, e) => {
                         Current.MainWindow.WindowState =
                             WindowState.Minimized;
-                        Context.InspectMessage(info);
+
+                        var module = Context.GetModule<MailModule>();
+                        module.InspectMessage(info);
                     };
                 });
             } catch (Exception ex) {

@@ -70,14 +70,6 @@ namespace Crystalbyte.Paranoia.UI {
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Print, OnPrint));
         }
 
-        private void OnViewSource(object sender, ExecutedRoutedEventArgs e) {
-            try {
-                _browser.ViewSource();
-            } catch (Exception ex) {
-                Logger.ErrorException(ex.Message, ex);
-            }
-        }
-
         #endregion
 
         #region Events 
@@ -95,6 +87,14 @@ namespace Crystalbyte.Paranoia.UI {
         public bool IsNavigationFocusDisabled { get; set; }
 
         #region Methods
+
+        private void OnViewSource(object sender, ExecutedRoutedEventArgs e) {
+            try {
+                _browser.ViewSource();
+            } catch (Exception ex) {
+                Logger.ErrorException(ex.Message, ex);
+            }
+        }
 
         internal async Task PrintAsync() {
             throw new NotImplementedException("Printing does not work.");
