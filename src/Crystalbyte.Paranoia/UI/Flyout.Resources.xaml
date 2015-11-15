@@ -40,7 +40,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}"
                      Color="#22FFFFFF" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBorderBrushKey}" Color="#22FFFFFF" />
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundOpacityBrushKey}">.2</system:Double>
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundOpacityKey}">.2</system:Double>
 
     <Style x:Key="FlyoutButtonBrowseStyle"
            BasedOn="{StaticResource {x:Type Button}}"

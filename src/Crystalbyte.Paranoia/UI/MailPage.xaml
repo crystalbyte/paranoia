@@ -58,7 +58,7 @@
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="280" />
+            <ColumnDefinition Width="260" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="380" />
             <ColumnDefinition Width="Auto" />
@@ -99,13 +99,13 @@
                     </TextBlock>
                 </DockPanel>
                 <TreeView x:Name="AccountsTreeView"
+                          Background="Transparent"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Stretch"
                           BorderThickness="0"
                           ItemsSource="{Binding Accounts}"
                           KeyboardNavigation.DirectionalNavigation="Contained"
                           KeyboardNavigation.TabNavigation="Once"
-                          Padding="2,0"
                           ScrollViewer.CanContentScroll="False"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           SelectedItemChanged="OnTreeViewSelectedItemChanged"
@@ -202,6 +202,9 @@
                                 </StackPanel>
                             </Grid>
                             <HierarchicalDataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected}">
+                                    <Setter TargetName="AddressText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverForegroundBrushKey}}" />
+                                </DataTrigger>
                                 <DataTrigger Binding="{Binding IsManagingMailboxes}" Value="True">
                                     <Setter TargetName="LayoutRoot" Property="ContextMenu">
                                         <Setter.Value>
@@ -471,7 +474,6 @@
                           MouseMove="OnMouseMoveMessagesListView"
                           PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDownMessagesListView"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          Padding="2,0"
                           SnapsToDevicePixels="True"
                           TabIndex="4"
                           VirtualizingPanel.IsVirtualizing="True"
@@ -712,6 +714,10 @@
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding IsSeen}" Value="True">
                                     <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter TargetName="SubjectText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemMouseOverForegroundBrushKey}}" />
+                                    <Setter TargetName="DateText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.ListViewItemMouseOverForegroundBrushKey}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>

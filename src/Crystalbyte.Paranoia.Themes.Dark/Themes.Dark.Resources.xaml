@@ -24,24 +24,26 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}" Color="Gray" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.AppMenuBackgroundBrushKey}" Color="Transparent" />
-    
 
     <FontFamily x:Key="{x:Static themes:ThemeResourceKeys.AppFontFamilyKey}">Segoe UI</FontFamily>
 
     <!--  Window Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}" Color="#2E2E30" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}" Color="#222325" /> 
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowSecondaryBackgroundBrushKey}" Color="#3E3E42" />
+    
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}" Color="#222325" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderSecondaryForegroundBrushKey}" Color="LightGray" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}" Color="#22FFFFFF" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}" Color="White" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}" Color="#3E3E40" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}" Color="#66FFFFFF" />
+    
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.StatusBarBackgroundBrushKey}" Color="#222325" />
 
     <!--  Navigation Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBackgroundBrushKey}" Color="#4E4E51" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationOptionBorderBrushKey}" Color="#44000000" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationBackgroundBrushKey}" Color="#1F1F21" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationMouseOverBackgroundBrushKey}" Color="#3E3E40" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.NavigationPressedBackgroundBrushKey}" Color="#66FFFFFF" />
 
     <!--  Control Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SpamNoticeBackgroundBrushKey}" Color="#26262A" />
@@ -88,12 +90,14 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewBorderBrushKey}" Color="{StaticResource ControlBorderColorKey}" />
 
     <!--  ListViewItem Scope  -->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemBorderBrushKey}" Color="Red" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemBackgroundBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemBorderBrushKey}" Color="Transparent" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}" Color="#404042" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBackgroundBrushKey}" Color="{StaticResource ItemUnfocusedBackgroundColorKey}" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemUnfocusedBorderBrushKey}" Color="{StaticResource ControlBorderColorKey}" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundBrushKey}" Color="White" />
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundOpacityBrushKey}">.2</system:Double>
+    
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.ListViewItemMouseOverBackgroundOpacityKey}">1</system:Double>
 
     <!--  PasswordBox Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.PasswordBoxBackgroundBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />
@@ -130,16 +134,18 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SuggestionBoxBorderBrushKey}" Color="{StaticResource ControlBorderColorKey}" />
 
     <!--  TreeView Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBackgroundBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBorderBrushKey}" Color="Transparent" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBackgroundBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewBorderBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />
 
     <!--  TreeViewItem Scope  -->
-    <!--  <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="#2E2E30" />  -->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}" Color="Red" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBackgroundBrushKey}" Color="Transparent" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemBorderBrushKey}" Color="Transparent" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundBrushKey}" Color="#404042" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverForegroundBrushKey}" Color="WhiteSmoke" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBackgroundBrushKey}" Color="{StaticResource ItemUnfocusedBackgroundColorKey}" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemUnfocusedBorderBrushKey}" Color="{StaticResource ControlBorderColorKey}" />
-    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundOpacityKey}">.2</system:Double>
+
+    <system:Double x:Key="{x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverBackgroundOpacityKey}">1</system:Double>
 
     <!--  Composition Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.CompositionEditorBackgroundBrushKey}" Color="#2E2E30" />

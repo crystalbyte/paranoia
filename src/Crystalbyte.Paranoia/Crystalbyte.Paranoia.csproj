@@ -141,8 +141,8 @@
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions" />
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1-beta2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -150,26 +150,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Composition.AttributedModel, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Convention, Version=1.0.27.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Hosting, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Runtime, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.TypedParts, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
-    </Reference>
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
@@ -289,6 +269,7 @@
     </Compile>
     <Compile Include="UI\Converters\CollectionIndexer.cs" />
     <Compile Include="UI\Converters\ConverterSequence.cs" />
+    <Compile Include="UI\Converters\DepthToPaddingConverter.cs" />
     <Compile Include="UI\Converters\ZoomLevelFormatter.cs" />
     <Compile Include="UI\HtmlFocusHandler.cs" />
     <Compile Include="UI\RoutedCommands\CompositionCommands.cs" />
@@ -421,6 +402,7 @@
     <Compile Include="UI\RoutedCommands\WindowCommands.cs" />
     <Compile Include="ScriptingObject.cs" />
     <Compile Include="UI\SelectionPosition.cs" />
+    <Compile Include="UI\TreeViewItemExtensions.cs" />
     <Compile Include="UI\WindowExtensions.cs" />
     <Compile Include="VirtualFileDataObject.cs" />
     <Compile Include="ResourceSchemeHandler.cs" />
@@ -724,6 +706,26 @@
       <Project>{3cd4ce93-5599-4b3f-88c4-80bf5a315112}</Project>
       <Name>Crystalbyte.Paranoia.Themes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\System.Composition.AttributedModel\System.Composition.AttributedModel.csproj">
+      <Project>{c6257381-c624-494a-a9d9-5586e60856ea}</Project>
+      <Name>System.Composition.AttributedModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\System.Composition.Convention\System.Composition.Convention.csproj">
+      <Project>{e6592fad-10b5-4b56-9287-d72dd136992f}</Project>
+      <Name>System.Composition.Convention</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\System.Composition.Hosting\System.Composition.Hosting.csproj">
+      <Project>{2b8fecc6-34a1-48fe-ba75-99572d2d6db2}</Project>
+      <Name>System.Composition.Hosting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\System.Composition.Runtime\System.Composition.Runtime.csproj">
+      <Project>{2711dfd2-8541-4628-bc53-eb784a14cdcf}</Project>
+      <Name>System.Composition.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\System.Composition.TypedParts\System.Composition.TypedParts.csproj">
+      <Project>{b4b5e15c-e6b9-48ea-94c2-f067484d4d3e}</Project>
+      <Name>System.Composition.TypedParts</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\delete.png" />
@@ -847,6 +849,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\contact.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

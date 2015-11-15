@@ -116,7 +116,7 @@
         <Rectangle Grid.Row="0"
                    HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
-                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowTitleBackgroundBrushKey}}" />
+                   Fill="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowHeaderBackgroundBrushKey}}" />
         <Border Grid.Row="0">
             <StackPanel HorizontalAlignment="Left"
                         VerticalAlignment="Center"

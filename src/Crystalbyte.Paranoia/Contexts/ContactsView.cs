@@ -17,7 +17,7 @@ namespace Crystalbyte.Paranoia {
             _module = module;
 
             Title = Resources.Contacts;
-            IconUri = new Uri("/assets/address.png", UriKind.Relative);
+            IconUri = new Uri("/assets/contact.png", UriKind.Relative);
         }
 
         #endregion

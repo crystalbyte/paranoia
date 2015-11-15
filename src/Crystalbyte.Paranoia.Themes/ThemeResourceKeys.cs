@@ -44,8 +44,9 @@ namespace Crystalbyte.Paranoia.Themes {
         public static string AppLargeFontSizeKey = "AppLargeFontSizeKey";
         public static string AppExtraLargeFontSizeKey = "AppExtraLargeFontSizeKey";
 
-        public static string NavigationOptionBackgroundBrushKey = "NavigationOptionBackgroundBrushKey";
-        public static string NavigationOptionBorderBrushKey = "NavigationOptionBorderBrushKey";
+        public static string NavigationBackgroundBrushKey = "NavigationBackgroundBrushKey";
+        public static string NavigationMouseOverBackgroundBrushKey = "NavigationMouseOverBackgroundBrushKey";
+        public static string NavigationPressedBackgroundBrushKey = "NavigationPressedBackgroundBrushKey";
 
         public static string InputFontFamilyKey = "InputFontFamilyKey";
         public static string InputForegroundBrushKey = "InputForegroundBrushKey";
@@ -58,7 +59,7 @@ namespace Crystalbyte.Paranoia.Themes {
 
         // Window Scope
         public static string WindowBackgroundBrushKey = "WindowBackgroundBrushKey";
-        public static string WindowTitleBackgroundBrushKey = "WindowTitleBackgroundBrushKey";
+        public static string WindowHeaderBackgroundBrushKey = "WindowHeaderBackgroundBrushKey";
         public static string WindowSecondaryBackgroundBrushKey = "WindowSecondaryBackgroundBrushKey";
         public static string WindowHeaderForegroundBrushKey = "WindowHeaderForegroundBrushKey";
         public static string WindowHeaderSecondaryForegroundBrushKey = "WindowHeaderSecondaryForegroundBrushKey";
@@ -99,8 +100,9 @@ namespace Crystalbyte.Paranoia.Themes {
         public static string ListViewItemUnfocusedBackgroundBrushKey = "ListViewItemUnfocusedBackgroundBrushKey";
         public static string ListViewItemUnfocusedBorderBrushKey = "ListViewItemUnfocusedBorderBrushKey";
         public static string ListViewItemMouseOverBackgroundBrushKey = "ListViewItemMouseOverBackgroundBrushKey";
-        public static string ListViewItemMouseOverBackgroundOpacityBrushKey =
-            "ListViewItemMouseOverBackgroundOpacityBrushKey";
+        public static string ListViewItemMouseOverForegroundBrushKey = "ListViewItemMouseOverForegroundBrushKey";
+        public static string ListViewItemMouseOverBackgroundOpacityKey =
+            "ListViewItemMouseOverBackgroundOpacityKey";
 
         // Menu Scope
         public static string MenuIconForegroundBrushKey = "MenuIconForegroundBrushKey";
@@ -156,6 +158,7 @@ namespace Crystalbyte.Paranoia.Themes {
         public static string TreeViewItemUnfocusedBorderBrushKey = "TreeViewItemUnfocusedBorderBrushKey";
         public static string TreeViewItemMouseOverBackgroundBrushKey = "TreeViewItemMouseOverBackgroundBrushKey";
         public static string TreeViewItemMouseOverBackgroundOpacityKey = "TreeViewItemMouseOverBackgroundOpacityKey";
+        public static string TreeViewItemMouseOverForegroundBrushKey = "TreeViewItemMouseOverForegroundBrushKey";
 
         // WatermarkTextBox Scope
         public static string WatermarkTextBoxBackgroundBrushKey = "WatermarkTextBoxBackgroundBrushKey";
