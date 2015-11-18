@@ -65,11 +65,7 @@ namespace Crystalbyte.Paranoia.UI {
 
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
-
-            var module = App.Context.GetModule<MailModule>();
-            module.SortOrderChanged += OnSortOrderChanged;
-            module.ItemSelectionRequested += OnItemSelectionRequested;
-            DataContext = module;
+            DataContext = App.Context.GetModule<MailModule>();
 
             _messageViewSource = (CollectionViewSource)Resources["MessagesSource"];
         }
@@ -86,16 +82,16 @@ namespace Crystalbyte.Paranoia.UI {
                 Observable.FromEventPattern<SelectionChangedEventHandler, SelectionChangedEventArgs>(
                     action => MessagesListView.SelectionChanged += action,
                     action => MessagesListView.SelectionChanged -= action)
+                        .Throttle(TimeSpan.FromMilliseconds(200))
                         .Select(x => x.EventArgs)
-                        .Throttle(TimeSpan.FromMilliseconds(200), NewThreadScheduler.Default)
-                        .Subscribe(OnMessageSelectionChangeObserved);
+                        .Subscribe(OnMessageSelectionFinalized);
 
                 Observable.FromEventPattern<TextChangedEventHandler, TextChangedEventArgs>(
                     action => QuickSearchBox.TextChanged += action,
                     action => QuickSearchBox.TextChanged -= action)
                         .Select(x => ((WatermarkTextBox)x.Sender).Text)
-                        .Where(x => x.Length > 2 || String.IsNullOrEmpty(x))
-                        .Throttle(TimeSpan.FromMilliseconds(200), NewThreadScheduler.Default)
+                        .Where(x => x.Length > 2 || string.IsNullOrEmpty(x))
+                        .Throttle(TimeSpan.FromMilliseconds(200))
                         .Subscribe(OnQueryTextChangeObserved);
 
             } catch (Exception ex) {
@@ -112,6 +108,10 @@ namespace Crystalbyte.Paranoia.UI {
                 foreach (var item in e.AddedItems.OfType<SelectionObject>()) {
                     item.IsSelected = true;
                 }
+
+                var module = App.Context.GetModule<MailModule>();
+                module.OnMessageSelectionChanged();
+
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -128,7 +128,7 @@ namespace Crystalbyte.Paranoia.UI {
             }
         }
 
-        private async void OnMessageSelectionChangeObserved(SelectionChangedEventArgs e) {
+        private async void OnMessageSelectionFinalized(SelectionChangedEventArgs e) {
             try {
                 await Application.Current.Dispatcher.InvokeAsync(async () => {
                     if (!IsLoaded) {
@@ -136,7 +136,6 @@ namespace Crystalbyte.Paranoia.UI {
                     }
 
                     var module = App.Context.GetModule<MailModule>();
-                    module.OnMessageSelectionChanged();
 
                     Task flagMessages = null;
                     if (_toBeMarkedAsSeen != null) {
@@ -151,11 +150,11 @@ namespace Crystalbyte.Paranoia.UI {
                     _toBeMarkedAsSeen = message;
                     await module.ViewMessageAsync(message);
 
-                    var container = (Control)MessagesListView
-                        .ItemContainerGenerator.ContainerFromItem(message);
-                    if (container != null) {
-                        container.Focus();
-                    }
+                    //var container = (Control)MessagesListView
+                    //    .ItemContainerGenerator.ContainerFromItem(message);
+                    //if (container != null) {
+                    //    container.Focus();
+                    //}
 
                     if (flagMessages != null) {
                         await flagMessages;
@@ -182,6 +181,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnLoaded(object sender, RoutedEventArgs e) {
             try {
+                var module = App.Context.GetModule<MailModule>();
+                module.SortOrderChanged += OnSortOrderChanged;
+                module.ItemSelectionRequested += OnItemSelectionRequested;
+
                 AccountsTreeView.Focus();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
@@ -380,9 +383,10 @@ namespace Crystalbyte.Paranoia.UI {
 
         private void OnUnloaded(object sender, RoutedEventArgs e) {
             try {
+                DataContext = null;
                 var module = App.Context.GetModule<MailModule>();
                 module.SortOrderChanged -= OnSortOrderChanged;
-                DataContext = null;
+                module.ItemSelectionRequested -= OnItemSelectionRequested;
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }

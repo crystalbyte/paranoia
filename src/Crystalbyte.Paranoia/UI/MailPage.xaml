@@ -202,7 +202,7 @@
                                 </StackPanel>
                             </Grid>
                             <HierarchicalDataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsSelected}">
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
                                     <Setter TargetName="AddressText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.TreeViewItemMouseOverForegroundBrushKey}}" />
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsManagingMailboxes}" Value="True">
@@ -330,9 +330,10 @@
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsSelected}" Value="True" />
-                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="False" />
+                                        <Condition Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource FindAncestor, AncestorType=TreeView}}" Value="True" />
                                     </MultiDataTrigger.Conditions>
-                                    <Setter TargetName="NotSeenCountText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" />
+                                    <Setter TargetName="ProgressBar" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+                                    <Setter TargetName="NotSeenCountText" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
                                 </MultiDataTrigger>
                             </HierarchicalDataTemplate.Triggers>
                         </HierarchicalDataTemplate>

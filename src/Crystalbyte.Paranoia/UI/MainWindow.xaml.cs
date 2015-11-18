@@ -299,8 +299,12 @@ namespace Crystalbyte.Paranoia.UI {
                     return;
                 }
 
-                //var selection = App.Context.Modules.First(x => x.IsSelected);
-                //MainFrame.Navigate(selection.PageUri);
+                var selection = e.AddedItems.Cast<View>().FirstOrDefault();
+                if (selection == null) {
+                    return;
+                }
+
+                MainFrame.Navigate(selection.PageUri);
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }

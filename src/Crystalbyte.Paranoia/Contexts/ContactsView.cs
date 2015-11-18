@@ -25,7 +25,7 @@ namespace Crystalbyte.Paranoia {
         #region Methods
 
         public override Uri GetPageUri() {
-            return typeof(MailPage).ToPageUri();
+            return typeof(ContactsPage).ToPageUri();
         }
 
         #endregion

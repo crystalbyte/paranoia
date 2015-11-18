@@ -35,7 +35,7 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderForegroundBrushKey}" Color="White" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderSecondaryForegroundBrushKey}" Color="LightGray" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderMouseOverBackgroundBrushKey}" Color="#3E3E40" />
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}" Color="#66FFFFFF" />
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowHeaderPressedForegroundBrushKey}" Color="White" />
     
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.WindowShadowBrushKey}" Color="Black" />
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.StatusBarBackgroundBrushKey}" Color="#222325" />
@@ -54,7 +54,8 @@
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.InputForegroundBrushKey}" Color="WhiteSmoke" />
 
     <!--  Splitter Scope  -->
-    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="Transparent" />
+    <!--<SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="Transparent" />-->
+    <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.SplitterForegroundBrushKey}" Color="#36363A" /> 
 
     <!--  Button Scope  -->
     <SolidColorBrush x:Key="{x:Static themes:ThemeResourceKeys.ButtonBackgroundBrushKey}" Color="{StaticResource ControlBackgroundColorKey}" />
