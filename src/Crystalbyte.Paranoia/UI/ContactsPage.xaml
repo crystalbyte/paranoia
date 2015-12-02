@@ -8,6 +8,7 @@
       xmlns:themes="clr-namespace:Crystalbyte.Paranoia.Themes;assembly=Crystalbyte.Paranoia.Themes"
       xmlns:ui="clr-namespace:Crystalbyte.Paranoia.UI"
       Title="Contacts"
+      Background="{DynamicResource {x:Static themes:ThemeResourceKeys.WindowBackgroundBrushKey}}"
       d:DesignHeight="768"
       d:DesignWidth="1024"
       mc:Ignorable="d">
@@ -20,91 +21,129 @@
                               IsLiveSortingRequested="True"
                               Source="{Binding Contacts}">
             <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Letter" StringComparison="InvariantCultureIgnoreCase" />
+                <PropertyGroupDescription PropertyName="Initial" StringComparison="InvariantCultureIgnoreCase" />
             </CollectionViewSource.GroupDescriptions>
             <CollectionViewSource.SortDescriptions>
-                <componentModel:SortDescription Direction="Ascending" PropertyName="Letter" />
+                <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </Page.Resources>
     <DockPanel LastChildFill="True">
-        <ItemsControl DockPanel.Dock="Top"
+        <DockPanel LastChildFill="True" DockPanel.Dock="Top">
+            <ItemsControl DockPanel.Dock="Left"
                       ItemsSource="{Binding Alphabet}"
                       KeyboardNavigation.DirectionalNavigation="Contained"
                       KeyboardNavigation.TabNavigation="None"
                       VirtualizingPanel.IsVirtualizing="True"
                       VirtualizingPanel.VirtualizationMode="Recycling">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="ContentPresenter">
-                    <Button Command="{x:Static ui:AppCommands.JumpToContact}">
-                        <Grid Width="30" Height="30">
-                            <TextBlock Margin="4,2"
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="ContentPresenter">
+                        <Button Command="{x:Static ui:AppCommands.JumpToContact}">
+                            <Grid Width="30" Height="30">
+                                <TextBlock Margin="4,2"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}"
                                        FontWeight="Thin"
                                        Text="{Binding}" />
-                        </Grid>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <ListView x:Name="ContactsList"
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DockPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="380" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ListView x:Name="ContactsList"
+                  Margin="0"
+                  Grid.Column="0"
+                  Padding="0"
+                      SelectionMode="Single"
                   ItemsSource="{Binding Source={StaticResource ContactsSource}}"
                   SelectionChanged="OnContactsSelectionChanged"
                   VirtualizingPanel.IsVirtualizingWhenGrouping="True">
-            <ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.ContainerStyle>
-                        <Style TargetType="{x:Type GroupItem}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        <Expander IsExpanded="True">
-                                            <Expander.Header>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
-                                                    <TextBlock Text="{Binding ItemCount}" FontSize="22" Foreground="Green" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
-                                                    <TextBlock Text=" item(s)" FontSize="22" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
-                                                </StackPanel>
-                                            </Expander.Header>
-                                            <ItemsPresenter />
-                                        </Expander>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </GroupStyle.ContainerStyle>
-                </GroupStyle>
-            </ListView.GroupStyle>
-            <ListView.ItemContainerStyle>
-                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
-                    <Setter Property="Padding" Value="3,0" />
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate DataType="paranoia:MailContactContext">
-                    <DockPanel Margin="0,1" LastChildFill="True">
-                        <Image Width="32"
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <DockPanel LastChildFill="True">
+                                                <Border Margin="5,2,5,3" Padding="3" Width="32" Height="32" Background="{DynamicResource {x:Static themes:ThemeResourceKeys.AppAccentBrushKey}}" DockPanel.Dock="Top" HorizontalAlignment="Left">
+                                                    <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}" Text="{Binding Name}" Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" HorizontalAlignment="Right" VerticalAlignment="Bottom"  />
+                                                </Border>
+                                                <ItemsPresenter />
+                                            </DockPanel>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel x:Name="Cvsp" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        <Setter Property="Padding" Value="3,0" />
+                        <Setter Property="Width" Value="{Binding ActualWidth, ElementName=Cvsp}" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="paranoia:MailContactContext">
+                        <DockPanel LastChildFill="True">
+                            <Image Width="32"
                                Height="32"
-                               Margin="0,0,6,0"
+                               Margin="2,2,6,2"
+                                   VerticalAlignment="Center"
                                DockPanel.Dock="Left"
                                Source="{Binding Address,
                                                 Converter={StaticResource GravatarImageConverter}}" />
-                        <StackPanel>
-                            <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name}" />
-                            <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                            <StackPanel>
+                                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumLargeFontSizeKey}}" Text="{Binding Name}" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" />
+                                <TextBlock FontSize="{DynamicResource {x:Static themes:ThemeResourceKeys.AppMediumFontSizeKey}}"
+                                           TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"
+                                           x:Name="AddressField"
                                        Foreground="{DynamicResource {x:Static themes:ThemeResourceKeys.AppSecondaryForegroundBrushKey}}"
                                        Text="{Binding Address}" />
-                        </StackPanel>
-                    </DockPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                            </StackPanel>
+                        </DockPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <Setter TargetName="AddressField" Property="Foreground" Value="{DynamicResource {x:Static themes:ThemeResourceKeys.AppForegroundBrushKey}}" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <GridSplitter Grid.Row="0"
+                      Grid.Column="1"
+                      Width="6"
+                      HorizontalAlignment="Center"
+                      IsTabStop="False" />
+            <Grid Grid.Column="2" Background="Honeydew"></Grid>
+            <GridSplitter Grid.Column="3"
+                      Width="6"
+                      HorizontalAlignment="Center"
+                      IsTabStop="False" />
+            <Grid Grid.Column="4" Background="Thistle"></Grid>
+        </Grid>
     </DockPanel>
 </Page>

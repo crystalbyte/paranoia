@@ -59,7 +59,8 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnPageUnloaded(object sender, RoutedEventArgs e) {
             try {
                 var context = GetContext();
-                //App.Context.UnloadContacts();
+                var module = App.Context.GetModule<MailModule>();
+                module.UnloadContacts();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }
@@ -68,7 +69,8 @@ namespace Crystalbyte.Paranoia.UI {
         private async void OnPageLoaded(object sender, RoutedEventArgs e) {
             try {
                 var context = GetContext();
-                //await App.Context.LoadContactsAsync();
+                var module = App.Context.GetModule<MailModule>();
+                await module.LoadContactsAsync();
             } catch (Exception ex) {
                 Logger.ErrorException(ex.Message, ex);
             }

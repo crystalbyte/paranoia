@@ -496,7 +496,6 @@ namespace Crystalbyte.Paranoia.UI {
         private void OnSortPropertyMenuItemClicked(object sender, RoutedEventArgs e) {
             try {
                 var item = (MenuItem)sender;
-                var app = (AppContext)DataContext;
                 var module = App.Context.GetModule<MailModule>();
                 var direction = module.IsSortAscending ? ListSortDirection.Ascending : ListSortDirection.Descending;
                 Sort((SortProperty)item.DataContext, direction);
